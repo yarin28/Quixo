@@ -1,0 +1,23 @@
+@startuml top down Design
+component game{
+node "window" {
+[end screen]
+[start screen]->edit_settings
+[canvas]
+}
+
+node "logic" {
+["ai"]--> calculate_best_move
+[game logic]--> check_if_won
+[game logic]--> [player]
+[player] -> leagel_move
+leagel_move-->[canvas]
+}
+package "grafics" {
+    [canvas]--> boardGame
+    [canvas]--> gamePieces
+    [canvas]--> background
+    gamePieces--> gamePiece
+}
+}
+@enduml

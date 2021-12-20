@@ -20,14 +20,13 @@ namespace Quixo
     /// </summary>
     public partial class MainWindow : Window
     {
-        const int SnakeSquareSize = 20;
         public MainWindow()
         {
             InitializeComponent();
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            DrawBoard(400,400);
+            DrawBoard(400, 400);
         }
         public Boolean DrawPiece(int top,int left, System.Windows.Media.Brushes color)
         {

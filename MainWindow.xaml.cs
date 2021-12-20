@@ -29,7 +29,25 @@ namespace Quixo
         {
             DrawBoard(400,400);
         }
+        public Boolean DrawPiece(int top,int left, System.Windows.Media.Brushes color)
+        {
+            Rectangle rec = new Rectangle
+            {
+                Width = Consts.PieceSize,
+            Height = Consts.PieceSize,
+            // Fill = color,
 
+            };
+            //TODO there is a problem that the gameArea canvas object cant be
+            //passed as a reference so the drawing must be done inside the
+            //[./MainWindow.xaml.cs]
+
+            // GameArea.Children.Add(myRgbRectangle);
+            // GameArea.SetTop(myRgbRectangle, 50);
+            // GameArea.SetLeft(myRgbRectangle, 50);
+
+            return true;
+        }
         private void DrawBoard(int width, int hight)
         {
             /*TODOS:

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,14 +55,7 @@ namespace Quixo
              *      be starting in 1 and ending in length-1
              * 2-
              *      there is no need for 2 loops, there has to be a way to simplify 
-         *      there is no need for 2 loops, there has to be a way to simplify 
-             *      there is no need for 2 loops, there has to be a way to simplify 
              *      the code to allow 1 for loop.
-             * 
-         * 
-             * 
-             * 
-         * 
              * 
              */
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +8,11 @@ namespace Quixo
 {
     internal class Piece 
     {
-        Piece()
+        public Rectangle rec; 
+            Piece()
         {
-            Rectangle rec = new Rectangle
+            Boolean is_x=false;
+             rec = new Rectangle
                 {
                     Width = Consts.PieceSize,
                     Height = Consts.PieceSize,

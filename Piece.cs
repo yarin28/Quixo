@@ -28,8 +28,8 @@ namespace Quixo
             // GameArea object because it was passed as a reference witch means
             // that it will have to draw the stuff in the MainWindow.xaml.cs.
             GameArea.Children.Add(this.rec);
-            GameArea.SetTop(rec, x*80);
-            GameArea.SetLeft(rec, y*80);
+        // GameArea.SetTop(rec, x*80);//error!
+            // GameArea.SetLeft(rec, y*80);
         }
     }
 }

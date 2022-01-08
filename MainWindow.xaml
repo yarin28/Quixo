@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Quixo"
         mc:Ignorable="d"
-        Title="Quxio" Height="450" Width="800" ContentRendered="Window_ContentRendered" >
-    <Canvas Name="GameArea" ClipToBounds="True" HorizontalAlignment="Stretch" Width="400" Height="400" >
+        Title="Quxio" Height="450" Width="800" ContentRendered="Window_ContentRendered"  >
+    <Canvas Name="GameArea" ClipToBounds="True" HorizontalAlignment="Stretch" Width="400" Height="400" MouseLeftButtonDown="GameArea_MouseLeftButtonDown" Background="#E1c16E"  >
 
     </Canvas>
 </Window>

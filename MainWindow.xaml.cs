@@ -1,16 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 //TODO: all the imports are not used should be gone
 namespace Quixo
@@ -26,29 +17,58 @@ namespace Quixo
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            DrawBoard(400, 400);
+            DrawBoardLines(400, 400);
+            DrawCross(1, 1);
+            DrawCircle(80, 80);
+            DrawCircle(160, 80);
         }
-        public Boolean DrawPiece(int top,int left, System.Windows.Media.Brushes color)
+        public void DrawCircle(double x, double y)
         {
-            Rectangle rec = new Rectangle
+            Ellipse circle = new Ellipse()
             {
-                Width = Consts.PieceSize,
-            Height = Consts.PieceSize,
-            // Fill = color,
-
+                Width = 80,
+                Height = 80,
+                Stroke = System.Windows.Media.Brushes.Brown,
+                StrokeThickness = 6,
             };
+
+            GameArea.Children.Add(circle);
+
+            circle.SetValue(Canvas.LeftProperty, (double)x);
+            circle.SetValue(Canvas.TopProperty, (double)y);
+
+        }
+        public Boolean DrawCross(int x, int y)
         {
             //TODO there is a problem that the gameArea canvas object cant be
             //passed as a reference so the drawing must be done inside the
             //[./MainWindow.xaml.cs]
 
-            // GameArea.Children.Add(myRgbRectangle);
+            Line myLine = new System.Windows.Shapes.Line();
             myLine.Stroke = System.Windows.Media.Brushes.Brown;
-            // GameArea.SetLeft(myRgbRectangle, 50);
+            myLine.X1 = x;
+            myLine.X2 = x + Consts.PieceSize;
+            myLine.Y1 = y;
+            myLine.Y2 = y + Consts.PieceSize;
+            myLine.HorizontalAlignment = HorizontalAlignment.Left;
+            myLine.VerticalAlignment = VerticalAlignment.Center;
+            myLine.StrokeThickness = 3;
+            GameArea.Children.Add(myLine);
+
+            Line myLine2 = new System.Windows.Shapes.Line();
+            myLine2.Stroke = System.Windows.Media.Brushes.Brown;
+            myLine2.X1 = x + Consts.PieceSize;
+            myLine2.X2 = x;
+            myLine2.Y1 = y;
+            myLine2.Y2 = y + Consts.PieceSize;
+            myLine2.HorizontalAlignment = HorizontalAlignment.Left;
+            myLine2.VerticalAlignment = VerticalAlignment.Center;
+            myLine2.StrokeThickness = 3;
+            GameArea.Children.Add(myLine2);
 
             return true;
         }
-        private void DrawBoard(int width, int hight)
+        private void DrawBoardLines(int width, int hight)
         {
             /*TODOS:
              * 1 -  the edge lines are not as thicj as the middle lines,

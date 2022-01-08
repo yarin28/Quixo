@@ -100,5 +100,17 @@ namespace Quixo
 
             DrawCircle(x,y);
         }
+        private static (int,int) FromBoardCordsToCanvasCords(double x, double y)
+        {
+            int CanvasX = (int)x * Consts.PieceSize;
+            int CanvasY = (int)y * Consts.PieceSize;
+            return (CanvasX, CanvasY);
+        }
+        private static (int,int)FromCanvasCordsToBoardCords(double x, double y)
+        {
+            int BoardX = (int)x / Consts.PieceSize;
+            int BoardY = (int)y / Consts.PieceSize;
+            return (BoardX, BoardY);
+        }
     }
 }

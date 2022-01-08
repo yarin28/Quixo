@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,12 +37,13 @@ namespace Quixo
             // Fill = color,
 
             };
+        {
             //TODO there is a problem that the gameArea canvas object cant be
             //passed as a reference so the drawing must be done inside the
             //[./MainWindow.xaml.cs]
 
             // GameArea.Children.Add(myRgbRectangle);
-            // GameArea.SetTop(myRgbRectangle, 50);
+            myLine.Stroke = System.Windows.Media.Brushes.Brown;
             // GameArea.SetLeft(myRgbRectangle, 50);
 
             return true;
@@ -88,6 +89,16 @@ namespace Quixo
                 myLine.StrokeThickness = 2;
                 GameArea.Children.Add(myLine);
             }
+        }
+        private void GameArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Point p = e.GetPosition(GameArea);
+            double x = p.X;
+            double y = p.Y;
+            (x,y) = FromCanvasCordsToBoardCords(x, y);
+            (x,y) = FromBoardCordsToCanvasCords(x,y);
+
+            DrawCircle(x,y);
         }
     }
 }

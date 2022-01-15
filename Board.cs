@@ -261,8 +261,7 @@ namespace Quixo
         {
             return GetPiece(new Point(x,y));
         }
-
-        private object GetPiece(int x, int y)
+        private void CheckWinningLines()
         {
             throw new NotImplementedException();
         }
@@ -272,17 +271,69 @@ namespace Quixo
         private void Decrement(ref int sweep) => sweep--;
         private int NextPieceBack(int position) => --position;
         private int NextPieceForward(int position) => ++position;
-
-        private void CheckWinningLines()
+        private void UpdateBoard(Point source, Point destination)
         {
-            throw new NotImplementedException();
-        }
+        /*
+         * 1.the function updates only the bitboard! still there is a need to
+         *   update the grafics in a diffrent place.
 
-        private void UpdateBoard(Point src, Point dest)
+         * 2.there is still a need to understand this to the full.
+        */
+            var newValue = this.currentPlayer;
+            var isXFixed = source.X == destination.X;
+            var fixedValue = (source.X == destination.X) ? source.X : source.Y;
+
+            AdjustLoopOperator loopOp;
+            CheckLoopOperator checkOp;
+            NextPieceOperator nextPieceOp;
+
+            if (source.Y > destination.Y || source.X > destination.X)
+            {
+                loopOp = new AdjustLoopOperator(this.Decrement);
+                checkOp = new CheckLoopOperator(this.IsGreaterThan);
+                nextPieceOp = new NextPieceOperator(this.NextPieceBack);
+            }
+            else
+            {
+                loopOp = new AdjustLoopOperator(this.Increment);
+                checkOp = new CheckLoopOperator(this.IsLessThan);
+                nextPieceOp = new NextPieceOperator(this.NextPieceForward);
+            }
+
+            var startPoint = isXFixed ? source.Y : source.X;
+            var endPoint = isXFixed ? destination.Y : destination.X;
+
+            for (var sweep = startPoint; checkOp(sweep, endPoint); loopOp(ref sweep))
+            {
+                if (isXFixed == true)
+                {
+                    this.SetPiece(fixedValue, sweep,
+                        this.GetPiece(fixedValue, nextPieceOp(sweep)));
+                }
+                else
+                {
+                    this.SetPiece(sweep, fixedValue,
+                        this.GetPiece(nextPieceOp(sweep), fixedValue));
+                }
+            }
+
+            this.SetPiece(destination.X, destination.Y, newValue);
+        }
+        public Player CurrentPlayer => this.currentPlayer;
+        public MoveCollection Moves => this.moveHistory;
+        public Player WinningPlayer => this.winningPlayer;
+        public List<Point> EfficiantBoardDrawPoints()
         {
-            throw new NotImplementedException();
+            List<Point> points = new List<Point>();
+            for(long i=7;i<Board.Dimension*Board.Dimension+7;i++)
+            {
+                if ((this.pieces & 1L<<(int)i) == (1L<<(int) i))
+                {
+                    points.Add(GetReverseShiftOut((int)i));
+                }
+            }
+            return points;
         }
-
         private Board Clone()
         {
             return new Board

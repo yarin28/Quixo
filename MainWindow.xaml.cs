@@ -4,20 +4,30 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Collections.Generic;
 //TODO: all the imports are not used should be gone
 namespace Quixo
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
+        private Board board = new Board();
         public MainWindow()
         {
             InitializeComponent();
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
+            board.SetPiece(3, 3, Player.X);
+           List<System.Drawing.Point> points =  board.EfficiantBoardDrawPoints();
+            foreach (System.Drawing.Point p in points)
+                {
+                int x, y;
+                //(x,y) = FromBoardCordsToCanvasCords((double)p.X,(double)p.Y);
+                DrawCross(p.X, p.Y);
+            }
             DrawBoardLines(400, 400);
             DrawCross(0, 0);
             DrawCircle(80, 80);

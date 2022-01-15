@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
 //TODO: all the imports are not used should be gone
 namespace Quixo
@@ -18,12 +19,14 @@ namespace Quixo
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             DrawBoardLines(400, 400);
-            DrawCross(1, 1);
+            DrawCross(0, 0);
             DrawCircle(80, 80);
             DrawCircle(160, 80);
+            ErasePiece(1,1);
         }
-        public void DrawCircle(double x, double y)
+        public void DrawCircle(int x, int y)
         {
+            (x,y)=FromBoardCordsToCanvasCords(x,y);
             Ellipse circle = new Ellipse()
             {
                 Width = 80,
@@ -43,7 +46,7 @@ namespace Quixo
             //TODO there is a problem that the gameArea canvas object cant be
             //passed as a reference so the drawing must be done inside the
             //[./MainWindow.xaml.cs]
-
+            (x,y)=FromBoardCordsToCanvasCords(x,y);
             Line myLine = new System.Windows.Shapes.Line();
             myLine.Stroke = System.Windows.Media.Brushes.Brown;
             myLine.X1 = x;
@@ -67,6 +70,20 @@ namespace Quixo
             GameArea.Children.Add(myLine2);
 
             return true;
+        }
+        private void ErasePiece(int x, int y)
+        {
+            (x,y)=FromBoardCordsToCanvasCords(x, y);
+            Rectangle rec = new Rectangle();
+            rec.Fill= new System.Windows.Media.SolidColorBrush(Color.FromArgb(0xff, 0xe1, 0xc1, 0x6e)); ;
+            rec.HorizontalAlignment = HorizontalAlignment.Left;
+                rec.Stroke = System.Windows.Media.Brushes.Brown ;
+            rec.VerticalAlignment = VerticalAlignment.Center;
+            rec.Height = 80;//must be changed
+            rec.Width = 80;
+            GameArea.Children.Add(rec);
+            rec.SetValue(Canvas.LeftProperty, (double)x);
+            rec.SetValue(Canvas.TopProperty, (double)y);
         }
         private void DrawBoardLines(int width, int hight)
         {
@@ -113,13 +130,14 @@ namespace Quixo
         private void GameArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point p = e.GetPosition(GameArea);
-            double x = p.X;
-            double y = p.Y;
+            int x =(int) p.X;
+            int y =(int) p.Y;
             (x,y) = FromCanvasCordsToBoardCords(x, y);
-            (x,y) = FromBoardCordsToCanvasCords(x,y);
 
             DrawCircle(x,y);
+            DrawCross(x, y);
         }
+        //===================utilty members======================
         private static (int,int) FromBoardCordsToCanvasCords(double x, double y)
         {
             int CanvasX = (int)x * Consts.PieceSize;

@@ -44,5 +44,9 @@ namespace Quixo
 			return (Player)Player.None;
 		}
 
+        private int GetShiftOut(int x, int y)
+        {
+			return 7 + y * 5 + x;//need to correct the board/stay with it. in my description there is a divider of 7 emply bits between both of X,and O boards.
+        }
 	}
 }

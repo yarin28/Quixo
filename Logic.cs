@@ -15,5 +15,10 @@ namespace Quixo
           
             return false;
         }
+        public static bool CanSelectPiece(int x,int y,Player p)
+        {
+            throw new NotImplementedException();
+        
+        }
     }
 }

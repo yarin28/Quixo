@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -10,6 +10,12 @@ namespace Quixo
     //public sealed  class Board
     public class Board
     {
+        private const string ErrorIdenticalPiece = "The source and destination locations are the same.";
+        private const string ErrorInternalPiece = "Only the outer pieces can be moved.";
+        private const string ErrorInvalidSourcePiece = "The player {0} cannot move the piece at position {1}.";
+        private const string ErrorInvalidDestinationPosition = "The player {0} cannot move a piece to position {1}.";
+        private const string ErrorWinner = "The game has been won by {0} - no more moves can be made.";
+
 		public const int Dimension = 5;
 
 		private Player winningPlayer = Player.None;

@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,17 @@ namespace Quixo
 		private Player currentPlayer = Player.X;
 		private long pieces;
 		private MoveCollection moveHistory = new MoveCollection();
-		public Board()
+		public Board():base()
         {
-			this.pieces = 0;
-
+			this.Reset();
         }
+		private void Reset()
+		{
+			this.currentPlayer = Player.X;
+			this.winningPlayer = Player.None;
+			this.moveHistory.Clear();
+			this.pieces = 0;
+		}
 		public byte GetDimension()
         {
 			return (byte)Dimension;
@@ -48,5 +55,31 @@ namespace Quixo
         {
 			return 7 + y * 5 + x;//need to correct the board/stay with it. in my description there is a divider of 7 emply bits between both of X,and O boards.
         }
-	}
+		public void SetPiecesForTesting(long newOne)
+        {
+			this.pieces = newOne;
+        }
+		public void SetPiece(Point dest,Player newValue)
+        {
+			int shiftOut = this.GetShiftOut(dest.X, dest.Y);
+			if (newValue==Player.X)
+            {//there is a need to delete the record from the O bitborad
+			this.pieces &= ~(1L << (shiftOut+32));
+			this.pieces |= 1L << shiftOut;
+            }
+			else if(newValue==Player.O)
+            {//there is a need to delete the record from the X bitboard
+
+			this.pieces &= ~(1L << shiftOut);
+			this.pieces |= 1L << (shiftOut+32);
+            }
+			else if(newValue==Player.None)
+            {//delete from both bitboards
+
+			this.pieces &= ~(1L << shiftOut);
+			this.pieces &= ~(1L << (shiftOut+32));
+            }
+			return;
+        }
+    }
 }

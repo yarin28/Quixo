@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace Quixo
 {
     internal class Logic
     {
-        private long[] wonBorad;
+        private long Board;
         public static Boolean ValidateMove(Point start,Point end)
         {
           

@@ -78,19 +78,25 @@ namespace Quixo
 
             return points;
         }
-
-			int shiftOut = this.GetShiftOut(position.X, position.Y);
-			if ((this.pieces & (1L << shiftOut)) ==(1L << shiftOut))
-			{
-				return Player.X;
-			}
-			else if ((this.pieces & (1L >> (shiftOut + 32))) == (1L>>(shiftOut + 32)))
-                {
-				return Player.O;
+        public Player GetPiece(int x, Point position)
+        {
+            if (position.X < 0 || position.X > (Board.Dimension) ||
+                position.Y < 0 || position.Y > (Board.Dimension))
+            {
+                throw new IndexOutOfRangeException($"Point {position.ToString()} is out of range.");
             }
-			return (Player)Player.None;
-		}
 
+            int shiftOut = this.GetShiftOut(position.X, position.Y);
+            if ((this.pieces & (1L << shiftOut)) == (1L << shiftOut))
+            {
+                return Player.X;
+            }
+            else if ((this.pieces & (1L >> (shiftOut + 32))) == (1L >> (shiftOut + 32)))
+            {
+                return Player.O;
+            }
+            return (Player)Player.None;
+        }
         private int GetShiftOut(int x, int y)
         {
 			return 7 + y * 5 + x;//need to correct the board/stay with it. in my description there is a divider of 7 emply bits between both of X,and O boards.

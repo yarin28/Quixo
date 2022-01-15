@@ -105,27 +105,27 @@ namespace Quixo
         {
             this.pieces = newOne;
         }
-		public void SetPiece(Point dest,Player newValue)
+        public void SetPiece(Point dest, Player newValue)
         {
-			int shiftOut = this.GetShiftOut(dest.X, dest.Y);
-			if (newValue==Player.X)
+            int shiftOut = this.GetShiftOut(dest.X, dest.Y);
+            if (newValue == Player.X)
             {//there is a need to delete the record from the O bitborad
-			this.pieces &= ~(1L << (shiftOut+32));
-			this.pieces |= 1L << shiftOut;
+                this.pieces &= ~(1L << (shiftOut + 32));
+                this.pieces |= 1L << shiftOut;
             }
-			else if(newValue==Player.O)
+            else if (newValue == Player.O)
             {//there is a need to delete the record from the X bitboard
 
-			this.pieces &= ~(1L << shiftOut);
-			this.pieces |= 1L << (shiftOut+32);
+                this.pieces &= ~(1L << shiftOut);
+                this.pieces |= 1L << (shiftOut + 32);
             }
-			else if(newValue==Player.None)
+            else if (newValue == Player.None)
             {//delete from both bitboards
 
-			this.pieces &= ~(1L << shiftOut);
-			this.pieces &= ~(1L << (shiftOut+32));
+                this.pieces &= ~(1L << shiftOut);
+                this.pieces &= ~(1L << (shiftOut + 32));
             }
-			return;
+            return;
         }
     }
 }

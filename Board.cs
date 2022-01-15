@@ -41,13 +41,43 @@ namespace Quixo
         {
             return (byte)Dimension;
         }
-		public Player GetPiece(Point position)
-		{
-			if (position.X < 0 || position.X > (Board.Dimension) ||
-				position.Y < 0 || position.Y > (Board.Dimension))
-			{
-				throw new IndexOutOfRangeException($"Point {position.ToString()} is out of range.");
-			}
+        public List<Point> GetValidDestinationPieces(Point source)
+        {
+            var points = new List<Point>();
+
+            if (this.IsOuterPiece(source) && this.CanCurrentPlayerUseSource(source))
+            {
+                if (source.X == 0)
+                {
+                    points.Add(new Point(Board.Dimension - 1, source.Y));
+                }
+                else if (source.X == (Dimension - 1))
+                {
+                    points.Add(new Point(0, source.Y));
+                }
+                else
+                {
+                    points.Add(new Point(Dimension - 1, source.Y));
+                    points.Add(new Point(0, source.Y));
+                }
+
+                if (source.Y == 0)
+                {
+                    points.Add(new Point(source.X, Dimension - 1));
+                }
+                else if (source.Y == (Dimension - 1))
+                {
+                    points.Add(new Point(source.X, 0));
+                }
+                else
+                {
+                    points.Add(new Point(source.X, Dimension - 1));
+                    points.Add(new Point(source.X, 0));
+                }
+            }
+
+            return points;
+        }
 
 			int shiftOut = this.GetShiftOut(position.X, position.Y);
 			if ((this.pieces & (1L << shiftOut)) ==(1L << shiftOut))

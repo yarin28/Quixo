@@ -53,7 +53,7 @@ namespace Quixo
             myLine.X2 = x + Consts.PieceSize;
             myLine.Y1 = y;
             myLine.Y2 = y + Consts.PieceSize;
-            myLine.HorizontalAlignment = HorizontalAlignment.Left;
+            myLine.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             myLine.VerticalAlignment = VerticalAlignment.Center;
             myLine.StrokeThickness = 3;
             GameArea.Children.Add(myLine);

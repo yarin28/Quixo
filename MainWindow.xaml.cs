@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -74,8 +74,8 @@ namespace Quixo
         private void ErasePiece(int x, int y)
         {
             (x,y)=FromBoardCordsToCanvasCords(x, y);
-            Rectangle rec = new Rectangle();
-            rec.Fill= new System.Windows.Media.SolidColorBrush(Color.FromArgb(0xff, 0xe1, 0xc1, 0x6e)); ;
+            System.Windows.Shapes.Rectangle rec = new System.Windows.Shapes.Rectangle();
+            rec.Fill= new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0xe1, 0xc1, 0x6e)); ;
             rec.HorizontalAlignment = HorizontalAlignment.Left;
                 rec.Stroke = System.Windows.Media.Brushes.Brown ;
             rec.VerticalAlignment = VerticalAlignment.Center;
@@ -129,7 +129,7 @@ namespace Quixo
         }
         private void GameArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Point p = e.GetPosition(GameArea);
+            System.Windows.Point p = e.GetPosition(GameArea);
             int x =(int) p.X;
             int y =(int) p.Y;
             (x,y) = FromCanvasCordsToBoardCords(x, y);

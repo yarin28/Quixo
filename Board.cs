@@ -16,6 +16,9 @@ namespace Quixo
         private const string ErrorInvalidDestinationPosition = "The player {0} cannot move a piece to position {1}.";
         private const string ErrorWinner = "The game has been won by {0} - no more moves can be made.";
 
+        private delegate void AdjustLoopOperator(ref int sweep);
+        private delegate bool CheckLoopOperator(int sweep, int checkPoint);
+        private delegate int NextPieceOperator(int position);
 		public const int Dimension = 5;
 
 		private Player winningPlayer = Player.None;

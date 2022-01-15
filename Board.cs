@@ -176,6 +176,10 @@ namespace Quixo
             }
             return;
         }
+        public void SetPiece(int x,int y,Player newValue)
+        {
+            SetPiece(new Point(x,y),newValue); 
+        }
         private int GetEndPoint(Point source, Point destination) =>
         source.X == destination.X ? destination.Y : destination.X;
         private bool CanCurrentPlayerUseSource(Point source)
@@ -253,10 +257,9 @@ namespace Quixo
                 throw;
             }
         }
-
-        private void SetPiece(int x, int y, object v)
+        private Player GetPiece(int x, int y)
         {
-            throw new NotImplementedException();
+            return GetPiece(new Point(x,y));
         }
 
         private object GetPiece(int x, int y)

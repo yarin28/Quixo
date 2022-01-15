@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -100,6 +100,13 @@ namespace Quixo
         private int GetShiftOut(int x, int y)
         {
             return 7 + y * 5 + x;//need to correct the board/stay with it. in my description there is a divider of 7 emply bits between both of X,and O boards.
+        }
+        private Point GetReverseShiftOut(int position)
+        {
+            position -= 7;
+            var x = position % 5;
+            return new Point(x, (position-x)/5);
+
         }
         public void SetPiecesForTesting(long newOne)
         {

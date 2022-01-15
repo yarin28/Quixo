@@ -19,26 +19,27 @@ namespace Quixo
         private delegate void AdjustLoopOperator(ref int sweep);
         private delegate bool CheckLoopOperator(int sweep, int checkPoint);
         private delegate int NextPieceOperator(int position);
-		public const int Dimension = 5;
 
-		private Player winningPlayer = Player.None;
-		private Player currentPlayer = Player.X;
-		private long pieces;
-		private MoveCollection moveHistory = new MoveCollection();
-		public Board():base()
+        public const int Dimension = 5;
+        private Player winningPlayer = Player.None;
+        private Player currentPlayer = Player.X;
+        private long pieces;
+        private MoveCollection moveHistory = new MoveCollection();
+
+        public Board() : base()
         {
-			this.Reset();
+            this.Reset();
         }
-		private void Reset()
-		{
-			this.currentPlayer = Player.X;
-			this.winningPlayer = Player.None;
-			this.moveHistory.Clear();
-			this.pieces = 0;
-		}
-		public byte GetDimension()
+        private void Reset()
         {
-			return (byte)Dimension;
+            this.currentPlayer = Player.X;
+            this.winningPlayer = Player.None;
+            this.moveHistory.Clear();
+            this.pieces = 0;
+        }
+        public byte GetDimension()
+        {
+            return (byte)Dimension;
         }
 		public Player GetPiece(Point position)
 		{

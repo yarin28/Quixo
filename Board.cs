@@ -78,7 +78,49 @@ namespace Quixo
 
             return points;
         }
-        public Player GetPiece(int x, Point position)
+        public List<Point> GetValidSourcePieces()
+        {
+            var points = new List<Point>();
+
+            for (var x = 1; x < Dimension; x++)
+            {
+                if (this.GetPiece(x, 0) == this.currentPlayer ||
+                     this.GetPiece(x, 0) == Player.None)
+                {
+                    points.Add(new Point(x, 0));
+                }
+            }
+
+            for (var y = 1; y < Dimension; y++)
+            {
+                if (this.GetPiece(Dimension - 1, y) == this.currentPlayer ||
+                     this.GetPiece(Dimension - 1, y) == Player.None)
+                {
+                    points.Add(new Point(Dimension - 1, y));
+                }
+            }
+
+            for (var x = Dimension - 2; x >= 0; x--)
+            {
+                if (this.GetPiece(x, Dimension - 1) == this.currentPlayer ||
+                     this.GetPiece(x, Dimension - 1) == Player.None)
+                {
+                    points.Add(new Point(x, Dimension - 1));
+                }
+            }
+
+            for (var y = Dimension - 2; y >= 0; y--)
+            {
+                if (this.GetPiece(0, y) == this.currentPlayer ||
+                     this.GetPiece(0, y) == Player.None)
+                {
+                    points.Add(new Point(0, y));
+                }
+            }
+
+            return points;
+        }
+        public Player GetPiece( Point position)
         {
             if (position.X < 0 || position.X > (Board.Dimension) ||
                 position.Y < 0 || position.Y > (Board.Dimension))

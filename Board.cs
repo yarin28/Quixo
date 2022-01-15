@@ -204,6 +204,27 @@ namespace Quixo
                 throw;
             }
         }
+
+        private void SetPiece(int x, int y, object v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private object GetPiece(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CheckWinningLines()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void UpdateBoard(Point src, Point dest)
+        {
+            throw new NotImplementedException();
+        }
+
         private Board Clone()
         {
             return new Board

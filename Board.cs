@@ -266,6 +266,12 @@ namespace Quixo
         {
             throw new NotImplementedException();
         }
+        private bool IsLessThan(int sweep, int checkPoint) => sweep < checkPoint;
+        private bool IsGreaterThan(int sweep, int checkPoint) => sweep > checkPoint;
+        private void Increment(ref int sweep) => sweep++;
+        private void Decrement(ref int sweep) => sweep--;
+        private int NextPieceBack(int position) => --position;
+        private int NextPieceForward(int position) => ++position;
 
         private void CheckWinningLines()
         {

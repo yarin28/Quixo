@@ -287,5 +287,136 @@ namespace Quixo
                 pieces = this.pieces
             };
         }
+        private sealed class WinningLines
+        {//must be more efficient. probably will use preknown bitboards
+         // that i know, there are only 12*2
+            private const string ErrorInvalidLineCount = "The line count should be {0} but it was {1}.";
+            private static readonly int WinningLineCount = (Board.Dimension * 2) + 2;
+
+            private readonly Board board = null;
+            private int blankCount = 0;
+            private int xCount = 0;
+            private int oCount = 0;
+
+            private WinningLines() : base() { }
+
+            public WinningLines(Board board)
+                : this()
+            {
+                this.board = board;
+                this.CalculateWinningCounts();
+            }
+
+            private void CalculateWinningCounts()
+            {
+                this.CalculateHorizontalWinners();
+                this.CalculateVerticalWinners();
+                this.CalculateDiagonalWinners();
+                var winningLineCount = this.xCount + this.oCount + this.blankCount;
+
+                if (winningLineCount != WinningLineCount)
+                {
+                    throw new InvalidOperationException(
+                         string.Format(ErrorInvalidLineCount, WinningLineCount, winningLineCount));
+                }
+            }
+
+            private void CalculateHorizontalWinners()
+            {
+                for (var y = 0; y < Board.Dimension; y++)
+                {
+                    var lineState = this.board.GetPiece(0, y);
+
+                    for (var x = 1; x < Board.Dimension; x++)
+                    {
+                        var currentPiece = this.board.GetPiece(x, y);
+
+                        if (currentPiece == Player.None || currentPiece != lineState)
+                        {
+                            lineState = Player.None;
+                            break;
+                        }
+                    }
+
+                    this.UpdatePlayerWinCount(lineState);
+                }
+            }
+
+            private void CalculateVerticalWinners()
+            {
+                for (var x = 0; x < Board.Dimension; x++)
+                {
+                    var lineState = this.board.GetPiece(x, 0);
+
+                    for (var y = 1; y < Board.Dimension; y++)
+                    {
+                        var currentPiece = this.board.GetPiece(x, y);
+
+                        if (currentPiece == Player.None || currentPiece != lineState)
+                        {
+                            lineState = Player.None;
+                            break;
+                        }
+                    }
+
+                    this.UpdatePlayerWinCount(lineState);
+                }
+            }
+
+            private void CalculateDiagonalWinners()
+            {
+                var lineState = this.board.GetPiece(0, 0);
+
+                for (var x = 0; x < Board.Dimension; x++)
+                {
+                    var currentPiece = this.board.GetPiece(x, x);
+
+                    if (currentPiece == Player.None || currentPiece != lineState)
+                    {
+                        lineState = Player.None;
+                        break;
+                    }
+                }
+
+                this.UpdatePlayerWinCount(lineState);
+
+                lineState = this.board.GetPiece(0, Board.Dimension - 1);
+
+                for (var x = 0; x < Board.Dimension; x++)
+                {
+                    var currentPiece = this.board.GetPiece(x, Board.Dimension - 1 - x);
+
+                    if (currentPiece == Player.None || currentPiece != lineState)
+                    {
+                        lineState = Player.None;
+                        break;
+                    }
+                }
+
+                this.UpdatePlayerWinCount(lineState);
+            }
+
+            private void UpdatePlayerWinCount(Player lineWinner)
+            {
+                if (lineWinner == Player.X)
+                {
+                    this.xCount++;
+                }
+                else if (lineWinner == Player.O)
+                {
+                    this.oCount++;
+                }
+                else
+                {
+                    this.blankCount++;
+                }
+            }
+
+            public int NoneCount => this.blankCount;
+
+            public int XCount => this.xCount;
+
+            public int OCount => this.oCount;
+        }
     }
 }

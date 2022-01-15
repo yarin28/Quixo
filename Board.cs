@@ -127,5 +127,27 @@ namespace Quixo
             }
             return;
         }
+        private int GetEndPoint(Point source, Point destination) =>
+        source.X == destination.X ? destination.Y : destination.X;
+        private bool CanCurrentPlayerUseSource(Point source)
+        {
+            var pieceState = this.GetPiece(source);
+
+            return ((this.currentPlayer == Player.X && (pieceState == Player.X || pieceState == Player.None)) ||
+                 (this.currentPlayer == Player.O && (pieceState == Player.O || pieceState == Player.None)));
+        }
+        private bool IsOuterPiece(Point position) =>
+            position.X != 0 || position.X != (Dimension - 1) ||
+                 position.Y != 0 || position.Y != (Dimension - 1);
+        private Board Clone()
+        {
+            return new Board
+            {
+                currentPlayer = this.currentPlayer,
+                winningPlayer = this.winningPlayer,
+                moveHistory = this.moveHistory.Clone() as MoveCollection,
+                pieces = this.pieces
+            };
+        }
     }
 }

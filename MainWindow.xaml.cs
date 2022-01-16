@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,8 +21,12 @@ namespace Quixo
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            board.SetPiece(3, 3, Player.X);
-           List<System.Drawing.Point> points =  board.EfficiantBoardDrawPoints();
+            board.SetPiece(3, 3, Player.O);
+            board.SetPiece(4, 4, Player.O);
+            board.SetPiece(2, 2, Player.O);
+            board.SetPiece(1, 1, Player.O);
+            List<System.Drawing.Point> points =  board.EfficiantBoardDrawCrossPoints();
+            points.AddRange(board.EfficiantBoardDrawCirclePoints());
             foreach (System.Drawing.Point p in points)
                 {
                 int x, y;
@@ -30,10 +34,12 @@ namespace Quixo
                 DrawCross(p.X, p.Y);
             }
             DrawBoardLines(400, 400);
-            DrawCross(0, 0);
-            DrawCircle(80, 80);
-            DrawCircle(160, 80);
-            ErasePiece(1,1);
+            //DrawCross(0, 0);
+            //DrawCircle(80, 80);
+            //DrawCircle(160, 80);
+            //ErasePiece(1,1);
+            //Highlight(0,0);
+            //ErasePiece(0, 0);
         }
         public void DrawCircle(int x, int y)
         {
@@ -178,3 +184,11 @@ namespace Quixo
         }
     }
 }
+
+/*
+ * NOTES-
+ * clear all the board => GameArea.Children.Clear();
+ * 
+ * 
+ * 
+ */

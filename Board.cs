@@ -322,14 +322,24 @@ namespace Quixo
         public Player CurrentPlayer => this.currentPlayer;
         public MoveCollection Moves => this.moveHistory;
         public Player WinningPlayer => this.winningPlayer;
-        public List<Point> EfficiantBoardDrawPoints()
+        public List<Point> EfficiantBoardDrawCrossPoints()
+        {
+            return EfficiantBoardDrawPoints(7);
+        }
+
+        public List<Point> EfficiantBoardDrawCirclePoints()
+        {
+            return EfficiantBoardDrawPoints(Board.Dimension * Board.Dimension + 14);
+        }
+
+        public List<Point> EfficiantBoardDrawPoints(int iStart)
         {
             List<Point> points = new List<Point>();
-            for(long i=7;i<Board.Dimension*Board.Dimension+7;i++)
+            for(long i=iStart;i<Board.Dimension*Board.Dimension+iStart;i++)
             {
                 if ((this.pieces & 1L<<(int)i) == (1L<<(int) i))
                 {
-                    points.Add(GetReverseShiftOut((int)i));
+                    points.Add(GetReverseShiftOut((int)i-iStart+7));//this is the worst,will have to fix.
                 }
             }
             return points;

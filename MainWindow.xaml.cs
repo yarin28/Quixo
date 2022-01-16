@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,7 +49,7 @@ namespace Quixo
                 Width = 80,
                 Height = 80,
                 Stroke = System.Windows.Media.Brushes.Brown,
-                StrokeThickness = 6,
+                StrokeThickness = 5,
             };
 
             GameArea.Children.Add(circle);
@@ -72,7 +72,7 @@ namespace Quixo
             myLine.Y2 = y + Consts.PieceSize;
             myLine.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             myLine.VerticalAlignment = VerticalAlignment.Center;
-            myLine.StrokeThickness = 3;
+            myLine.StrokeThickness = 5;
             GameArea.Children.Add(myLine);
 
             Line myLine2 = new System.Windows.Shapes.Line();
@@ -83,7 +83,7 @@ namespace Quixo
             myLine2.Y2 = y + Consts.PieceSize;
             myLine2.HorizontalAlignment = HorizontalAlignment.Left;
             myLine2.VerticalAlignment = VerticalAlignment.Center;
-            myLine2.StrokeThickness = 3;
+            myLine2.StrokeThickness = 5;
             GameArea.Children.Add(myLine2);
 
             return true;

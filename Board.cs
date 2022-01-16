@@ -326,12 +326,10 @@ namespace Quixo
         {
             return EfficiantBoardDrawPoints(7);
         }
-
         public List<Point> EfficiantBoardDrawCirclePoints()
         {
             return EfficiantBoardDrawPoints(Board.Dimension * Board.Dimension + 14);
         }
-
         public List<Point> EfficiantBoardDrawPoints(int iStart)
         {
             List<Point> points = new List<Point>();
@@ -343,6 +341,20 @@ namespace Quixo
                 }
             }
             return points;
+        }
+        public List<Piece> EfficiantBoradDrawAllPoints()
+        {//this isn`t good enough for this job
+            List<Piece> pieces = new List<Piece>();
+               foreach(Point p in this.EfficiantBoardDrawCirclePoints())
+            {
+                pieces.Add(new Piece(p, Player.O));
+            }
+               foreach(Point p in this.EfficiantBoardDrawCrossPoints())
+            {
+                pieces.Add(new Piece(p, Player.X));
+            }
+               return pieces;
+            
         }
         private Board Clone()
         {

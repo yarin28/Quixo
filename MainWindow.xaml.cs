@@ -74,7 +74,7 @@ namespace Quixo
         }
         public void DrawCircle(int x, int y)
         {
-            (x,y)=FromBoardCordsToCanvasCords(x,y);
+            (x, y) = FromBoardCordsToCanvasCords(x, y);
             Ellipse circle = new Ellipse()
             {
                 Width = 80,

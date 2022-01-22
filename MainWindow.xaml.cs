@@ -51,6 +51,14 @@ namespace Quixo
             validSources = this.board.GetValidSourcePieces();
             foreach (System.Drawing.Point p in validSources) Highlight(p);
         }
+        public void HightlightpossibleDestPieces(System.Drawing.Point source)
+        {
+
+            DrawBoard();
+            HightlightSelectedPiece(source);
+            validDestanation = this.board.GetValidDestinationPieces(source);
+            foreach (System.Drawing.Point p in validDestanation) Highlight(p);
+        }
         public void DrawBoard()
         {
 

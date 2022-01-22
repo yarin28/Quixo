@@ -46,6 +46,11 @@ namespace Quixo
             //Highlight(0,0);
             //ErasePiece(0, 0);
         }
+        public void HightlightpossibleSourcePieces()
+        {
+            validSources = this.board.GetValidSourcePieces();
+            foreach (System.Drawing.Point p in validSources) Highlight(p);
+        }
         public void DrawBoard()
         {
 

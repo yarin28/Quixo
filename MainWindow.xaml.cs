@@ -191,12 +191,22 @@ namespace Quixo
         private void GameArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Point p = e.GetPosition(GameArea);
-            int x =(int) p.X;
-            int y =(int) p.Y;
-            (x,y) = FromCanvasCordsToBoardCords(x, y);
-            y = 4 - y;
-            DrawCircle(x,y);
-            DrawCross(x, y);
+        }
+        private void HightlightSelectedPiece(System.Drawing.Point src)
+        {
+
+            (src.X, src.Y) = FromBoardCordsToCanvasCords(src.X, src.Y);
+            System.Windows.Shapes.Rectangle rec = new System.Windows.Shapes.Rectangle();
+            rec.HorizontalAlignment = HorizontalAlignment.Left;
+            rec.Stroke = System.Windows.Media.Brushes.Red;
+            rec.StrokeThickness = 10;
+            //rec.Cursor = Cursors.Cross;
+            rec.VerticalAlignment = VerticalAlignment.Center;
+            rec.Height = 80 - 5;//must be changed
+            rec.Width = 80 - 5;
+            GameArea.Children.Add(rec);
+            rec.SetValue(Canvas.LeftProperty, (double)src.X + 2);//must be changed to const
+            rec.SetValue(Canvas.TopProperty, (double)src.Y + 2);
         }
         //===================utility members======================
         private static (int, int) FromBoardCordsToCanvasCords(double x, double y)

@@ -14,7 +14,12 @@ namespace Quixo
     /// </summary>
     public partial class MainWindow : System.Windows.Window
     {
+        enum BoardState { WaitingForSourcePieceSelection, WaitingForDestanetionPiece };
+        BoardState boardState;//HACK should find a better name.
         private Board board = new Board();
+        List<System.Drawing.Point> validSources;
+        List<System.Drawing.Point> validDestanation;
+        System.Drawing.Point srcP;
         public MainWindow()
         {
             InitializeComponent();

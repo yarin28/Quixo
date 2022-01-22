@@ -41,6 +41,19 @@ namespace Quixo
             //Highlight(0,0);
             //ErasePiece(0, 0);
         }
+        public void DrawBoard()
+        {
+
+            GameArea.Children.Clear(); 
+            List<Piece> points =  board.EfficiantBoradDrawAllPoints();
+            foreach (Piece p in points)
+                {
+                int x, y;
+                if (p.Player == Player.X) DrawCross(p.Position.X, p.Position.Y);
+                else DrawCircle(p.Position.X, p.Position.Y);
+            }
+            DrawBoardLines(400, 400);
+        }
         public void DrawCircle(int x, int y)
         {
             (x,y)=FromBoardCordsToCanvasCords(x,y);

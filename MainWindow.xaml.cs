@@ -178,15 +178,15 @@ namespace Quixo
             int x =(int) p.X;
             int y =(int) p.Y;
             (x,y) = FromCanvasCordsToBoardCords(x, y);
-
+            y = 4 - y;
             DrawCircle(x,y);
             DrawCross(x, y);
         }
-        //===================utilty members======================
+        //===================utility members======================
         private static (int,int) FromBoardCordsToCanvasCords(double x, double y)
         {
-            int CanvasX = (int)x * Consts.PieceSize;
-            int CanvasY = (int)y * Consts.PieceSize;
+            int CanvasX =( (int)x *Consts.PieceSize);// i want to use a const but this func will be called too many time
+            int CanvasY = 320-((int)y * Consts.PieceSize);// and that will "cost" to much
             return (CanvasX, CanvasY);
         }
         private static (int,int)FromCanvasCordsToBoardCords(double x, double y)

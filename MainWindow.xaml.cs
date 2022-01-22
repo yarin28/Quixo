@@ -1,11 +1,9 @@
 using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Collections.Generic;
 //TODO: all the imports are not used should be gone
 namespace Quixo
 {
@@ -89,12 +87,12 @@ namespace Quixo
             circle.SetValue(Canvas.TopProperty, (double)y);
 
         }
-        public Boolean DrawCross(int x, int y)
+        public bool DrawCross(int x, int y)
         {
             //TODO there is a problem that the gameArea canvas object cant be
             //passed as a reference so the drawing must be done inside the
             //[./MainWindow.xaml.cs]
-            (x,y)=FromBoardCordsToCanvasCords(x,y);
+            (x, y) = FromBoardCordsToCanvasCords(x, y);
             Line myLine = new System.Windows.Shapes.Line();
             myLine.Stroke = System.Windows.Media.Brushes.Brown;
             myLine.X1 = x;
@@ -121,14 +119,14 @@ namespace Quixo
         }
         private void ErasePiece(int x, int y)
         {
-            (x,y)=FromBoardCordsToCanvasCords(x, y);
+            (x, y) = FromBoardCordsToCanvasCords(x, y);
             System.Windows.Shapes.Rectangle rec = new System.Windows.Shapes.Rectangle();
-            rec.Fill= new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0xe1, 0xc1, 0x6e)); ;
+            rec.Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0xe1, 0xc1, 0x6e)); ;
             rec.HorizontalAlignment = HorizontalAlignment.Left;
-                rec.Stroke = System.Windows.Media.Brushes.Brown ;
+            rec.Stroke = System.Windows.Media.Brushes.Brown;
             rec.VerticalAlignment = VerticalAlignment.Center;
             rec.Height = 80;//must be changed
-            rec.Width = 80;
+            rec.Width = 80;//HACK must be changed
             GameArea.Children.Add(rec);
             rec.SetValue(Canvas.LeftProperty, (double)x);
             rec.SetValue(Canvas.TopProperty, (double)y);
@@ -201,13 +199,13 @@ namespace Quixo
             DrawCross(x, y);
         }
         //===================utility members======================
-        private static (int,int) FromBoardCordsToCanvasCords(double x, double y)
+        private static (int, int) FromBoardCordsToCanvasCords(double x, double y)
         {
-            int CanvasX =( (int)x *Consts.PieceSize);// i want to use a const but this func will be called too many time
-            int CanvasY = 320-((int)y * Consts.PieceSize);// and that will "cost" to much
+            int CanvasX = ((int)x * Consts.PieceSize);// i want to use a const but this func will be called too many time
+            int CanvasY = 320 - ((int)y * Consts.PieceSize);// and that will "cost" to much
             return (CanvasX, CanvasY);
         }
-        private static (int,int)FromCanvasCordsToBoardCords(double x, double y)
+        private static (int, int) FromCanvasCordsToBoardCords(double x, double y)
         {
             int BoardX = (int)x / Consts.PieceSize;
             int BoardY = (int)y / Consts.PieceSize;

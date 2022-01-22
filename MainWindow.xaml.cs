@@ -133,20 +133,20 @@ namespace Quixo
             rec.SetValue(Canvas.LeftProperty, (double)x);
             rec.SetValue(Canvas.TopProperty, (double)y);
         }
-        private void Highlight(int x,int y)
+        private void Highlight(System.Drawing.Point p)
         {
-            (x, y) = FromBoardCordsToCanvasCords(x, y);
+            (p.X, p.Y) = FromBoardCordsToCanvasCords(p.X, p.Y);
             System.Windows.Shapes.Rectangle rec = new System.Windows.Shapes.Rectangle();
             rec.HorizontalAlignment = HorizontalAlignment.Left;
-                rec.Stroke = System.Windows.Media.Brushes.Yellow ;
+            rec.Stroke = System.Windows.Media.Brushes.Yellow;
             rec.StrokeThickness = 10;
-            rec.Cursor = Cursors.Cross;
+            //rec.Cursor = Cursors.Cross;
             rec.VerticalAlignment = VerticalAlignment.Center;
-            rec.Height = 80-5;//must be changed
-            rec.Width = 80-5;
+            rec.Height = 80 - 5;//must be changed
+            rec.Width = 80 - 5;
             GameArea.Children.Add(rec);
-            rec.SetValue(Canvas.LeftProperty, (double)x+2);//must be changed to const
-            rec.SetValue(Canvas.TopProperty, (double)y+2);
+            rec.SetValue(Canvas.LeftProperty, (double)p.X + 2);//must be changed to const
+            rec.SetValue(Canvas.TopProperty, (double)p.Y + 2);
         }
         private void DrawBoardLines(int width, int hight)
         {

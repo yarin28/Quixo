@@ -133,7 +133,7 @@ namespace Quixo
             {
                 return Player.X;
             }
-            else if ((this.pieces & (1L >> (shiftOut + 32))) == (1L >> (shiftOut + 32)))
+            else if ((this.pieces & (1L << (shiftOut + 32))) == (1L << (shiftOut + 32)))
             {
                 return Player.O;
             }
@@ -261,16 +261,48 @@ namespace Quixo
         {
             return GetPiece(new Point(x,y));
         }
-        private void CheckWinningLines()
-        {
-            throw new NotImplementedException();
-        }
         private bool IsLessThan(int sweep, int checkPoint) => sweep < checkPoint;
         private bool IsGreaterThan(int sweep, int checkPoint) => sweep > checkPoint;
         private void Increment(ref int sweep) => sweep++;
         private void Decrement(ref int sweep) => sweep--;
         private int NextPieceBack(int position) => --position;
         private int NextPieceForward(int position) => ++position;
+        public void MovePiece(Point source, Point destination)
+        {
+            var currentBoard = (Board)this.Clone();
+
+            try
+            {
+                if (this.winningPlayer != Player.None)
+                {
+                    throw new InvalidMoveException(string.Format(ErrorWinner, this.winningPlayer.ToString()));
+                }
+
+                this.CheckPieces(source, destination);
+                this.UpdateBoard(source, destination);
+                this.CheckWinningLines();
+
+                this.moveHistory.Add(new Move(this.currentPlayer, source, destination));
+
+                this.currentPlayer = this.winningPlayer != Player.None ? Player.None :
+                    this.currentPlayer == Player.X ? Player.O : Player.X;
+            }
+            catch (InvalidMoveException)
+            {
+                this.currentPlayer = currentBoard.currentPlayer;
+                this.winningPlayer = currentBoard.winningPlayer;
+
+                for (var x = 0; x < Board.Dimension; x++)
+                {
+                    for (var y = 0; y < Board.Dimension; y++)
+                    {
+                        this.SetPiece(x, y, currentBoard.GetPiece(x, y));
+                    }
+                }
+
+                throw;
+            }
+        }
         private void UpdateBoard(Point source, Point destination)
         {
         /*
@@ -318,6 +350,25 @@ namespace Quixo
             }
 
             this.SetPiece(destination.X, destination.Y, newValue);
+        }
+        private void CheckWinningLines()
+        {
+            var lines = new WinningLines(this);
+
+            if ((this.currentPlayer == Player.X && lines.OCount > 0) ||
+                 (this.currentPlayer == Player.O && lines.OCount > 0 && lines.XCount == 0))
+            {
+                this.winningPlayer = Player.O;
+            }
+            else if ((this.currentPlayer == Player.O && lines.XCount > 0) ||
+                 (this.currentPlayer == Player.X && lines.XCount > 0 && lines.OCount == 0))
+            {
+                this.winningPlayer = Player.X;
+            }
+            else
+            {
+                this.winningPlayer = Player.None;
+            }
         }
         public Player CurrentPlayer => this.currentPlayer;
         public MoveCollection Moves => this.moveHistory;

@@ -191,6 +191,33 @@ namespace Quixo
         private void GameArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Point p = e.GetPosition(GameArea);
+            //converting the points from the original canvas
+            //x,y to more general points that can be used in
+            //all the functions.
+            p.X = (int)p.X;
+            p.Y = (int)p.Y;
+            (p.X, p.Y) = FromCanvasCordsToBoardCords(p.X, p.Y);
+            p.Y = 4 - p.Y;
+                System.Drawing.Point dp = new System.Drawing.Point((int)p.X, (int)p.Y);
+            if (boardState == BoardState.WaitingForSourcePieceSelection)
+            {
+                srcP = dp;
+                if (validSources.Contains(dp) == true)
+                {
+                    HightlightpossibleDestPieces(dp);
+                    boardState = BoardState.WaitingForDestanetionPiece;
+                }
+            }
+             if (boardState == BoardState.WaitingForDestanetionPiece)
+            {
+                if (validDestanation.Contains(dp) == true)
+                {
+                    board.MovePiece(srcP,dp);
+                        this.DrawBoard();
+                    boardState = BoardState.WaitingForSourcePieceSelection;
+                }
+            }//NOTE should switch between the if`s placement
+            
         }
         private void HightlightSelectedPiece(System.Drawing.Point src)
         {

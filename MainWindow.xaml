@@ -12,15 +12,27 @@
         <Label Content="Quixo" Height="72" Canvas.Left="12" Canvas.Top="11" Width="116" Foreground="#FF765252" FontSize="36" FontWeight="Bold" FontStyle="Normal"/>
         <Label Content="winning player - " Canvas.Left="14" Canvas.Top="96"/>
         <Label Content="current player - " Canvas.Left="20" Canvas.Top="68"/>
-        <Button Content="About" Height="47" Canvas.Left="15" Canvas.Top="364" Width="86" Style="{StaticResource buttonStyle3}" Click="Button_Click_1"/>
-        <Button Content="Game rules" Height="47" Width="114" FontSize="20" FontFamily="Segoe UI Bold" Style="{StaticResource ButtonStyle}" Canvas.Left="8" Canvas.Top="303" Click="Button_Click"/>
-        <DataGrid Height="386" Width="176" AlternatingRowBackground="LightSalmon" CanUserAddRows="False" d:ItemsSource="{d:SampleData ItemCount=15}" Canvas.Left="605" Canvas.Top="4">
+        <Button Content="About" Height="47" Canvas.Left="16" Canvas.Top="339" Width="86" Style="{StaticResource buttonStyle3}" Click="about_button"/>
+        <Button Content="Game rules" Height="47" Width="114" FontSize="20" FontFamily="Segoe UI Bold" Style="{StaticResource ButtonStyle}" Canvas.Left="6" Canvas.Top="278" Click="Button_Click"/>
+        <DataGrid x:Name="MoveTable" Height="386" Width="188" AlternatingRowBackground="LightSalmon" CanUserAddRows="False" Canvas.Left="605" Canvas.Top="6" SelectionChanged="MoveTable_SelectionChanged">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#FF765252"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontSize" Value="16"/>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="number">
-                </DataGridTextColumn>
+                <DataGridTextColumn Header="player" Binding="{Binding player}" />
+                <DataGridTextColumn Header="source" Binding="{Binding source}" />
+                <DataGridTextColumn Header="destination" Binding="{Binding destination}" />
+
 
             </DataGrid.Columns>
-        
+
         </DataGrid>
     </Canvas>
 </Window>

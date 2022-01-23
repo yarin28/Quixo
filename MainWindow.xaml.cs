@@ -54,7 +54,6 @@ namespace Quixo
             List<Piece> points = board.EfficiantBoradDrawAllPoints();
             foreach (Piece p in points)
             {
-                int x, y;
                 if (p.Player == Player.X) DrawCross(p.Position.X, p.Position.Y);
                 else DrawCircle(p.Position.X, p.Position.Y);
             }

@@ -205,6 +205,8 @@ namespace Quixo
                         this.DrawBoard();
                     boardState = BoardState.WaitingForSourcePieceSelection;
                     HightlightpossibleSourcePieces();
+                    //HACK for preformence sake this better but its not opp
+                    MoveTable.Items.Add(new PrintableMove(board.CurrentPlayer,srcP,dp));
                 }
             }//NOTE should switch between the if`s placement
             
@@ -244,9 +246,36 @@ namespace Quixo
             throw new NotImplementedException();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void about_button(object sender, RoutedEventArgs e)
         {
+            About win2 = new About();
+                win2.Show();
+        }
+        public class PrintableMove
+        {
+            public string player
+                { get; set; }
+        public string source
+            { get; set; }
+            public string destination
+            { get; set; }
+            public PrintableMove(Move mov)
+            {
+                this.player = mov.Player.ToString();
+                this.source = mov.Source.ToString();
+                this.destination = mov.Destination.ToString();
+            }
 
+            public PrintableMove(Player player,System.Drawing.Point source, System.Drawing.Point dest)
+            {
+                this.player = player.ToString();
+                this.source = source.ToString();
+                this.destination = dest.ToString();
+            }
+        }
+
+        private void MoveTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
             throw new NotImplementedException();
         }
     }

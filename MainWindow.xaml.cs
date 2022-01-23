@@ -204,6 +204,7 @@ namespace Quixo
                     board.MovePiece(srcP,dp);
                         this.DrawBoard();
                     boardState = BoardState.WaitingForSourcePieceSelection;
+                    HightlightpossibleSourcePieces();
                 }
             }//NOTE should switch between the if`s placement
             

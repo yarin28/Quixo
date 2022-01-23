@@ -238,6 +238,17 @@ namespace Quixo
             int BoardY = (int)y / Consts.PieceSize;
             return (BoardX, BoardY);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+            throw new NotImplementedException();
+        }
     }
 }
 

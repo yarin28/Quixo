@@ -24,19 +24,9 @@ namespace Quixo
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            board.SetPiece(3, 3, Player.O);
-            board.SetPiece(4, 4, Player.O);
-            board.SetPiece(2, 2, Player.O);
-            board.SetPiece(1, 1, Player.O);
-            List<System.Drawing.Point> points =  board.EfficiantBoardDrawCrossPoints();
-            points.AddRange(board.EfficiantBoardDrawCirclePoints());
-            foreach (System.Drawing.Point p in points)
-                {
-                int x, y;
-                //(x,y) = FromBoardCordsToCanvasCords((double)p.X,(double)p.Y);
-                DrawCross(p.X, p.Y);
-            }
-            DrawBoardLines(400, 400);
+
+            DrawBoard();
+            HightlightpossibleSourcePieces();
             //DrawCross(0, 0);
             //DrawCircle(80, 80);
             //DrawCircle(160, 80);

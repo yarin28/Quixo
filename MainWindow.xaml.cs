@@ -18,9 +18,25 @@ namespace Quixo
         List<System.Drawing.Point> validSources;
         List<System.Drawing.Point> validDestanation;
         System.Drawing.Point srcP;
+        public string GetCurrentPlayer
+        {
+            get
+            {
+                return board.CurrentPlayer.ToString();
+            }
+        }
+
+        public string GetWinningPlayer
+        {
+            get
+            {
+                return board.WinningPlayer.ToString();
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
@@ -207,6 +223,8 @@ namespace Quixo
                     HightlightpossibleSourcePieces();
                     //HACK for preformence sake this better but its not opp
                     MoveTable.Items.Add(new PrintableMove(board.CurrentPlayer,srcP,dp));
+                    currentPlayerLable.Content = board.CurrentPlayer.ToString();
+                    winningPlayerLable.Content = board.WinningPlayer.ToString();
                 }
             }//NOTE should switch between the if`s placement
             

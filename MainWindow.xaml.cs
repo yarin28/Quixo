@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -243,10 +243,11 @@ namespace Quixo
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            About win2 = new About();
+                win2.Show();
         }
 
-        private void about_button(object sender, RoutedEventArgs e)
+        private void GameRules_button(object sender, RoutedEventArgs e)
         {
             About win2 = new About();
                 win2.Show();

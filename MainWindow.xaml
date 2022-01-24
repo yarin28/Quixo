@@ -12,7 +12,7 @@
         <Label Content="Quixo" Height="72" Canvas.Left="12" Canvas.Top="11" Width="116" Foreground="#FF765252" FontSize="36" FontWeight="Bold" FontStyle="Normal"/>
         <Label Content="winning player - " Canvas.Left="14" Canvas.Top="96"/>
         <Label Content="current player - " Canvas.Left="20" Canvas.Top="68"/>
-        <Button Content="About" Height="47" Canvas.Left="16" Canvas.Top="339" Width="86" Style="{StaticResource buttonStyle3}" Click="about_button"/>
+        <Button Content="Game Rules" Height="47" Canvas.Left="16" Canvas.Top="339" Width="86" Style="{StaticResource buttonStyle3}" Click="GameRules_button"/>
         <Button Content="Game rules" Height="47" Width="114" FontSize="20" FontFamily="Segoe UI Bold" Style="{StaticResource ButtonStyle}" Canvas.Left="6" Canvas.Top="278" Click="Button_Click"/>
         <DataGrid x:Name="MoveTable" Height="386" Width="188" AlternatingRowBackground="LightSalmon" CanUserAddRows="False" Canvas.Left="605" Canvas.Top="6" SelectionChanged="MoveTable_SelectionChanged">
             <DataGrid.Resources>

@@ -30,6 +30,9 @@ namespace Quixo
             get { return @"https://img.fruugo.com/product/3/95/143031953_max.jpg"; }
         }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

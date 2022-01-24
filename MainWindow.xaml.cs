@@ -18,9 +18,25 @@ namespace Quixo
         List<System.Drawing.Point> validSources;
         List<System.Drawing.Point> validDestanation;
         System.Drawing.Point srcP;
+        public string GetCurrentPlayer
+        {
+            get
+            {
+                return board.CurrentPlayer.ToString();
+            }
+        }
+
+        public string GetWinningPlayer
+        {
+            get
+            {
+                return board.WinningPlayer.ToString();
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
@@ -204,6 +220,11 @@ namespace Quixo
                     board.MovePiece(srcP,dp);
                         this.DrawBoard();
                     boardState = BoardState.WaitingForSourcePieceSelection;
+                    HightlightpossibleSourcePieces();
+                    //HACK for preformence sake this better but its not opp
+                    MoveTable.Items.Add(new PrintableMove(board.CurrentPlayer,srcP,dp));
+                    currentPlayerLable.Content = board.CurrentPlayer.ToString();
+                    winningPlayerLable.Content = board.WinningPlayer.ToString();
                 }
             }//NOTE should switch between the if`s placement
             
@@ -236,6 +257,45 @@ namespace Quixo
             int BoardX = (int)x / Consts.PieceSize;
             int BoardY = (int)y / Consts.PieceSize;
             return (BoardX, BoardY);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            About win2 = new About();
+                win2.Show();
+        }
+
+        private void GameRules_button(object sender, RoutedEventArgs e)
+        {
+            About win2 = new About();
+                win2.Show();
+        }
+        public class PrintableMove
+        {
+            public string player
+                { get; set; }
+        public string source
+            { get; set; }
+            public string destination
+            { get; set; }
+            public PrintableMove(Move mov)
+            {
+                this.player = mov.Player.ToString();
+                this.source = mov.Source.ToString();
+                this.destination = mov.Destination.ToString();
+            }
+
+            public PrintableMove(Player player,System.Drawing.Point source, System.Drawing.Point dest)
+            {
+                this.player = player.ToString();
+                this.source = source.ToString();
+                this.destination = dest.ToString();
+            }
+        }
+
+        private void MoveTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

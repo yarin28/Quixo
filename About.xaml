@@ -1,4 +1,4 @@
-﻿<Window x:Class="Quixo.About"
+<Window x:Class="Quixo.About"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,6 +10,16 @@
         <TabItem Header="TabItem">
             <Grid Background="#FFE5E5E5">
                 <Image x:Name="image1" Source ="{Binding MyPic }" Grid.Row="0"></Image>
+                <TextBlock HorizontalAlignment="Left" Margin="3,4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="195" Text="LET'S PLAY QUIXO!" Foreground="#FF8A3535" FontSize="22"/>
+                <TextBlock HorizontalAlignment="Left" Margin="198,8,0,0" TextWrapping="Wrap" Text=" I Rules of the game (the figures mentioned are on the next page)" VerticalAlignment="Top" Height="73" Width="203"/>
+                <TextBlock HorizontalAlignment="Left" Margin="395,37,0,0" TextWrapping="Wrap" Text="the 25 cubes are placed in the middle of the board, with a blank top face (fig 2). The two players choose together who plays with the crosses, who plays with the circles and who starts" VerticalAlignment="Top" Height="49" Width="360"/>
+                <TextBlock HorizontalAlignment="Left" Margin="3,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="255"><Run Text="Create a horizontal, vertical or diagonal line with 5 cubes bearing your symbol (fig 5.)"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Margin="6,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="278" Width="482"><Run Text="In turn each player chooses a cube and moves it using the 3 following stages. In no event can a player miss a turn."/><LineBreak/><Run/><LineBreak/><Run Text="1.       Choose and take a cube: The player chooses and takes a blank cube or a cube bearing his symbol from the periphery of the board (fig 3). For the first round of the game, players can only choose a blank cube. A player can never take a cube bearing his opponent's symbol."/><LineBreak/><Run/><LineBreak/><Run Text="2.       Changing the cube's symbol. Whether the cube is blank or already bears the player's symbol, it will always be returned with the player's symbol on its top face."/><LineBreak/><Run/><LineBreak/><Run Text="3.       Putting the cube back: the player replaces the cube at the extremity of one the incomplete rows created when he took it; he pushes on this extremity to replace the cube. A player can never return a cube he has played to where he took it from. Fig 4: the cube can be replaced on the board by pushing on A, B or C."/></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Margin="-4,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="241" Foreground="#FF8A3535" FontSize="22"><Run Text=" ► The aim of the game"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Margin="3,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="195" Foreground="#FF8A3535" FontSize="22"><Run Text="► Getting started:"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Margin="542,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="248" Text="► The end of the game: " Foreground="#FF8A3535" FontSize="22"/>
+                <TextBlock HorizontalAlignment="Left" Margin="394,1,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="195" Foreground="#FF8A3535" FontSize="22" Text="Preparation"/>
+                <TextBlock HorizontalAlignment="Left" Margin="545,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="280" Width="246" Text="The winner is the player who creates and announces a horizontal, vertical or diagonal line with 5 cubes bearing his symbol. A player who creates a line of the opponent's symbols loses the game, even if he has created a line of his own symbol at the same time. Variations: Playing teams: The players are in teams of two, the team members face each other, each playing on his turn in a clockwise direction. The players agree whether conferring is permitted before the game starts."/>
             </Grid>
         </TabItem>
         <TabItem Header="TabItem">

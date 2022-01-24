@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -27,7 +27,9 @@ namespace Quixo
         }
         public string MyPic
         {
-            get { return @"http://www.clipartkid.com/images/817/pic-of-german-flag-clipart-best-VkuN37-clipart.jpeg"; }
+            get { return @"https://img.fruugo.com/product/3/95/143031953_max.jpg"; }
+        }
+
         }
     }
 }

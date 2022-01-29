@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Quixo"
         mc:Ignorable="d"
-        Title="Quxio" Height="450" Width="800" ContentRendered="Window_ContentRendered"  >
+        Title="Quxio" Height="450" Width="800" ContentRendered="Window_ContentRendered"
+        >
 
     <Canvas Name="mainWinow" ClipToBounds="True"  Background="#E1E1E1" >
         <Canvas Name="GameArea" ClipToBounds="True" Width="400" Height="400" MouseLeftButtonDown="GameArea_MouseLeftButtonDown" Background="#E1c16E" Canvas.Left="202" Canvas.Top="4" HorizontalAlignment="Center" VerticalAlignment="Center"  />
         <Label Content="Quixo" Height="72" Canvas.Left="12" Canvas.Top="11" Width="116" Foreground="#FF765252" FontSize="36" FontWeight="Bold" FontStyle="Normal"/>
         <Label Content="winning player - " Canvas.Left="10" Canvas.Top="94" FontWeight="Bold"/>
         <Label Content="current player - " Canvas.Left="11" Canvas.Top="67" FontWeight="Bold"/>
-        <Button Content="Game Rules" Height="47" Canvas.Left="10" Canvas.Top="377" Width="86" Style="{StaticResource buttonStyle3}" Click="GameRules_button"/>
         <Button Content="Game rules" Height="47" Width="114" FontSize="20" FontFamily="Segoe UI Bold" Style="{StaticResource RoundCorner}" Canvas.Left="10" Canvas.Top="325" Click="Button_Click"/>
         <DataGrid x:Name="MoveTable" Height="420" Width="188" AlternatingRowBackground="LightSalmon" CanUserAddRows="False" Canvas.Left="602" Canvas.Top="4" SelectionChanged="MoveTable_SelectionChanged">
             <DataGrid.Resources>
@@ -36,5 +36,6 @@
         </DataGrid>
         <Label Name="currentPlayerLable" Content="{Binding GetCurrentPlayer}" Canvas.Left="105" Canvas.Top="59" FontWeight="Bold" FontStyle="Normal" FontSize="18" Height="35" Width="66" Foreground="#FFB04737" RenderTransformOrigin="0.635,0.716"/>
         <Label Name="winningPlayerLable" Content="{Binding GetWinningPlayer}" Canvas.Left="112" Canvas.Top="86" Foreground="#FFB04737" FontWeight="Bold" FontStyle="Normal" FontSize="18" Height="34" Width="66"/>
+        <Button Content="about" Height="40" Canvas.Left="12" Canvas.Top="379" Width="54" Click="Button_Click_1"/>
     </Canvas>
 </Window>

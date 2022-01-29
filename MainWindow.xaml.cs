@@ -40,15 +40,18 @@ namespace Quixo
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-
-            DrawBoard();
-            HightlightpossibleSourcePieces();
+            DrawStartGame();
             //DrawCross(0, 0);
             //DrawCircle(80, 80);
             //DrawCircle(160, 80);
             //ErasePiece(1,1);
             //Highlight(0,0);
             //ErasePiece(0, 0);
+        }
+        private void DrawStartGame()
+        {
+            DrawBoard();
+            HightlightpossibleSourcePieces();
         }
         public void HightlightpossibleSourcePieces()
         {
@@ -227,6 +230,13 @@ namespace Quixo
                     winningPlayerLable.Content = board.WinningPlayer.ToString();
                 }
             }//NOTE should switch between the if`s placement
+             if(this.board.WinningPlayer != Player.None)
+            {
+                GameWon g = new GameWon(this.board.WinningPlayer.ToString());
+                g.Show();
+                this.board.Reset();
+                DrawStartGame();
+            }
             
         }
         private void HightlightSelectedPiece(System.Drawing.Point src)
@@ -261,13 +271,13 @@ namespace Quixo
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            About win2 = new About();
+            GameRules win2 = new GameRules();
                 win2.Show();
         }
 
         private void GameRules_button(object sender, RoutedEventArgs e)
         {
-            About win2 = new About();
+            GameRules win2 = new GameRules();
                 win2.Show();
         }
         public class PrintableMove
@@ -296,6 +306,12 @@ namespace Quixo
         private void MoveTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            About w = new About();
+            w.Show();
         }
     }
 }

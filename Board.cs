@@ -257,7 +257,7 @@ namespace Quixo
                 throw;
             }
         }
-        private Player GetPiece(int x, int y)
+        public Player GetPiece(int x, int y)
         {
             return GetPiece(new Point(x,y));
         }
@@ -407,7 +407,7 @@ namespace Quixo
                return pieces;
             
         }
-        private Board Clone()
+        public Board Clone()
         {
             return new Board
             {

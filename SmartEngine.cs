@@ -15,6 +15,31 @@ namespace Quixo
         private const int WinningLine = int.MaxValue;
 		private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
+         public Move GenerateMove(Board board)
+        {
+			watch.Start();
+			int bestValue = int.MinValue;
+            Move generatedMove = null;
+            foreach (var source in board.GetValidSourcePieces())
+            {
+                foreach (var destanation in board.GetValidDestinationPieces(source))
+                {
+                    var nextMoveBoard = ((Board)board.Clone());
+                    nextMoveBoard.MovePiece(source, destanation);
+                    var possibleBestMove = this.MiniMaxWithAlphaBeta(nextMoveBoard, board.CurrentPlayer, false, 1, int.MinValue, int.MaxValue);
+                    if (possibleBestMove > bestValue || (possibleBestMove >= bestValue && generatedMove == null))
+                    {
+                        bestValue = possibleBestMove;
+                        generatedMove = new Move(board.CurrentPlayer, source, destanation);
+                    }
+
+                }
+            }
+			watch.Stop();
+			Trace.WriteLine($"Execution Time:{watch.ElapsedMilliseconds} ms");
+			//TODO: the function can return null, add a check for that 
+			return generatedMove;
+        }
 		private int MiniMaxWithAlphaBeta(Board board, Player currentPlayer, bool isMaximizing, int depth, int alpha, int beta)
 		{
 			//TODO: maybe the var deceleration could save memory

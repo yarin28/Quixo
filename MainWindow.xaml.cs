@@ -214,6 +214,11 @@ namespace Quixo
                     currentPlayerLable.Content = board.CurrentPlayer.ToString();
                     winningPlayerLable.Content = board.WinningPlayer.ToString();
                 }
+                else
+                {
+                    boardState = BoardState.WaitingForSourcePieceSelection;
+                    HightlightpossibleSourcePieces();
+                }
             }//NOTE should switch between the if`s placement
             
         private static Point acquireBoardPointsFromSystemWindowsPoint(Point p)

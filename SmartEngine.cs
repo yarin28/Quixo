@@ -15,6 +15,39 @@ namespace Quixo
         private const int WinningLine = int.MaxValue;
 		private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
+        public int Evaluate(Board board)
+        {
+			     var evaluation = 0;
+				 //NOTE: the game is won.
+				 if(board.WinningPlayer!=Player.None)
+				 {
+					 if(board.Moves.Count>0)
+					 {
+						 var lastMove = board.Moves.Last();
+						 if(lastMove.Player==board.WinningPlayer)
+						 {
+							 evaluation = WinningLine;
+						 }
+						 else
+						 {
+							 evaluation = LosingLine;
+						 }
+					 }
+				 }
+				 else//NOTE: the game is in progress
+				 {
+					evaluation = this.EvaluateHorizontalLines(board,evaluation);
+					if(evaluation!=LosingLine&&evaluation!=WinningLine)
+					{
+						evaluation = this.EvaluateVerticalLines(board,evaluation);
+					}
+					if(evaluation!=LosingLine&&evaluation!=WinningLine)
+					{
+						evaluation = this.EvaluateDiagonalLines(board,evaluation);
+					}
+				 }
+				 return evaluation;
+        }
         //the Evaluate function must reword 2 things
 		//1- the number of pieces of the current player
 		//2- the connections between the pieces of the current player

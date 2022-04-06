@@ -15,6 +15,60 @@ namespace Quixo
         private const int WinningLine = int.MaxValue;
 		private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
+		private int MiniMaxWithAlphaBeta(Board board, Player currentPlayer, bool isMaximizing, int depth, int alpha, int beta)
+		{
+			//TODO: maybe the var deceleration could save memory
+			int evaluation = 0;
+			if(depth>=DepthLimit||board.WinningPlayer!=Player.None)
+			{
+
+				evaluation = this.Evaluate(board,currentPlayer);
+				if(board.CurrentPlayer!=Player.None&&board.CurrentPlayer!=currentPlayer)
+				{
+					evaluation*=-1;
+				}
+			else if(board.CurrentPlayer==Player.None&&board.WinningPlayer!=currentPlayer)
+				{
+					evaluation*=-1;
+				}
+			}
+			else
+			{
+				//?NOTE: here i will be using the var declaration just for fun.
+				var nextEvaluation = 0;
+				foreach(var source in board.GetValidSourcePieces())
+				{
+					foreach(var destination in board.GetValidDestinationPieces(source))
+					{
+						//Trace.WriteLine(String.Format("{0}{1}{2}",source.ToString(), destination.ToString(),depth.ToString()));
+						var nextMoveBoard = ((Board)board.Clone());
+						nextMoveBoard.MovePiece(source,destination);
+						var newDepth = depth;
+						nextEvaluation = this.MiniMaxWithAlphaBeta(nextMoveBoard,currentPlayer,!isMaximizing,++newDepth,alpha,beta);
+						if(alpha>beta)
+						{
+							break;
+						}
+						else if (isMaximizing==false&&nextEvaluation<beta)
+						{
+							beta = nextEvaluation;
+						}
+						else if (isMaximizing==true&&nextEvaluation>alpha)
+						{
+							alpha = nextEvaluation;
+						}
+					}
+					if(alpha>beta)
+					{
+						break;
+					}
+				}
+				evaluation = isMaximizing?alpha:beta;
+
+			}
+			return evaluation;
+		}
+
 		public int Evaluate(Board board, Player currentPlayer)
 		{
 			int evaluation;

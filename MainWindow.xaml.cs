@@ -18,6 +18,7 @@ namespace Quixo
         List<System.Drawing.Point> validSources;
         List<System.Drawing.Point> validDestanation;
         System.Drawing.Point srcP;
+        SmartEngine robot = new SmartEngine();
         public string GetCurrentPlayer
         {
             get

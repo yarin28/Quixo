@@ -220,7 +220,19 @@ namespace Quixo
                     HightlightpossibleSourcePieces();
                 }
             }//NOTE should switch between the if`s placement
-            
+            //NOTE: big bad hack
+             if (board.CurrentPlayer == Player.O)
+            {
+
+                Move robotMove = robot.GenerateMove(board);
+                this.board.MovePiece(robotMove.Source, robotMove.Destination);
+                    this.DrawBoard();
+                    HightlightpossibleSourcePieces();
+                    MoveTable.Items.Add(new PrintableMove(robotMove));
+                    currentPlayerLable.Content = board.CurrentPlayer.ToString();
+                    winningPlayerLable.Content = board.WinningPlayer.ToString();
+            }
+        }
         private static Point acquireBoardPointsFromSystemWindowsPoint(Point p)
         {
             //converting the points from the original canvas

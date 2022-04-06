@@ -15,6 +15,27 @@ namespace Quixo
         private const int WinningLine = int.MaxValue;
 		private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
+		public int Evaluate(Board board, Player currentPlayer)
+		{
+			int evaluation;
+			if(board.WinningPlayer!=Player.None)
+			{
+				if(board.WinningPlayer==currentPlayer)
+				{
+					evaluation = WinningLine;
+				}
+				else
+				{
+					evaluation = LosingLine;
+				}
+			}
+			else
+			{
+				evaluation = this.Evaluate(board);
+			}
+			return evaluation;
+		}
+
         public int Evaluate(Board board)
         {
 			     var evaluation = 0;

@@ -201,16 +201,16 @@ namespace Quixo
                     boardState = BoardState.WaitingForDestanetionPiece;
                 }
             }
-             if (boardState == BoardState.WaitingForDestanetionPiece)
+            else if (boardState == BoardState.WaitingForDestanetionPiece)
             {
                 if (validDestanation.Contains(dp) == true)
                 {
-                    board.MovePiece(srcP,dp);
-                        this.DrawBoard();
+                    MoveTable.Items.Add(new PrintableMove(board.CurrentPlayer, srcP, dp));
+                    board.MovePiece(srcP, dp);
+                    this.DrawBoard();
                     boardState = BoardState.WaitingForSourcePieceSelection;
                     HightlightpossibleSourcePieces();
-                    //HACK for preformence sake this better but its not opp
-                    MoveTable.Items.Add(new PrintableMove(board.CurrentPlayer,srcP,dp));
+                    //HACK for preference sake this better but its not opp
                     currentPlayerLable.Content = board.CurrentPlayer.ToString();
                     winningPlayerLable.Content = board.WinningPlayer.ToString();
                 }

@@ -295,5 +295,69 @@ namespace Quixo
 
 			return diagonalEvaluation;
 		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="currentPlayer"></param>
+        /// <returns>
+        /// returns value base on number of consecrative tiles on each row, column, and both of the diagonal for <see cref="Board" /> board <see cref="Player"/> currentPlayer
+        /// </returns>
+        private static int CountConsecutive(Board board, Player currentPlayer)
+        {
+            //TODO: this is bad i have no idea what is happening here should use bit board for this!
+            int r = 0;
+            int nr = 0;
+            int mod = 2;
+            int nMod = 1;
+            //horizontal
+            for (int y = 0; y < 5; y++)
+            {
+                int inRow = 0;
+                int nInRow = 0;
+                for (int x = 0; x < 5; x++)
+                {
+                    Player piecePlayer = board.GetPiece(new Point(x, y));
+                    if (Player.None == piecePlayer)
+                    {
+                        if (piecePlayer == currentPlayer)
+                        {
+                            inRow++;
+                        }
+                        else
+                        {
+                            nInRow++; ;
+                        }
+                    }
+                    r += inRow * inRow;
+                    nr += nInRow * nInRow;
+                }
+            }
+
+            for (int x = 0; x < 5; x++)
+            {
+                int inCol = 0;
+                int nInCol = 0;
+                for (int y = 0; y < 5; y++)
+                {
+                    Player piecePlayer = board.GetPiece(new Point(x, y));
+                    if (Player.None == piecePlayer)
+                    {
+                        if (piecePlayer == currentPlayer)
+                        {
+                            inCol++;
+                        }
+                        else
+                        {
+                            nInCol++;
+                        }
+                    }
+                    r += inCol * inCol;
+                    nr += nInCol * nInCol;
+                }
+            }
+
+            return r - nr;
+        }
     }
 }

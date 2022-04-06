@@ -187,7 +187,7 @@ namespace Quixo
                 GameArea.Children.Add(myLine);
             }
         }
-        private void GameArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Click(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Point p = e.GetPosition(GameArea);
             p = acquireBoardPointsFromSystemWindowsPoint(p);

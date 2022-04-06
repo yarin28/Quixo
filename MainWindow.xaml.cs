@@ -43,12 +43,6 @@ namespace Quixo
 
             DrawBoard();
             HightlightpossibleSourcePieces();
-            //DrawCross(0, 0);
-            //DrawCircle(80, 80);
-            //DrawCircle(160, 80);
-            //ErasePiece(1,1);
-            //Highlight(0,0);
-            //ErasePiece(0, 0);
         }
         public void HightlightpossibleSourcePieces()
         {

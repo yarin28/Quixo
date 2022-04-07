@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -17,6 +17,7 @@ namespace Quixo
 
          public Move GenerateMove(Board board)
         {
+			watch.Reset();
 			watch.Start();
 			int bestValue = int.MinValue;
             Move generatedMove = null;

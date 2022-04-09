@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Quixo"
         mc:Ignorable="d"
-        Title="ChooseColorAndOpponent" Height="450" Width="800">
+        Title="ChooseColorAndOpponent" Height="450" Width="800"
+        Background="#9fc088"
+        >
     <Grid>
-        <Label Content="Type of player" HorizontalAlignment="Left" Margin="49,52,0,0" VerticalAlignment="Top" Width="167"/>
-        <RadioButton Content="Circle" GroupName="typeOfPiece" HorizontalAlignment="Left" Margin="97,94,0,0" VerticalAlignment="Top" Checked="CirclePieceClicked"/>
-        <RadioButton Content="Cross" GroupName="typeOfPiece" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Checked="CrossPieceClicked"/>
-        <Label Content="choose the type of game to be played" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top"/>
-        <RadioButton Content="Human vs Human" GroupName="typeOfGame" HorizontalAlignment="Left" Margin="34,202,0,0" VerticalAlignment="Top" Checked="HumanVsHumanButtonClicked"/>
-        <RadioButton Content="Human vs AI" GroupName="typeOfGame" HorizontalAlignment="Left" Margin="175,202,0,0" VerticalAlignment="Top" Checked="HumanVsAiButtonClicked"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="370,321,0,0" VerticalAlignment="Top" Click="WindowSubmit"/>
+        <Label Foreground="#614124" Content="Type of player - " HorizontalAlignment="Left" Margin="0,55,0,0" VerticalAlignment="Top" Width="167" FontWeight="Bold" FontSize="18"/>
+        <RadioButton Foreground="#614124" FontSize="14"  Content="Circle" GroupName="typeOfPiece" HorizontalAlignment="Left" Margin="34,117,0,0" VerticalAlignment="Top" Checked="CirclePieceClicked"/>
+        <RadioButton Foreground="#614124" FontSize="14" Content="Cross" GroupName="typeOfPiece" HorizontalAlignment="Left" Margin="34,94,0,0" VerticalAlignment="Top" Checked="CrossPieceClicked"/>
+        <Label Foreground="#614124" Content="choose the type of game to be played - " HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <RadioButton  Foreground="#614124" FontSize="14" Content="Human vs Human" GroupName="typeOfGame" HorizontalAlignment="Left" Margin="34,190,0,0" VerticalAlignment="Top" Checked="HumanVsHumanButtonClicked"/>
+        <RadioButton   Foreground="#614124" FontSize="14" Content="Human vs AI" GroupName="typeOfGame" HorizontalAlignment="Left" Margin="35,217,0,0" VerticalAlignment="Top" Checked="HumanVsAiButtonClicked"/>
+        <Button Content="StartTheGame!" FontSize="20" Background="#CC704b" HorizontalAlignment="Left" Margin="370,321,0,0" VerticalAlignment="Top" Click="WindowSubmit" FontWeight="Bold"/>
 
     </Grid>
 </Window>

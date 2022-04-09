@@ -7,17 +7,17 @@
         xmlns:local="clr-namespace:Quixo"
         mc:Ignorable="d"
         Title="Quxio" Height="450" Width="800" ContentRendered="Window_ContentRendered"  >
-    <Canvas Name="mainWinow" ClipToBounds="True"  Background="#8fbDD3" >
-        <Canvas Name="GameArea" ClipToBounds="True" Width="400" Height="400" MouseLeftButtonDown="Click" Background="#e4d1b9" Canvas.Left="202" Canvas.Top="4" HorizontalAlignment="Center" VerticalAlignment="Center"  />
-        <Label Content="Quixo" Height="72" Canvas.Left="12" Canvas.Top="11" Width="116" Foreground="#A97155" FontSize="36" FontWeight="Bold" FontStyle="Normal"/>
-        <Label Content="winning player - " Canvas.Left="8" Canvas.Top="137" FontWeight="Bold" Foreground="#be8c63" FontSize="16" />
-        <Label Content="current player - " Canvas.Left="7" Canvas.Top="94" FontWeight="Bold" Foreground="#be8c63" FontSize="16"/>
+    <Canvas Name="mainWinow" ClipToBounds="True"  Background="#3A3845" >
+        <Canvas Name="GameArea" ClipToBounds="True" Width="400" Height="400" MouseLeftButtonDown="Click" Background="#F7CCAC" Canvas.Left="202" Canvas.Top="4" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+        <Label Content="Quixo" Height="72" Canvas.Left="12" Canvas.Top="11" Width="116" Foreground="#C69B7B" FontSize="36" FontWeight="Bold" FontStyle="Normal"/>
+        <Label Content="winning player - " Canvas.Left="8" Canvas.Top="137" FontWeight="Bold" Foreground="#C69B7B" FontSize="16" />
+        <Label Content="current player - " Canvas.Left="7" Canvas.Top="94" FontWeight="Bold" Foreground="#C69B7B" FontSize="16"/>
         <Button Content="Game Rules" Height="47" Canvas.Left="10" Canvas.Top="377" Width="86" Style="{StaticResource buttonStyle3}" Click="GameRules_button"/>
         <Button Content="Game rules" Height="47" Width="114" FontSize="20" FontFamily="Segoe UI Bold" Style="{StaticResource RoundCorner}" Canvas.Left="10" Canvas.Top="325" Click="Button_Click"/>
-        <DataGrid x:Name="MoveTable" Height="420" Width="188" Background="#8FBDD3" AlternatingRowBackground="#BE8C63" CanUserAddRows="False" Canvas.Left="602" Canvas.Top="4" SelectionChanged="MoveTable_SelectionChanged">
+        <DataGrid x:Name="MoveTable" Height="420" Width="188" Background="#C69B7B" AlternatingRowBackground="#BE8C63" CanUserAddRows="False" Canvas.Left="602" Canvas.Top="4" SelectionChanged="MoveTable_SelectionChanged">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="#BE8c63"/>
+                    <Setter Property="Background" Value="#C69B7B"/>
                     <Setter Property="Foreground" Value="White"/>
                     <Setter Property="BorderBrush" Value="White"/>
                     <Setter Property="BorderThickness" Value="0,0,1,0"/>

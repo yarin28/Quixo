@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,11 +14,14 @@ namespace Quixo
     public partial class MainWindow : System.Windows.Window
     {
         enum BoardState { WaitingForSourcePieceSelection, WaitingForDestanetionPiece };
+        enum TypesOfPlayer { Ai, Human };
         BoardState boardState;//HACK should find a better name.
         private Board board = new Board();
         List<System.Drawing.Point> validSources;
         List<System.Drawing.Point> validDestanation;
         System.Drawing.Point srcP;
+        private TypesOfPlayer CrossPlayerType;
+        private TypesOfPlayer CirclePlayerType;
         SmartEngine robot = new SmartEngine();
         public string GetCurrentPlayer
         {
@@ -36,9 +40,49 @@ namespace Quixo
         }
         public MainWindow()
         {
+            SelectPieceAndTypeOfGameWithPopUpWindow();
             InitializeComponent();
             this.DataContext = this;
+            StartGame();
         }
+
+        private void StartGame()
+        {
+            if (CrossPlayerType==TypesOfPlayer.Ai)
+            {
+                Move robotMove = RobotMove();
+                UpdateUI(robotMove);
+            }
+        }
+
+        private void SelectPieceAndTypeOfGameWithPopUpWindow()
+        {
+            //Note: the Window object does not have all the methods that i used,
+            // so i used the object itself.
+            ChooseColorAndOpponent startWindow = new ChooseColorAndOpponent();
+            //set the players type according the startWindow options
+            startWindow.ShowDialog();
+            bool isAi = startWindow.HumanVsAi;
+            if (isAi)
+            {
+                if (startWindow.Cross)
+                {
+                    CrossPlayerType = TypesOfPlayer.Human;
+                    CirclePlayerType = TypesOfPlayer.Ai;
+                }
+                else
+                {
+                    CrossPlayerType = TypesOfPlayer.Ai;
+                    CirclePlayerType = TypesOfPlayer.Human;
+                }
+            }
+            else
+            {
+                CrossPlayerType = TypesOfPlayer.Human;
+                CirclePlayerType = TypesOfPlayer.Human;
+            }
+        }
+
         private void Window_ContentRendered(object sender, EventArgs e)
         {
 
@@ -89,9 +133,6 @@ namespace Quixo
         }
         public bool DrawCross(int x, int y)
         {
-            //TODO there is a problem that the gameArea canvas object cant be
-            //passed as a reference so the drawing must be done inside the
-            //[./MainWindow.xaml.cs]
             (x, y) = FromBoardCordsToCanvasCords(x, y);
             Line myLine = new System.Windows.Shapes.Line();
             myLine.Stroke = System.Windows.Media.Brushes.Brown;
@@ -190,6 +231,7 @@ namespace Quixo
         }
         private void Click(object sender, MouseButtonEventArgs e)
         {
+
             System.Windows.Point p = e.GetPosition(GameArea);
             p = acquireBoardPointsFromSystemWindowsPoint(p);
             System.Drawing.Point dp = new System.Drawing.Point((int)p.X, (int)p.Y);
@@ -206,34 +248,53 @@ namespace Quixo
             {
                 if (validDestanation.Contains(dp) == true)
                 {
-                    MoveTable.Items.Add(new PrintableMove(board.CurrentPlayer, srcP, dp));
-                    board.MovePiece(srcP, dp);
-                    this.DrawBoard();
+                    Move playerCurrentMove = new Move(board.CurrentPlayer, srcP, dp);
+                    board.MovePiece(playerCurrentMove.Source,playerCurrentMove.Destination  );
                     boardState = BoardState.WaitingForSourcePieceSelection;
-                    HightlightpossibleSourcePieces();
                     //HACK for preference sake this better but its not opp
-                    currentPlayerLable.Content = board.CurrentPlayer.ToString();
-                    winningPlayerLable.Content = board.WinningPlayer.ToString();
-                }
+                    UpdateUI(playerCurrentMove);
+                    //Note: maybe just declare the move as a variable and save the 2 objects that are made.
+                        }
                 else
                 {
                     boardState = BoardState.WaitingForSourcePieceSelection;
                     HightlightpossibleSourcePieces();
                 }
             }//NOTE should switch between the if`s placement
-            //NOTE: big bad hack
-             if (board.CurrentPlayer == Player.O)
+             //NOTE: big bad hack
+            if (IsCircleAi() || IsCrossAi())
             {
-
-                Move robotMove = robot.GenerateMove(board);
-                this.board.MovePiece(robotMove.Source, robotMove.Destination);
-                    this.DrawBoard();
-                    HightlightpossibleSourcePieces();
-                    MoveTable.Items.Add(new PrintableMove(robotMove));
-                    currentPlayerLable.Content = board.CurrentPlayer.ToString();
-                    winningPlayerLable.Content = board.WinningPlayer.ToString();
+                Move robotMove = RobotMove();
+                UpdateUI(robotMove);
             }
         }
+
+        private  bool IsCircleAi()
+        {
+            return board.CurrentPlayer == Player.O && this.CirclePlayerType == TypesOfPlayer.Ai;
+        }
+
+        private bool IsCrossAi()
+        {
+            return board.CurrentPlayer == Player.X && this.CrossPlayerType == TypesOfPlayer.Ai;
+        }
+
+        private void UpdateUI(Move robotMove)
+        {
+            this.DrawBoard();
+            HightlightpossibleSourcePieces();
+            MoveTable.Items.Add(new PrintableMove(robotMove));
+            currentPlayerLable.Content = board.CurrentPlayer.ToString();
+            winningPlayerLable.Content = board.WinningPlayer.ToString();
+        }
+
+        private Move RobotMove()
+        {
+            Move robotMove = robot.GenerateMove(board);
+            this.board.MovePiece(robotMove.Source, robotMove.Destination);
+            return robotMove;
+        }
+
         private static Point acquireBoardPointsFromSystemWindowsPoint(Point p)
         {
             //converting the points from the original canvas
@@ -261,7 +322,6 @@ namespace Quixo
             rec.SetValue(Canvas.LeftProperty, (double)src.X + 2);//must be changed to const
             rec.SetValue(Canvas.TopProperty, (double)src.Y + 2);
         }
-        //===================utility members======================
         private static (int, int) FromBoardCordsToCanvasCords(double x, double y)
         {
             int CanvasX = ((int)x * Consts.PieceSize);// i want to use a const but this func will be called too many time
@@ -278,19 +338,19 @@ namespace Quixo
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             About win2 = new About();
-                win2.Show();
+            win2.Show();
         }
 
         private void GameRules_button(object sender, RoutedEventArgs e)
         {
             About win2 = new About();
-                win2.Show();
+            win2.Show();
         }
         public class PrintableMove
         {
             public string player
-                { get; set; }
-        public string source
+            { get; set; }
+            public string source
             { get; set; }
             public string destination
             { get; set; }
@@ -301,7 +361,7 @@ namespace Quixo
                 this.destination = mov.Destination.ToString();
             }
 
-            public PrintableMove(Player player,System.Drawing.Point source, System.Drawing.Point dest)
+            public PrintableMove(Player player, System.Drawing.Point source, System.Drawing.Point dest)
             {
                 this.player = player.ToString();
                 this.source = source.ToString();

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -10,12 +10,12 @@ namespace Quixo
 {
     public class SmartEngine
     {
-        private const int DepthLimit = 4;
+        private const int DepthLimit = 4;//the const is faster!, but maybe its worth it to make it a real variable
         private const int LosingLine = int.MinValue;
         private const int WinningLine = int.MaxValue;
 		private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
-         public Move GenerateMove(Board board)
+        public Move GenerateMove(Board board)
         {
 			watch.Reset();
 			watch.Start();

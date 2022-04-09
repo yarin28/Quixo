@@ -18,6 +18,7 @@ namespace Quixo
         List<System.Drawing.Point> validSources;
         List<System.Drawing.Point> validDestanation;
         System.Drawing.Point srcP;
+        SmartEngine robot = new SmartEngine();
         public string GetCurrentPlayer
         {
             get
@@ -43,12 +44,6 @@ namespace Quixo
 
             DrawBoard();
             HightlightpossibleSourcePieces();
-            //DrawCross(0, 0);
-            //DrawCircle(80, 80);
-            //DrawCircle(160, 80);
-            //ErasePiece(1,1);
-            //Highlight(0,0);
-            //ErasePiece(0, 0);
         }
         public void HightlightpossibleSourcePieces()
         {
@@ -193,17 +188,11 @@ namespace Quixo
                 GameArea.Children.Add(myLine);
             }
         }
-        private void GameArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Click(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Point p = e.GetPosition(GameArea);
-            //converting the points from the original canvas
-            //x,y to more general points that can be used in
-            //all the functions.
-            p.X = (int)p.X;
-            p.Y = (int)p.Y;
-            (p.X, p.Y) = FromCanvasCordsToBoardCords(p.X, p.Y);
-            p.Y = 4 - p.Y;
-                System.Drawing.Point dp = new System.Drawing.Point((int)p.X, (int)p.Y);
+            p = acquireBoardPointsFromSystemWindowsPoint(p);
+            System.Drawing.Point dp = new System.Drawing.Point((int)p.X, (int)p.Y);
             if (boardState == BoardState.WaitingForSourcePieceSelection)
             {
                 srcP = dp;
@@ -213,21 +202,48 @@ namespace Quixo
                     boardState = BoardState.WaitingForDestanetionPiece;
                 }
             }
-             if (boardState == BoardState.WaitingForDestanetionPiece)
+            else if (boardState == BoardState.WaitingForDestanetionPiece)
             {
                 if (validDestanation.Contains(dp) == true)
                 {
-                    board.MovePiece(srcP,dp);
-                        this.DrawBoard();
+                    MoveTable.Items.Add(new PrintableMove(board.CurrentPlayer, srcP, dp));
+                    board.MovePiece(srcP, dp);
+                    this.DrawBoard();
                     boardState = BoardState.WaitingForSourcePieceSelection;
                     HightlightpossibleSourcePieces();
-                    //HACK for preformence sake this better but its not opp
-                    MoveTable.Items.Add(new PrintableMove(board.CurrentPlayer,srcP,dp));
+                    //HACK for preference sake this better but its not opp
                     currentPlayerLable.Content = board.CurrentPlayer.ToString();
                     winningPlayerLable.Content = board.WinningPlayer.ToString();
                 }
+                else
+                {
+                    boardState = BoardState.WaitingForSourcePieceSelection;
+                    HightlightpossibleSourcePieces();
+                }
             }//NOTE should switch between the if`s placement
-            
+            //NOTE: big bad hack
+             if (board.CurrentPlayer == Player.O)
+            {
+
+                Move robotMove = robot.GenerateMove(board);
+                this.board.MovePiece(robotMove.Source, robotMove.Destination);
+                    this.DrawBoard();
+                    HightlightpossibleSourcePieces();
+                    MoveTable.Items.Add(new PrintableMove(robotMove));
+                    currentPlayerLable.Content = board.CurrentPlayer.ToString();
+                    winningPlayerLable.Content = board.WinningPlayer.ToString();
+            }
+        }
+        private static Point acquireBoardPointsFromSystemWindowsPoint(Point p)
+        {
+            //converting the points from the original canvas
+            //x,y to more general points that can be used in
+            //all the functions.
+            p.X = (int)p.X;
+            p.Y = (int)p.Y;
+            (p.X, p.Y) = FromCanvasCordsToBoardCords(p.X, p.Y);
+            p.Y = 4 - p.Y;
+            return p;
         }
         private void HightlightSelectedPiece(System.Drawing.Point src)
         {

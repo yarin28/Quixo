@@ -30,7 +30,6 @@ namespace Quixo
                 return board.CurrentPlayer.ToString();
             }
         }
-
         public string GetWinningPlayer
         {
             get
@@ -43,10 +42,46 @@ namespace Quixo
             SelectPieceAndTypeOfGameWithPopUpWindow();
             InitializeComponent();
             this.DataContext = this;
-            StartGame();
         }
+        private void Click(object sender, MouseButtonEventArgs e)
+        {
 
-        private void StartGame()
+            System.Windows.Point p = e.GetPosition(GameArea);
+            p = acquireBoardPointsFromSystemWindowsPoint(p);
+            System.Drawing.Point dp = new System.Drawing.Point((int)p.X, (int)p.Y);
+            if (boardState == BoardState.WaitingForSourcePieceSelection)
+            {
+                srcP = dp;
+                if (validSources.Contains(dp) == true)
+                {
+                    HightlightpossibleDestPieces(dp);
+                    boardState = BoardState.WaitingForDestanetionPiece;
+                }
+            }
+            else if (boardState == BoardState.WaitingForDestanetionPiece)
+            {
+                if (validDestanation.Contains(dp) == true)
+                {
+                    Move playerCurrentMove = new Move(board.CurrentPlayer, srcP, dp);
+                    board.MovePiece(playerCurrentMove.Source,playerCurrentMove.Destination  );
+                    boardState = BoardState.WaitingForSourcePieceSelection;
+                    //HACK for preference sake this better but its not opp
+                    UpdateUI(playerCurrentMove);
+                        }
+                else
+                {
+                    boardState = BoardState.WaitingForSourcePieceSelection;
+                    HightlightpossibleSourcePieces();
+                }
+            }//NOTE should switch between the if`s placement
+             //NOTE: big bad hack
+            if (IsCircleAi() || IsCrossAi())
+            {
+                Move robotMove = RobotMove();
+                UpdateUI(robotMove);
+            }
+        }
+        private void StartAiFirstPlayer()
         {
             if (CrossPlayerType==TypesOfPlayer.Ai)
             {
@@ -54,7 +89,6 @@ namespace Quixo
                 UpdateUI(robotMove);
             }
         }
-
         private void SelectPieceAndTypeOfGameWithPopUpWindow()
         {
             //Note: the Window object does not have all the methods that i used,
@@ -82,13 +116,15 @@ namespace Quixo
                 CirclePlayerType = TypesOfPlayer.Human;
             }
         }
-
         private void Window_ContentRendered(object sender, EventArgs e)
         {
 
             DrawBoard();
+            StartAiFirstPlayer();
             HightlightpossibleSourcePieces();
+
         }
+        #region UI members
         public void HightlightpossibleSourcePieces()
         {
             validSources = this.board.GetValidSourcePieces();
@@ -229,56 +265,6 @@ namespace Quixo
                 GameArea.Children.Add(myLine);
             }
         }
-        private void Click(object sender, MouseButtonEventArgs e)
-        {
-
-            System.Windows.Point p = e.GetPosition(GameArea);
-            p = acquireBoardPointsFromSystemWindowsPoint(p);
-            System.Drawing.Point dp = new System.Drawing.Point((int)p.X, (int)p.Y);
-            if (boardState == BoardState.WaitingForSourcePieceSelection)
-            {
-                srcP = dp;
-                if (validSources.Contains(dp) == true)
-                {
-                    HightlightpossibleDestPieces(dp);
-                    boardState = BoardState.WaitingForDestanetionPiece;
-                }
-            }
-            else if (boardState == BoardState.WaitingForDestanetionPiece)
-            {
-                if (validDestanation.Contains(dp) == true)
-                {
-                    Move playerCurrentMove = new Move(board.CurrentPlayer, srcP, dp);
-                    board.MovePiece(playerCurrentMove.Source,playerCurrentMove.Destination  );
-                    boardState = BoardState.WaitingForSourcePieceSelection;
-                    //HACK for preference sake this better but its not opp
-                    UpdateUI(playerCurrentMove);
-                    //Note: maybe just declare the move as a variable and save the 2 objects that are made.
-                        }
-                else
-                {
-                    boardState = BoardState.WaitingForSourcePieceSelection;
-                    HightlightpossibleSourcePieces();
-                }
-            }//NOTE should switch between the if`s placement
-             //NOTE: big bad hack
-            if (IsCircleAi() || IsCrossAi())
-            {
-                Move robotMove = RobotMove();
-                UpdateUI(robotMove);
-            }
-        }
-
-        private  bool IsCircleAi()
-        {
-            return board.CurrentPlayer == Player.O && this.CirclePlayerType == TypesOfPlayer.Ai;
-        }
-
-        private bool IsCrossAi()
-        {
-            return board.CurrentPlayer == Player.X && this.CrossPlayerType == TypesOfPlayer.Ai;
-        }
-
         private void UpdateUI(Move robotMove)
         {
             this.DrawBoard();
@@ -287,14 +273,22 @@ namespace Quixo
             currentPlayerLable.Content = board.CurrentPlayer.ToString();
             winningPlayerLable.Content = board.WinningPlayer.ToString();
         }
-
+        #endregion 
+        #region utility members
+        private bool IsCircleAi()
+        {
+            return board.CurrentPlayer == Player.O && this.CirclePlayerType == TypesOfPlayer.Ai;
+        }
+        private bool IsCrossAi()
+        {
+            return board.CurrentPlayer == Player.X && this.CrossPlayerType == TypesOfPlayer.Ai;
+        }
         private Move RobotMove()
         {
             Move robotMove = robot.GenerateMove(board);
             this.board.MovePiece(robotMove.Source, robotMove.Destination);
             return robotMove;
         }
-
         private static Point acquireBoardPointsFromSystemWindowsPoint(Point p)
         {
             //converting the points from the original canvas
@@ -334,13 +328,11 @@ namespace Quixo
             int BoardY = (int)y / Consts.PieceSize;
             return (BoardX, BoardY);
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             About win2 = new About();
             win2.Show();
         }
-
         private void GameRules_button(object sender, RoutedEventArgs e)
         {
             About win2 = new About();
@@ -368,18 +360,11 @@ namespace Quixo
                 this.destination = dest.ToString();
             }
         }
-
         private void MoveTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }
 
-/*
- * NOTES-
- * clear all the board => GameArea.Children.Clear();
- * 
- * 
- * 
- */

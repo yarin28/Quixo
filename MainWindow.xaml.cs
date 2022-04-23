@@ -78,10 +78,10 @@ namespace Quixo
                 Move robotMove = RobotMove();
                 UpdateUI(robotMove);
             }
-            OnePlayerWon();
+            ifOnePlayerWon();
         }
 
-        private void OnePlayerWon()
+        private void ifOnePlayerWon()
         {
             if (this.board.WinningPlayer != Player.None)
             {

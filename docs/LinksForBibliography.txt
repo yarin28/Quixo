@@ -9,3 +9,10 @@ https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messa
 https://stackoverflow.com/questions/47904471/visual-studio-debugger-displaying-integer-values-in-binary
 https://stackoverflow.com/questions/34403009/how-to-clear-the-contents-of-a-canvas-in-wpf/3440649
 https://stackoverflow.com/questions/5671493/adding-listt-add-another-list
+https://stackoverflow.com/questions/5255086/when-do-we-need-to-set-processstartinfo-useshellexecute-to-true
+https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo.useshellexecute?view=net-6.0
+https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.process?view=net-6.0
+https://stackoverflow.com/questions/10238694/example-using-hyperlink-in-wpf
+https://stackoverflow.com/questions/14881683/wpf-automatic-resize-font-until-it-fits-within-parent-control
+https://wpf-tutorial.com/misc-controls/the-expander-control/
+https://www.ultraboardgames.com/quixo/game-rules.php

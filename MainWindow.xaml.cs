@@ -77,6 +77,7 @@ namespace Quixo
              //NOTE: big bad hack
             if (IsCircleAi() || IsCrossAi())
             {
+                UpdateUI(robotMove);
                 Move robotMove = RobotMove();
                 UpdateUI(robotMove);
             }
@@ -368,6 +369,12 @@ namespace Quixo
         private void MoveTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            About w = new About();
+            w.Show();
         }
         #endregion
     }

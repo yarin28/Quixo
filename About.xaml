@@ -5,12 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Quixo"
         mc:Ignorable="d"
-        Title="About" Height="200" Width="400">
-    <Grid>
-        <Label Name="Name" Content="Label" Margin="10,37,-10,-37"/>
-        <Label Name="GithubLink" Content="Label" Margin="10,61,-10,-61"/>
-        <Label Name="Date" Content="Label" Margin="10,92,-10,-92"/>
-        <Label x:Name="about" Content="About"  FontWeight="Bold"/>
-
+        Title="About" Height="326" Width="645">
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+    </Window.Style>
+    <Window.Background>
+        <SolidColorBrush Color="white"/>
+    </Window.Background>
+    <Grid Height="184" VerticalAlignment="Top">
+        <TextBlock FontFamily="Cascadia Mono">           
+    <Hyperlink NavigateUri="https://en.gigamic.com/game/quixo" RequestNavigate="Hyperlink_RequestNavigate" FontSize="50">
+        the Game manufacture
+    </Hyperlink>
+            <LineBreak></LineBreak>
+    <Hyperlink NavigateUri="https://github.com/yarin28/Quixo" RequestNavigate="Hyperlink_RequestNavigate" FontSize="50">
+        Github page 
+    </Hyperlink>
+        </TextBlock>
     </Grid>
 </Window>

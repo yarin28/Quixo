@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Quixo
@@ -22,9 +24,17 @@ namespace Quixo
         public About()
         {
             InitializeComponent();
-            this.Name.Content = "Yarin";
-            this.GithubLink.Content = "https://github.com/yarin28/Quixo";
-            this.Date.Content = "2022";
+        }
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            // for .NET Core you need to add UseShellExecute = true
+            // see https://docs.microsoft.com/dotnet/api/system.diagnostics.processstartinfo.useshellexecute#property-value
+            //Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            Process p = new Process();
+            p.StartInfo.UseShellExecute = true;
+            p.StartInfo.FileName =e.Uri.AbsoluteUri;
+            p.Start();
+            e.Handled = true;
         }
     }
 }

@@ -1,0 +1,13 @@
+﻿<Window x:Class="Quixo.GameWon"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Quixo"
+        mc:Ignorable="d"
+        Title="GameWon" Height="450" Width="800">
+    <Grid>
+        <Label Name="playerWon" Content="{Binding GetWinner}" HorizontalAlignment="Left" Margin="251,39,0,0" VerticalAlignment="Top" Height="127" Width="209" FontSize="108" FontWeight="Bold" FontStyle="Normal" Foreground="#FFF39E10"/>
+        <Image x:Name="winnerImg" Margin="-48,102,-49,-61" Source="/winner_logo_main.png" Stretch="Fill"/>
+    </Grid>
+</Window>

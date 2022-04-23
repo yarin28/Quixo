@@ -77,11 +77,29 @@ namespace Quixo
              //NOTE: big bad hack
             if (IsCircleAi() || IsCrossAi())
             {
-                UpdateUI(robotMove);
                 Move robotMove = RobotMove();
                 UpdateUI(robotMove);
             }
+            OnePlayerWon();
         }
+
+        private void OnePlayerWon()
+        {
+            if (this.board.WinningPlayer != Player.None)
+            {
+                GameWon g = new GameWon(this.board.WinningPlayer.ToString());
+                g.ShowDialog();
+                this.board.Reset();
+                ResetUi();
+                SelectPieceAndTypeOfGameWithPopUpWindow();
+                DrawBoard();
+            StartAiFirstPlayer();
+            HightlightpossibleSourcePieces();
+                
+
+            }
+        }
+
         private void StartAiFirstPlayer()
         {
             if (CrossPlayerType == TypesOfPlayer.Ai)
@@ -271,6 +289,14 @@ namespace Quixo
             this.DrawBoard();
             HightlightpossibleSourcePieces();
             MoveTable.Items.Add(new PrintableMove(robotMove));
+            currentPlayerLable.Content = board.CurrentPlayer.ToString();
+            winningPlayerLable.Content = board.WinningPlayer.ToString();
+        }
+        private void ResetUi()
+        {
+            this.DrawBoard();
+            HightlightpossibleSourcePieces();
+            MoveTable.Items.Clear();
             currentPlayerLable.Content = board.CurrentPlayer.ToString();
             winningPlayerLable.Content = board.WinningPlayer.ToString();
         }

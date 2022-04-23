@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
-//TODO: all the imports are not used should be gone
 namespace Quixo
 {
     /// <summary>
@@ -15,13 +13,14 @@ namespace Quixo
     {
         enum BoardState { WaitingForSourcePieceSelection, WaitingForDestanetionPiece };
         enum TypesOfPlayer { Ai, Human };
-        BoardState boardState;//HACK should find a better name.
+        BoardState boardState;
         private Board board = new Board();
         List<System.Drawing.Point> validSources;
         List<System.Drawing.Point> validDestanation;
         System.Drawing.Point srcP;
         private TypesOfPlayer CrossPlayerType;
         private TypesOfPlayer CirclePlayerType;
+        private int boardPiecePixelDimension = 80;
         SmartEngine robot = new SmartEngine();
         public string GetCurrentPlayer
         {
@@ -65,7 +64,6 @@ namespace Quixo
                     Move playerCurrentMove = new Move(board.CurrentPlayer, srcP, dp);
                     board.MovePiece(playerCurrentMove.Source, playerCurrentMove.Destination);
                     boardState = BoardState.WaitingForSourcePieceSelection;
-                    //HACK for preference sake this better but its not opp
                     UpdateUI(playerCurrentMove);
                 }
                 else
@@ -174,8 +172,8 @@ namespace Quixo
             (x, y) = FromBoardCordsToCanvasCords(x, y);
             Ellipse circle = new Ellipse()
             {
-                Width = 80,
-                Height = 80,
+                Width = boardPiecePixelDimension,
+                Height = boardPiecePixelDimension,
                 Stroke = System.Windows.Media.Brushes.Brown,
                 StrokeThickness = 5,
             };
@@ -221,8 +219,8 @@ namespace Quixo
             rec.HorizontalAlignment = HorizontalAlignment.Left;
             rec.Stroke = System.Windows.Media.Brushes.Brown;
             rec.VerticalAlignment = VerticalAlignment.Center;
-            rec.Height = 80;//must be changed
-            rec.Width = 80;//HACK must be changed
+            rec.Height = boardPiecePixelDimension;
+            rec.Width = boardPiecePixelDimension;
             GameArea.Children.Add(rec);
             rec.SetValue(Canvas.LeftProperty, (double)x);
             rec.SetValue(Canvas.TopProperty, (double)y);
@@ -236,23 +234,14 @@ namespace Quixo
             rec.StrokeThickness = 10;
             //rec.Cursor = Cursors.Cross;
             rec.VerticalAlignment = VerticalAlignment.Center;
-            rec.Height = 80 - 5;//must be changed
-            rec.Width = 80 - 5;
+            rec.Height = boardPiecePixelDimension - 5;
+            rec.Width = boardPiecePixelDimension - 5;
             GameArea.Children.Add(rec);
             rec.SetValue(Canvas.LeftProperty, (double)p.X + 2);//must be changed to const
             rec.SetValue(Canvas.TopProperty, (double)p.Y + 2);
         }
         private void DrawBoardLines(int width, int hight)
         {
-            /*TODOS:
-             * 1 -  the edge lines are not as thicj as the middle lines,
-             *      the myLine.StrokeThickness is to blame, the drawing should
-             *      be starting in 1 and ending in length-1
-             * 2-
-             *      there is no need for 2 loops, there has to be a way to simplify 
-             *      the code to allow 1 for loop.
-             * 
-             */
 
             for (int i = 0; i <= hight; i += hight / 5)
             {
@@ -337,8 +326,8 @@ namespace Quixo
             rec.StrokeThickness = 10;
             //rec.Cursor = Cursors.Cross;
             rec.VerticalAlignment = VerticalAlignment.Center;
-            rec.Height = 80 - 5;//must be changed
-            rec.Width = 80 - 5;
+            rec.Height = boardPiecePixelDimension - 5;
+            rec.Width = boardPiecePixelDimension - 5;
             GameArea.Children.Add(rec);
             rec.SetValue(Canvas.LeftProperty, (double)src.X + 2);//must be changed to const
             rec.SetValue(Canvas.TopProperty, (double)src.Y + 2);

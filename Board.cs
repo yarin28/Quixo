@@ -32,7 +32,6 @@ namespace Quixo
         }
         public void Reset()
         {
-            //HACK probably should be private
             this.currentPlayer = Player.X;
             this.winningPlayer = Player.None;
             this.moveHistory.Clear();

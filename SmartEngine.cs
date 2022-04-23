@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Diagnostics;
 
 namespace Quixo
@@ -19,32 +14,30 @@ namespace Quixo
 			watch.Reset();
 			watch.Start();
 			int bestValue = int.MinValue;
-            Move generatedMove = null;
+            Move generatedMove = null ;
             foreach (var source in board.GetValidSourcePieces())
             {
-                foreach (var destanation in board.GetValidDestinationPieces(source))
+                foreach (var destination in board.GetValidDestinationPieces(source))
                 {
                     var nextMoveBoard = ((Board)board.Clone());
-                    nextMoveBoard.MovePiece(source, destanation);
+                    nextMoveBoard.MovePiece(source, destination);
                     var possibleBestMove = this.MiniMaxWithAlphaBeta(nextMoveBoard, board.CurrentPlayer, false, 1, int.MinValue, int.MaxValue);
                     if (possibleBestMove > bestValue || (possibleBestMove >= bestValue && generatedMove == null))
                     {
                         bestValue = possibleBestMove;
-                        generatedMove = new Move(board.CurrentPlayer, source, destanation);
+                        generatedMove = new Move(board.CurrentPlayer, source, destination);
                     }
 
                 }
             }
 			watch.Stop();
 			Trace.WriteLine($"Execution Time:{watch.ElapsedMilliseconds} ms");
-			//TODO: the function can return null, add a check for that 
 			return generatedMove;
         }
 		private int MiniMaxWithAlphaBeta(Board board, Player currentPlayer, bool isMaximizing, int depth, int alpha, int beta)
 		{
-			//TODO: maybe the var deceleration could save memory
-			int evaluation = 0;
-			if(depth>=DepthLimit||board.WinningPlayer!=Player.None)
+            int evaluation;
+            if (depth>=DepthLimit||board.WinningPlayer!=Player.None)
 			{
 
 				evaluation = this.Evaluate(board,currentPlayer);
@@ -59,8 +52,7 @@ namespace Quixo
 			}
 			else
 			{
-				//?NOTE: here i will be using the var declaration just for fun.
-				var nextEvaluation = 0;
+				var nextEvaluation=0;
 				foreach(var source in board.GetValidSourcePieces())
 				{
 					foreach(var destination in board.GetValidDestinationPieces(source))
@@ -149,7 +141,6 @@ namespace Quixo
 				 }
 				 return evaluation;
         }
-        //TODO: this will probably have to change.
         private int UpdateContinuation(int currentContinuationValue) =>
 			(currentContinuationValue ^ 2) * 4;
 
@@ -426,70 +417,6 @@ namespace Quixo
 
 			return diagonalEvaluation;
 		}
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="currentPlayer"></param>
-        /// <returns>
-        /// returns value base on number of consecrative tiles on each row, column, and both of the diagonal for <see cref="Board" /> board <see cref="Player"/> currentPlayer
-        /// </returns>
-        private static int CountConsecutive(Board board, Player currentPlayer)
-        {
-            //TODO: this is bad i have no idea what is happening here should use bit board for this!
-            int r = 0;
-            int nr = 0;
-            int mod = 2;
-            int nMod = 1;
-            //horizontal
-            for (int y = 0; y < 5; y++)
-            {
-                int inRow = 0;
-                int nInRow = 0;
-                for (int x = 0; x < 5; x++)
-                {
-                    Player piecePlayer = board.GetPiece(new Point(x, y));
-                    if (Player.None == piecePlayer)
-                    {
-                        if (piecePlayer == currentPlayer)
-                        {
-                            inRow++;
-                        }
-                        else
-                        {
-                            nInRow++; ;
-                        }
-                    }
-                    r += inRow * inRow;
-                    nr += nInRow * nInRow;
-                }
-            }
-
-            for (int x = 0; x < 5; x++)
-            {
-                int inCol = 0;
-                int nInCol = 0;
-                for (int y = 0; y < 5; y++)
-                {
-                    Player piecePlayer = board.GetPiece(new Point(x, y));
-                    if (Player.None == piecePlayer)
-                    {
-                        if (piecePlayer == currentPlayer)
-                        {
-                            inCol++;
-                        }
-                        else
-                        {
-                            nInCol++;
-                        }
-                    }
-                    r += inCol * inCol;
-                    nr += nInCol * nInCol;
-                }
-            }
-
-            return r - nr;
-        }
         #endregion
     }
 }

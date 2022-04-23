@@ -63,11 +63,11 @@ namespace Quixo
                 if (validDestanation.Contains(dp) == true)
                 {
                     Move playerCurrentMove = new Move(board.CurrentPlayer, srcP, dp);
-                    board.MovePiece(playerCurrentMove.Source,playerCurrentMove.Destination  );
+                    board.MovePiece(playerCurrentMove.Source, playerCurrentMove.Destination);
                     boardState = BoardState.WaitingForSourcePieceSelection;
                     //HACK for preference sake this better but its not opp
                     UpdateUI(playerCurrentMove);
-                        }
+                }
                 else
                 {
                     boardState = BoardState.WaitingForSourcePieceSelection;
@@ -83,7 +83,7 @@ namespace Quixo
         }
         private void StartAiFirstPlayer()
         {
-            if (CrossPlayerType==TypesOfPlayer.Ai)
+            if (CrossPlayerType == TypesOfPlayer.Ai)
             {
                 Move robotMove = RobotMove();
                 UpdateUI(robotMove);
@@ -330,12 +330,17 @@ namespace Quixo
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            About win2 = new About();
+            GameRules win2 = new GameRules();
             win2.Show();
         }
-        private void GameRules_button(object sender, RoutedEventArgs e)
+        private void AboutButton(object sender,RoutedEventArgs e)
         {
-            About win2 = new About();
+            About about = new About();
+            about.Show();
+        }
+        private void GameRulesButton(object sender, RoutedEventArgs e)
+        {
+            GameRules win2 = new GameRules();
             win2.Show();
         }
         public class PrintableMove

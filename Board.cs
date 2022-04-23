@@ -45,7 +45,7 @@ namespace Quixo
         {
             var points = new List<Point>();
 
-            if (this.IsOuterPiece(source) && this.CanCurrentPlayerUseSource(source))
+            if (IsOuterPiece(source) && this.CanCurrentPlayerUseSource(source))
             {
                 if (source.X == 0)
                 {
@@ -196,7 +196,7 @@ namespace Quixo
                 throw new InvalidMoveException(ErrorIdenticalPiece);
             }
 
-            if (this.IsOuterPiece(source) == false || this.IsOuterPiece(destination) == false)
+            if (IsOuterPiece(source) == false || IsOuterPiece(destination) == false)
             {
                 throw new InvalidMoveException(ErrorInternalPiece);
             }
@@ -221,42 +221,9 @@ namespace Quixo
                      string.Format(ErrorInvalidDestinationPosition, this.currentPlayer.ToString(), destination.ToString()));
             }
         }
-        private bool IsOuterPiece(Point position) =>
+        private static bool IsOuterPiece(Point position) =>
             position.X != 0 || position.X != (Dimension - 1) ||
                  position.Y != 0 || position.Y != (Dimension - 1);
-        private void movePiece(Point src ,Point dest)
-        {
-            var currentBoard = (Board)this.Clone();
-            try
-            {
-                if (this.winningPlayer != Player.None)
-                {//there is a winner
-                    throw new InvalidMoveException(string.Format(ErrorWinner, this.winningPlayer.ToString()));
-                }
-                this.CheckPieces(src, dest);
-                this.UpdateBoard(src, dest);
-                this.CheckWinningLines();
-                this.moveHistory.Add(new Move(this.currentPlayer, src, dest));
-                //i have no idea how this is working
-                this.currentPlayer = this.winningPlayer != Player.None ? Player.None :
-                    this.currentPlayer == Player.X ? Player.O : Player.X;
-            }
-            catch (InvalidMoveException)
-            {
-                this.currentPlayer = currentBoard.currentPlayer;
-                this.winningPlayer = currentBoard.winningPlayer;
-
-                for (var x = 0; x < Board.Dimension; x++)
-                {
-                    for (var y = 0; y < Board.Dimension; y++)
-                    {
-                        this.SetPiece(x, y, currentBoard.GetPiece(x, y));
-                    }
-                }
-
-                throw;
-            }
-        }
         public Player GetPiece(int x, int y)
         {
             return GetPiece(new Point(x,y));
@@ -547,6 +514,11 @@ namespace Quixo
             public int XCount => this.xCount;
 
             public int OCount => this.oCount;
+        }
+
+        public void Method()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

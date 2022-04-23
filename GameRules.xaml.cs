@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,16 +16,23 @@ using System.Windows.Shapes;
 namespace Quixo
 {
     /// <summary>
-    /// Interaction logic for About.xaml
+    /// Interaction logic for GameRules.xaml
     /// </summary>
-    public partial class About : Window
+    public partial class GameRules : Window
     {
-        public About()
+        public GameRules()
         {
             InitializeComponent();
-            this.Name.Content = "Yarin";
-            this.GithubLink.Content = "https://github.com/yarin28/Quixo";
-            this.Date.Content = "2022";
+            this.DataContext = this;
+        }
+        public string MyPic
+        {
+            get { return @"https://img.fruugo.com/product/3/95/143031953_max.jpg"; }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

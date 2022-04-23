@@ -14,8 +14,7 @@ namespace Quixo
         private const int LosingLine = int.MinValue;
         private const int WinningLine = int.MaxValue;
 		private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-
-        public Move GenerateMove(Board board)
+		public Move GenerateMove(Board board)
         {
 			watch.Reset();
 			watch.Start();
@@ -94,6 +93,7 @@ namespace Quixo
 			}
 			return evaluation;
 		}
+        #region Evaluating function
 
 		public int Evaluate(Board board, Player currentPlayer)
 		{
@@ -149,11 +149,8 @@ namespace Quixo
 				 }
 				 return evaluation;
         }
-        //the Evaluate function must reword 2 things
-		//1- the number of pieces of the current player
-		//2- the connections between the pieces of the current player
-		//TODO: this will probably have to change.
-	private int UpdateContinuation(int currentContinuationValue) =>
+        //TODO: this will probably have to change.
+        private int UpdateContinuation(int currentContinuationValue) =>
 			(currentContinuationValue ^ 2) * 4;
 
 		private int EvaluateHorizontalLines(Board board, int evaluation)
@@ -493,5 +490,6 @@ namespace Quixo
 
             return r - nr;
         }
+        #endregion
     }
 }

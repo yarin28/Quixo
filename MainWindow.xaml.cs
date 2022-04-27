@@ -16,7 +16,7 @@ namespace Quixo
         BoardState boardState;
         private Board board = new Board();
         List<System.Drawing.Point> validSources;
-        List<System.Drawing.Point> validDestanation;
+        List<System.Drawing.Point> validDestination;
         System.Drawing.Point srcP;
         private TypesOfPlayer CrossPlayerType;
         private TypesOfPlayer CirclePlayerType;
@@ -59,7 +59,7 @@ namespace Quixo
             }
             else if (boardState == BoardState.WaitingForDestanetionPiece)
             {
-                if (validDestanation.Contains(dp) == true)
+                if (validDestination.Contains(dp) == true)
                 {
                     Move playerCurrentMove = new Move(board.CurrentPlayer, srcP, dp);
                     board.MovePiece(playerCurrentMove.Source, playerCurrentMove.Destination);
@@ -152,8 +152,8 @@ namespace Quixo
 
             DrawBoard();
             HightlightSelectedPiece(source);
-            validDestanation = this.board.GetValidDestinationPieces(source);
-            foreach (System.Drawing.Point p in validDestanation) Highlight(p);
+            validDestination = this.board.GetValidDestinationPieces(source);
+            foreach (System.Drawing.Point p in validDestination) Highlight(p);
         }
         public void DrawBoard()
         {

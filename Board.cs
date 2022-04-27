@@ -23,7 +23,7 @@ namespace Quixo
         public const int Dimension = 5;
         private Player winningPlayer = Player.None;
         private Player currentPlayer = Player.X;
-        private long pieces;
+        private ulong pieces;
         private MoveCollection moveHistory = new MoveCollection();
 
         public Board() : base()
@@ -129,11 +129,11 @@ namespace Quixo
             }
 
             int shiftOut = this.GetShiftOut(position.X, position.Y);
-            if ((this.pieces & (1L << shiftOut)) == (1L << shiftOut))
+            if ((this.pieces & (1UL << shiftOut)) == (1UL << shiftOut))
             {
                 return Player.X;
             }
-            else if ((this.pieces & (1L << (shiftOut + 32))) == (1L << (shiftOut + 32)))
+            else if ((this.pieces & (1UL << (shiftOut + 32))) == (1UL << (shiftOut + 32)))
             {
                 return Player.O;
             }
@@ -150,7 +150,7 @@ namespace Quixo
             return new Point(x, (position-x)/5);
 
         }
-        public void SetPiecesForTesting(long newOne)
+        public void SetPiecesForTesting(ulong newOne)
         {
             this.pieces = newOne;
         }
@@ -159,20 +159,20 @@ namespace Quixo
             int shiftOut = this.GetShiftOut(dest.X, dest.Y);
             if (newValue == Player.X)
             {//there is a need to delete the record from the O bitborad
-                this.pieces &= ~(1L << (shiftOut + 32));
-                this.pieces |= 1L << shiftOut;
+                this.pieces &= ~(1UL << (shiftOut + 32));
+                this.pieces |= 1UL << shiftOut;
             }
             else if (newValue == Player.O)
             {//there is a need to delete the record from the X bitboard
 
-                this.pieces &= ~(1L << shiftOut);
-                this.pieces |= 1L << (shiftOut + 32);
+                this.pieces &= ~(1UL << shiftOut);
+                this.pieces |= 1UL << (shiftOut + 32);
             }
             else if (newValue == Player.None)
             {//delete from both bitboards
 
-                this.pieces &= ~(1L << shiftOut);
-                this.pieces &= ~(1L << (shiftOut + 32));
+                this.pieces &= ~(1UL << shiftOut);
+                this.pieces &= ~(1UL << (shiftOut + 32));
             }
             return;
         }
@@ -351,9 +351,9 @@ namespace Quixo
         public List<Point> EfficiantBoardDrawPoints(int iStart)
         {
             List<Point> points = new List<Point>();
-            for(long i=iStart;i<Board.Dimension*Board.Dimension+iStart;i++)
+            for(int i=iStart;i<Board.Dimension*Board.Dimension+iStart;i++)
             {
-                if ((this.pieces & 1L<<(int)i) == (1L<<(int) i))
+                if ((this.pieces & 1UL<<i) == (1UL<< i))
                 {
                     points.Add(GetReverseShiftOut((int)i-iStart+7));//this is the worst,will have to fix.
                 }

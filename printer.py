@@ -1,3 +1,4 @@
+#!/bin/python3
 import os
 from typing import List,AnyStr
 DIRECTORY = "Quixo"
@@ -13,7 +14,7 @@ def save_all_files_to_one_file_with_file_names(file_list:List):
     big_file_string:String=""
     for file in file_list:
         with open (DIRECTORY+"/" +file,"r") as f:
-            big_file_string +=file+"\n"+f.read()+"\n"
+            big_file_string +=file+"\n"+f.read()
     print (big_file_string)
 def main():
     print(os.getcwd())

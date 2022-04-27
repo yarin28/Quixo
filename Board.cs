@@ -141,7 +141,7 @@ namespace Quixo
         }
         private int GetShiftOut(int x, int y)
         {
-            return 7 + y * 5 + x;//need to correct the board/stay with it. in my description there is a divider of 7 emply bits between both of X,and O boards.
+            return 7 + y * 5 + x;//the seven is broken
         }
         private Point GetReverseShiftOut(int position)
         {
@@ -516,9 +516,5 @@ namespace Quixo
             public int OCount => this.oCount;
         }
 
-        public void Method()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

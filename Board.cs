@@ -429,7 +429,7 @@ namespace Quixo
                 : this()
             {
                 this.board = board;
-                this.CalculateWinningCounts();
+                this.CalculateWinners();
             }
 
             private void CalculateWinners()

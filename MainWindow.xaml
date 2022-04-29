@@ -8,13 +8,14 @@
         mc:Ignorable="d"
         Title="Quxio" Height="450" Width="800" ContentRendered="Window_ContentRendered"  >
     <Canvas Name="mainWinow" ClipToBounds="True"  Background="#9FC088" >
-        <Canvas Name="GameArea" ClipToBounds="True" Width="400" Height="400" MouseLeftButtonDown="Click" Background="#E8C07D" Canvas.Left="202" Canvas.Top="4" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+        <Canvas Name="GameArea" ClipToBounds="True" Width="400" Height="400" MouseLeftButtonDown="Click" Background="#E8C07D" Canvas.Left="202" Canvas.Top="4" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+        </Canvas>
         <Label Content="Quixo" Height="72" Canvas.Left="12" Canvas.Top="11" Width="116" Foreground="#614124" FontSize="36" FontWeight="Bold" FontStyle="Normal"/>
-        <Label Content="winning player - " Canvas.Left="8" Canvas.Top="137" FontWeight="Bold" Foreground="#CC704B" FontSize="16" />
-        <Label Content="current player - " Canvas.Left="7" Canvas.Top="94" FontWeight="Bold" Foreground="#CC704B" FontSize="16"/>
-        <Button Content="About" Height="47" Canvas.Left="10" Canvas.Top="377" Width="86" Style="{StaticResource buttonStyle3}" Click="AboutButton"/>
-        <Button Content="Game rules" Height="47" Width="114" FontSize="20" FontFamily="Segoe UI Bold" Style="{StaticResource RoundCorner}" Canvas.Left="10" Canvas.Top="325" Click="Button_Click"/>
-        <DataGrid x:Name="MoveTable" Height="420" Width="188" Background="#C69B7B" AlternatingRowBackground="#BE8C63" CanUserAddRows="False" Canvas.Left="602" Canvas.Top="4" SelectionChanged="MoveTable_SelectionChanged">
+        <Label Content="winning player - " Canvas.Left="7" Canvas.Top="118" FontWeight="Bold" Foreground="#CC704B" FontSize="16" />
+        <Label Content="current player - " Canvas.Left="5" Canvas.Top="78" FontWeight="Bold" Foreground="#CC704B" FontSize="16"/>
+        <Button Content="About" Height="47" Canvas.Left="2" Canvas.Top="380" Width="86" Style="{StaticResource buttonStyle3}" Click="AboutButton"/>
+        <Button Content="Game rules" Height="47" Width="114" FontSize="20" FontFamily="Segoe UI Bold" Style="{StaticResource RoundCorner}" Canvas.Left="88" Canvas.Top="377" Click="GameRulesButton"/>
+        <DataGrid x:Name="MoveTable" Height="420" Width="188" Background="#C69B7B" AlternatingRowBackground="#BE8C63" CanUserAddRows="False" Canvas.Left="602" Canvas.Top="4" >
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#C69B7B"/>
@@ -34,7 +35,20 @@
             </DataGrid.Columns>
 
         </DataGrid>
-        <Label Name="currentPlayerLable" Content="{Binding GetCurrentPlayer}" Canvas.Left="131" Canvas.Top="92" FontWeight="Bold" FontStyle="Normal" FontSize="18" Height="35" Width="66" Foreground="#FFB04737" RenderTransformOrigin="0.635,0.716"/>
-        <Label Name="winningPlayerLable" Content="{Binding GetWinningPlayer}" Canvas.Left="131" Canvas.Top="137" Foreground="#FFB04737" FontWeight="Bold" FontStyle="Normal" FontSize="18" Height="34" Width="66"/>
+        <Label Name="currentPlayerLable" Content="{Binding GetCurrentPlayer}" Canvas.Left="131" Canvas.Top="78" FontWeight="Bold" FontStyle="Normal" FontSize="18" Height="35" Width="66" Foreground="#FFB04737" RenderTransformOrigin="0.635,0.716"/>
+        <Label Name="winningPlayerLable" Content="{Binding GetWinningPlayer}" Canvas.Left="131" Canvas.Top="118" Foreground="#FFB04737" FontWeight="Bold" FontStyle="Normal" FontSize="18" Height="34" Width="66"/>
+        <RichTextBox Name="debugTextBox" Height="218" Canvas.Top="157" Width="187" IsReadOnly="True" Canvas.Left="10" Background="#C69B7B" Foreground="White" >
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+            </RichTextBox.Resources>
+            <FlowDocument>
+                <Paragraph FontSize="13" FontWeight="Bold">information view</Paragraph>
+                <Paragraph>
+                    <Run Text=""/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
     </Canvas>
 </Window>

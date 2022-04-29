@@ -127,13 +127,17 @@ namespace Quixo
             {
                 throw new IndexOutOfRangeException($"Point {position.ToString()} is out of range.");
             }
-
             int shiftOut = this.GetShiftOut(position.X, position.Y);
-            if ((this.pieces & (1UL << shiftOut)) == (1UL << shiftOut))
+            /*
+                one of Characteristics of the bitBoard is that only one player can be
+                standing on one tile, so there is no need to check if one is on and the other one is off
+                because the second one must be off if the first one is on.
+            */
+            if ((this.pieces & (1UL << shiftOut)) == (1UL << shiftOut))//checking the X board.
             {
                 return Player.X;
             }
-            else if ((this.pieces & (1UL << (shiftOut + 32))) == (1UL << (shiftOut + 32)))
+            else if ((this.pieces & (1UL << (shiftOut + 32))) == (1UL << (shiftOut + 32)))//checking the O board.
             {
                 return Player.O;
             }
@@ -141,7 +145,8 @@ namespace Quixo
         }
         private int GetShiftOut(int x, int y)
         {
-            return 7 + y * 5 + x;//the seven is broken
+            return 7 + y * 5 + x;
+            //the seven has no real use, but it is there to make the code more readable.
         }
         private Point GetReverseShiftOut(int position)
         {
@@ -150,6 +155,10 @@ namespace Quixo
             return new Point(x, (position-x)/5);
 
         }
+        /// <summary>
+        ///this function is used by the test engine to skip the player turn. 
+        /// </summary>
+        // / <param name="newOne"> replacement board</param>
         public void SetPiecesForTesting(ulong newOne)
         {
             this.pieces = newOne;
@@ -176,10 +185,16 @@ namespace Quixo
             }
             return;
         }
+        /// <summary>
+        ///a warper function for convenience.
+        /// </summary>
         public void SetPiece(int x,int y,Player newValue)
         {
             SetPiece(new Point(x,y),newValue); 
         }
+        /// <summary>
+        ///function to provide the end point of the shift. 
+        /// </summary>
         private int GetEndPoint(Point source, Point destination) =>
         source.X == destination.X ? destination.Y : destination.X;
         private bool CanCurrentPlayerUseSource(Point source)
@@ -189,6 +204,13 @@ namespace Quixo
             return ((this.currentPlayer == Player.X && (pieceState == Player.X || pieceState == Player.None)) ||
                  (this.currentPlayer == Player.O && (pieceState == Player.O || pieceState == Player.None)));
         }
+        /// <summary>
+        ///check if the move is leagal.
+        ///  
+        /// if it`s not throw appropriate exception
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
         private void CheckPieces(Point source, Point destination)
         {
             if (source.Equals(destination) == true)
@@ -437,7 +459,7 @@ namespace Quixo
                 //see if the board is equal to any of the winning lines from the xWon array
                 for (int i = 0; i < WinningLineCount; i++)
                 {
-                    if (this.xWon[i] == this.board.pieces)
+                    if ((this.xWon[i] & this.board.pieces)==this.xWon[i])
                     {
                         this.xCount++;
                         return;
@@ -446,7 +468,7 @@ namespace Quixo
                 //see if the board is equal to any of the winning lines from the yWon array
                 for (int i = 0; i < WinningLineCount; i++)
                 {
-                    if (this.yWon[i] == this.board.pieces)
+                    if ((this.yWon[i]  &this.board.pieces)==this.yWon[i])
                     {
                         this.oCount++;
                         return;

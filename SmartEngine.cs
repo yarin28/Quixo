@@ -1,4 +1,13 @@
-﻿using System.Linq;
+﻿/*
+ways to improve the smart engine:
+[ ]: add more threads to calculate. not possible currently
+		 with the minimax algorithm because it has to compare everything
+[ ]: use better algorithm then MiniMaxWithAlphaBeta
+[x]: use MinMaxWithAlphaBeta.
+[ ]: use the bitboard directly, without the easy api (GetPiece,GetValidDestinationPieces)
+		will boost the performance.
+*/
+using System.Linq;
 using System.Diagnostics;
 
 namespace Quixo

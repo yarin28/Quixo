@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
+using System.Diagnostics;
 namespace Quixo
 {
     /// <summary>
@@ -11,7 +12,7 @@ namespace Quixo
     /// </summary>
     public partial class MainWindow : System.Windows.Window
     {
-        enum BoardState { WaitingForSourcePieceSelection, WaitingForDestanetionPiece };
+        enum BoardState { WaitingForSourcePieceSelection, WaitingForDestinationPiece };
         enum TypesOfPlayer { Ai, Human };
         BoardState boardState;
         private Board board = new Board();
@@ -36,44 +37,53 @@ namespace Quixo
                 return board.WinningPlayer.ToString();
             }
         }
+        public string DebugTextBox { get; set; }
         public MainWindow()
         {
             SelectPieceAndTypeOfGameWithPopUpWindow();
             InitializeComponent();
             this.DataContext = this;
         }
+                            
+                            
+        /// <summary>
+        /// main method of the game, it is called when the user clicks on the board
+        /// the method checks the board state and calls the appropriate methods
+        /// </summary>
         private void Click(object sender, MouseButtonEventArgs e)
         {
 
             System.Windows.Point p = e.GetPosition(GameArea);
             p = acquireBoardPointsFromSystemWindowsPoint(p);
+            //i have to types of Points, so a conversion is needed
             System.Drawing.Point dp = new System.Drawing.Point((int)p.X, (int)p.Y);
             if (boardState == BoardState.WaitingForSourcePieceSelection)
             {
-                srcP = dp;
+                srcP = dp;//for the next phase of the game
                 if (validSources.Contains(dp) == true)
                 {
                     HightlightpossibleDestPieces(dp);
-                    boardState = BoardState.WaitingForDestanetionPiece;
+                    boardState = BoardState.WaitingForDestinationPiece;
                 }
             }
-            else if (boardState == BoardState.WaitingForDestanetionPiece)
+            else if (boardState == BoardState.WaitingForDestinationPiece)
             {
                 if (validDestination.Contains(dp) == true)
                 {
                     Move playerCurrentMove = new Move(board.CurrentPlayer, srcP, dp);
+                    //↑ i have to create a move object to pass it to the UpdateUi method
                     board.MovePiece(playerCurrentMove.Source, playerCurrentMove.Destination);
                     boardState = BoardState.WaitingForSourcePieceSelection;
                     UpdateUI(playerCurrentMove);
                 }
-                else
+                else// if the destination is not valid
                 {
                     boardState = BoardState.WaitingForSourcePieceSelection;
                     HightlightpossibleSourcePieces();
+                    //BUG: the destation pieces highlight is not removed
                 }
-            }//NOTE should switch between the if`s placement
-             //NOTE: big bad hack
-            if (IsCircleAi() || IsCrossAi())
+            }
+            if (IsCircleAi() || IsCrossAi())//its AI turn
             {
                 Move robotMove = RobotMove();
                 UpdateUI(robotMove);
@@ -91,9 +101,9 @@ namespace Quixo
                 ResetUi();
                 SelectPieceAndTypeOfGameWithPopUpWindow();
                 DrawBoard();
-            StartAiFirstPlayer();
-            HightlightpossibleSourcePieces();
-                
+                StartAiFirstPlayer();
+                HightlightpossibleSourcePieces();
+
 
             }
         }
@@ -186,6 +196,8 @@ namespace Quixo
         }
         public bool DrawCross(int x, int y)
         {
+            //HACK: the method is called from the board, so i have to convert the board points to canvas points
+            //NOTE: there is a way to draw both lines with the same line object, but i dont know how to do it
             (x, y) = FromBoardCordsToCanvasCords(x, y);
             Line myLine = new System.Windows.Shapes.Line();
             myLine.Stroke = System.Windows.Media.Brushes.Brown;
@@ -216,6 +228,7 @@ namespace Quixo
             (x, y) = FromBoardCordsToCanvasCords(x, y);
             System.Windows.Shapes.Rectangle rec = new System.Windows.Shapes.Rectangle();
             rec.Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0xe1, 0xc1, 0x6e)); ;
+            //FIXME: the color of the erase brush is not the same as the board color
             rec.HorizontalAlignment = HorizontalAlignment.Left;
             rec.Stroke = System.Windows.Media.Brushes.Brown;
             rec.VerticalAlignment = VerticalAlignment.Center;
@@ -243,6 +256,7 @@ namespace Quixo
         private void DrawBoardLines(int width, int hight)
         {
 
+            //HACK: there is a possability to draw the lines in the same loop.
             for (int i = 0; i <= hight; i += hight / 5)
             {
                 Line myLine = new System.Windows.Shapes.Line();
@@ -281,6 +295,9 @@ namespace Quixo
             currentPlayerLable.Content = board.CurrentPlayer.ToString();
             winningPlayerLable.Content = board.WinningPlayer.ToString();
         }
+        /// <summary>
+        ///NOTE:this method relies on prev function
+        /// </summary>
         private void ResetUi()
         {
             this.DrawBoard();
@@ -301,8 +318,11 @@ namespace Quixo
         }
         private Move RobotMove()
         {
+            var stopWatch = Stopwatch.StartNew();
             Move robotMove = robot.GenerateMove(board);
             this.board.MovePiece(robotMove.Source, robotMove.Destination);
+            stopWatch.Stop();
+            debugTextBox.AppendText($"robot time - {stopWatch.ElapsedMilliseconds}\n");
             return robotMove;
         }
         private static Point acquireBoardPointsFromSystemWindowsPoint(Point p)
@@ -320,22 +340,28 @@ namespace Quixo
         {
 
             (src.X, src.Y) = FromBoardCordsToCanvasCords(src.X, src.Y);
+            Rectangle rec = CreateSrcHighlightRectangle();
+            rec.SetValue(Canvas.LeftProperty, (double)src.X + 2);//must be changed to const
+            rec.SetValue(Canvas.TopProperty, (double)src.Y + 2);
+        }
+
+        private Rectangle CreateSrcHighlightRectangle()
+        {
             System.Windows.Shapes.Rectangle rec = new System.Windows.Shapes.Rectangle();
             rec.HorizontalAlignment = HorizontalAlignment.Left;
             rec.Stroke = System.Windows.Media.Brushes.Red;
             rec.StrokeThickness = 10;
-            //rec.Cursor = Cursors.Cross;
             rec.VerticalAlignment = VerticalAlignment.Center;
             rec.Height = boardPiecePixelDimension - 5;
             rec.Width = boardPiecePixelDimension - 5;
             GameArea.Children.Add(rec);
-            rec.SetValue(Canvas.LeftProperty, (double)src.X + 2);//must be changed to const
-            rec.SetValue(Canvas.TopProperty, (double)src.Y + 2);
+            return rec;
         }
+
         private static (int, int) FromBoardCordsToCanvasCords(double x, double y)
         {
-            int CanvasX = ((int)x * Consts.PieceSize);// i want to use a const but this func will be called too many time
-            int CanvasY = 320 - ((int)y * Consts.PieceSize);// and that will "cost" to much
+            int CanvasX = ((int)x * Consts.PieceSize);
+            int CanvasY = 320 - ((int)y * Consts.PieceSize);
             return (CanvasX, CanvasY);
         }
         private static (int, int) FromCanvasCordsToBoardCords(double x, double y)
@@ -349,10 +375,10 @@ namespace Quixo
             GameRules win2 = new GameRules();
             win2.Show();
         }
-        private void AboutButton(object sender,RoutedEventArgs e)
+        private void AboutButton(object sender, RoutedEventArgs e)
         {
-            About about = new About();
-            about.Show();
+            About w = new About();
+            w.Show();
         }
         private void GameRulesButton(object sender, RoutedEventArgs e)
         {
@@ -381,17 +407,17 @@ namespace Quixo
                 this.destination = dest.ToString();
             }
         }
-        private void MoveTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void AddTextToRichTextBox(string text)
         {
-            About w = new About();
-            w.Show();
+            debugTextBox.AppendText(text);
         }
         #endregion
+
+        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //   throw new NotImplementedException();
+        //}
     }
 }
 

@@ -13,3 +13,6 @@ namespace Quixo
 			(currentContinuationValue ^ 2) * 4;
         protected const int LosingLine = int.MinValue;
         protected const int WinningLine = int.MaxValue;
+       abstract public int EvaluateLines(Board board, int evaluation);
+    }
+}

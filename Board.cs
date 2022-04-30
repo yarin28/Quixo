@@ -24,7 +24,7 @@ namespace Quixo
         private Player winningPlayer = Player.None;
         private Player currentPlayer = Player.X;
         private ulong pieces;
-        private MoveCollection moveHistory = new MoveCollection();
+        private MoveCollection? moveHistory = new MoveCollection();
 
         public Board() : base()
         {
@@ -34,7 +34,9 @@ namespace Quixo
         {
             this.currentPlayer = Player.X;
             this.winningPlayer = Player.None;
-            this.moveHistory.Clear();
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            moveHistory.Clear();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             this.pieces = 0;
         }
         public byte GetDimension()
@@ -402,7 +404,7 @@ namespace Quixo
             {
                 currentPlayer = this.currentPlayer,
                 winningPlayer = this.winningPlayer,
-                moveHistory = this.moveHistory.Clone() as MoveCollection,
+                moveHistory = moveHistory.Clone() as MoveCollection,
                 pieces = this.pieces
             };
         }

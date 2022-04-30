@@ -50,72 +50,7 @@ namespace Quixo
         /// main method of the game, it is called when the user clicks on the board
         /// the method checks the board state and calls the appropriate methods
         /// </summary>
-        private void Click(object sender, MouseButtonEventArgs e)
-        {
 
-            System.Windows.Point p = e.GetPosition(GameArea);
-            p = acquireBoardPointsFromSystemWindowsPoint(p);
-            //i have to types of Points, so a conversion is needed
-            System.Drawing.Point dp = new System.Drawing.Point((int)p.X, (int)p.Y);
-            if (boardState == BoardState.WaitingForSourcePieceSelection)
-            {
-                srcP = dp;//for the next phase of the game
-                if (validSources.Contains(dp) == true)
-                {
-                    HightlightpossibleDestPieces(dp);
-                    boardState = BoardState.WaitingForDestinationPiece;
-                }
-            }
-            else if (boardState == BoardState.WaitingForDestinationPiece)
-            {
-                if (validDestination.Contains(dp) == true)
-                {
-                    Move playerCurrentMove = new Move(board.CurrentPlayer, srcP, dp);
-                    //↑ i have to create a move object to pass it to the UpdateUi method
-                    board.MovePiece(playerCurrentMove.Source, playerCurrentMove.Destination);
-                    boardState = BoardState.WaitingForSourcePieceSelection;
-                    UpdateUI(playerCurrentMove);
-                }
-                else// if the destination is not valid
-                {
-                    boardState = BoardState.WaitingForSourcePieceSelection;
-                    HightlightpossibleSourcePieces();
-                    //BUG: the destation pieces highlight is not removed
-                }
-            }
-            if (IsCircleAi() || IsCrossAi())//its AI turn
-            {
-                Move robotMove = RobotMove();
-                UpdateUI(robotMove);
-            }
-            ifOnePlayerWon();
-        }
-
-        private void ifOnePlayerWon()
-        {
-            if (this.board.WinningPlayer != Player.None)
-            {
-                GameWon g = new GameWon(this.board.WinningPlayer.ToString());
-                g.ShowDialog();
-                this.board.Reset();
-                ResetUi();
-                SelectPieceAndTypeOfGameWithPopUpWindow();
-                DrawBoard();
-                StartAiFirstPlayer();
-                HightlightpossibleSourcePieces();
-
-
-            }
-        }
-
-        private void StartAiFirstPlayer()
-        {
-            if (CrossPlayerType == TypesOfPlayer.Ai)
-            {
-                Move robotMove = RobotMove();
-                UpdateUI(robotMove);
-            }
-        }
         private void SelectPieceAndTypeOfGameWithPopUpWindow()
         {
             //Note: the Window object does not have all the methods that i used,

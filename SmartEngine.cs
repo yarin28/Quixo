@@ -98,51 +98,53 @@ namespace Quixo
 		}
         #region Evaluating function
 
-		public int Evaluate(Board board, Player currentPlayer)
-		{
-			int evaluation;
-			if(board.WinningPlayer!=Player.None)
-			{
-				if(board.WinningPlayer==currentPlayer)
-				{
-					evaluation = WinningLine;
-				}
-				else
-				{
-					evaluation = LosingLine;
-				}
-			}
-			else
-			{
-				evaluation = this.Evaluate(board);
-			}
-			return evaluation;
-		}
+        public int Evaluate(Board board, Player currentPlayer)
+        {
+            int evaluation;
+            if (board.WinningPlayer != Player.None)
+            {
+                if (board.WinningPlayer == currentPlayer)
+                {
+                    evaluation = WinningLine;
+                }
+                else
+                {
+                    evaluation = LosingLine;
+                }
+            }
+            else
+            {
+                evaluation = this.Evaluate(board);
+            }
+            return evaluation;
+        }
 
         public int Evaluate(Board board)
         {
-			     var evaluation = 0;
-				 //NOTE: the game is won.
-				 if(board.WinningPlayer!=Player.None)
-				 {
-					 if(board.Moves.Count>0)
-					 {
-						 var lastMove = board.Moves.Last();
-						 if(lastMove.Player==board.WinningPlayer)
-						 {
-							 evaluation = WinningLine;
-						 }
-						 else
-						 {
-							 evaluation = LosingLine;
-						 }
-					 }
-				 }
-				 else//NOTE: the game is in progress
-				 {
-					evaluation = this.EvaluateHorizontalLines(board,evaluation);
-					if(evaluation!=LosingLine&&evaluation!=WinningLine)
-					{
+            var evaluation = 0;
+            //NOTE: the game is won.
+            if (board.WinningPlayer != Player.None)
+            {
+                if (board.Moves.Count > 0)
+                {
+                    var lastMove = board.Moves.Last();
+                    if (lastMove.Player == board.WinningPlayer)
+                    {
+                        evaluation = WinningLine;
+                    }
+                    else
+                    {
+                        evaluation = LosingLine;
+                    }
+                }
+            }
+            else//NOTE: the game is in progress
+            {
+                foreach (var evaluatingFunction in linesEvaluators)
+                {
+                    evaluation = +evaluatingFunction.EvaluateLines(board, evaluation);
+                    if (evaluation == LosingLine || evaluation == WinningLine)
+                        break;
                 }
             }
             return evaluation;

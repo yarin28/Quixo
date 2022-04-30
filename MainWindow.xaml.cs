@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -406,11 +406,6 @@ namespace Quixo
                 this.source = source.ToString();
                 this.destination = dest.ToString();
             }
-        }
-
-        private void AddTextToRichTextBox(string text)
-        {
-            debugTextBox.AppendText(text);
         }
         #endregion
     }

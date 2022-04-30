@@ -413,11 +413,6 @@ namespace Quixo
             debugTextBox.AppendText(text);
         }
         #endregion
-
-        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //   throw new NotImplementedException();
-        //}
     }
 }
 

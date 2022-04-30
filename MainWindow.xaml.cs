@@ -13,30 +13,9 @@ namespace Quixo
     public partial class MainWindow : System.Windows.Window
     {
         enum BoardState { WaitingForSourcePieceSelection, WaitingForDestinationPiece };
-        enum TypesOfPlayer { Ai, Human };
         BoardState boardState;
-        private Board board = new Board();
-        List<System.Drawing.Point> validSources;
-        List<System.Drawing.Point> validDestination;
-        System.Drawing.Point srcP;
-        private TypesOfPlayer CrossPlayerType;
-        private TypesOfPlayer CirclePlayerType;
-        private int boardPiecePixelDimension = 80;
-        SmartEngine robot = new SmartEngine();
-        public string GetCurrentPlayer
-        {
-            get
-            {
-                return board.CurrentPlayer.ToString();
-            }
-        }
-        public string GetWinningPlayer
-        {
-            get
-            {
-                return board.WinningPlayer.ToString();
-            }
-        }
+
+
         public string DebugTextBox { get; set; }
         public MainWindow()
         {

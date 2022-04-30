@@ -17,8 +17,10 @@ namespace Quixo
         private const int DepthLimit = 4;//the const is faster!, but maybe its worth it to make it a real variable
         private const int LosingLine = int.MinValue;
         private const int WinningLine = int.MaxValue;
-		private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-		public Move? GenerateMove(Board board)
+        static readonly LinesEvaluator[] linesEvaluators = new LinesEvaluator[] {
+            new HorizontalLinesEvaluator(),
+            new VerticalLinesEvaluator(),
+            new DiagonalLinesEvaluator()};
         {
 			watch.Reset();
 			watch.Start();

@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Quixo
 {
     //public sealed  class Board
-    public class Board
+    public class Board:INotifyPropertyChanged
     {
         private const string ErrorIdenticalPiece = "The source and destination locations are the same.";
         private const string ErrorInternalPiece = "Only the outer pieces can be moved.";
@@ -22,18 +24,46 @@ namespace Quixo
 
         public const int Dimension = 5;
         private Player winningPlayer = Player.None;
+        public Player WinningPlayer
+        {
+            get { return winningPlayer; }
+            private set { if (winningPlayer != value)
+                {
+                    winningPlayer = value;
+                    NotifyPropertyChanged();
+                }
+                }
+        }
         private Player currentPlayer = Player.X;
+        public Player CurrentPlayer
+        {
+        get { return currentPlayer; }
+        private set { if (currentPlayer != value)
+            {
+            currentPlayer = value;
+            NotifyPropertyChanged();
+            }
+        }
+        }
         private ulong pieces;
         private MoveCollection? moveHistory = new MoveCollection();
 
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public event Action Updated;
+        public event Action<Move> MoveMade;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         public Board() : base()
         {
             this.Reset();
         }
         public void Reset()
         {
-            this.currentPlayer = Player.X;
-            this.winningPlayer = Player.None;
+            this.CurrentPlayer = Player.X;
+            this.WinningPlayer = Player.None;
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             moveHistory.Clear();
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
@@ -86,7 +116,7 @@ namespace Quixo
 
             for (var x = 1; x < Dimension; x++)
             {
-                if (this.GetPiece(x, 0) == this.currentPlayer ||
+                if (this.GetPiece(x, 0) == this.CurrentPlayer ||
                      this.GetPiece(x, 0) == Player.None)
                 {
                     points.Add(new Point(x, 0));
@@ -95,7 +125,7 @@ namespace Quixo
 
             for (var y = 1; y < Dimension; y++)
             {
-                if (this.GetPiece(Dimension - 1, y) == this.currentPlayer ||
+                if (this.GetPiece(Dimension - 1, y) == this.CurrentPlayer ||
                      this.GetPiece(Dimension - 1, y) == Player.None)
                 {
                     points.Add(new Point(Dimension - 1, y));
@@ -104,7 +134,7 @@ namespace Quixo
 
             for (var x = Dimension - 2; x >= 0; x--)
             {
-                if (this.GetPiece(x, Dimension - 1) == this.currentPlayer ||
+                if (this.GetPiece(x, Dimension - 1) == this.CurrentPlayer ||
                      this.GetPiece(x, Dimension - 1) == Player.None)
                 {
                     points.Add(new Point(x, Dimension - 1));
@@ -113,7 +143,7 @@ namespace Quixo
 
             for (var y = Dimension - 2; y >= 0; y--)
             {
-                if (this.GetPiece(0, y) == this.currentPlayer ||
+                if (this.GetPiece(0, y) == this.CurrentPlayer ||
                      this.GetPiece(0, y) == Player.None)
                 {
                     points.Add(new Point(0, y));
@@ -203,8 +233,8 @@ namespace Quixo
         {
             var pieceState = this.GetPiece(source);
 
-            return ((this.currentPlayer == Player.X && (pieceState == Player.X || pieceState == Player.None)) ||
-                 (this.currentPlayer == Player.O && (pieceState == Player.O || pieceState == Player.None)));
+            return ((this.CurrentPlayer == Player.X && (pieceState == Player.X || pieceState == Player.None)) ||
+                 (this.CurrentPlayer == Player.O && (pieceState == Player.O || pieceState == Player.None)));
         }
         /// <summary>
         ///check if the move is leagal.
@@ -228,13 +258,13 @@ namespace Quixo
             if (this.CanCurrentPlayerUseSource(source) == false)
             {
                 throw new InvalidMoveException(
-                     string.Format(ErrorInvalidSourcePiece, this.currentPlayer.ToString(), source.ToString()));
+                     string.Format(ErrorInvalidSourcePiece, this.CurrentPlayer.ToString(), source.ToString()));
             }
 
             if (source.X != destination.X && source.Y != destination.Y)
             {
                 throw new InvalidMoveException(
-                     string.Format(ErrorInvalidDestinationPosition, this.currentPlayer.ToString(), destination.ToString()));
+                     string.Format(ErrorInvalidDestinationPosition, this.CurrentPlayer.ToString(), destination.ToString()));
             }
 
             var endPoint = this.GetEndPoint(source, destination);
@@ -242,7 +272,7 @@ namespace Quixo
             if (endPoint != 0 && endPoint != (Dimension - 1))
             {
                 throw new InvalidMoveException(
-                     string.Format(ErrorInvalidDestinationPosition, this.currentPlayer.ToString(), destination.ToString()));
+                     string.Format(ErrorInvalidDestinationPosition, this.CurrentPlayer.ToString(), destination.ToString()));
             }
         }
         private static bool IsOuterPiece(Point position) =>
@@ -264,24 +294,24 @@ namespace Quixo
 
             try
             {
-                if (this.winningPlayer != Player.None)
+                if (this.WinningPlayer != Player.None)
                 {
-                    throw new InvalidMoveException(string.Format(ErrorWinner, this.winningPlayer.ToString()));
+                    throw new InvalidMoveException(string.Format(ErrorWinner, this.WinningPlayer.ToString()));
                 }
 
                 this.CheckPieces(source, destination);
                 this.UpdateBoard(source, destination);
                 this.CheckWinningLines();
 
-                this.moveHistory.Add(new Move(this.currentPlayer, source, destination));
+                this.moveHistory.Add(new Move(this.CurrentPlayer, source, destination));
 
-                this.currentPlayer = this.winningPlayer != Player.None ? Player.None :
-                    this.currentPlayer == Player.X ? Player.O : Player.X;
+                this.CurrentPlayer = this.WinningPlayer != Player.None ? Player.None :
+                    this.CurrentPlayer == Player.X ? Player.O : Player.X;
             }
             catch (InvalidMoveException)
             {
-                this.currentPlayer = currentBoard.currentPlayer;
-                this.winningPlayer = currentBoard.winningPlayer;
+                this.CurrentPlayer = currentBoard.CurrentPlayer;
+                this.WinningPlayer = currentBoard.WinningPlayer;
 
                 for (var x = 0; x < Board.Dimension; x++)
                 {
@@ -293,6 +323,8 @@ namespace Quixo
 
                 throw;
             }
+            Updated?.Invoke();
+            MoveMade?.Invoke(new Move(this.CurrentPlayer, source, destination));
         }
         private void UpdateBoard(Point source, Point destination)
         {
@@ -302,7 +334,7 @@ namespace Quixo
 
          * 2.there is still a need to understand this to the full.
         */
-            var newValue = this.currentPlayer;
+            var newValue = this.CurrentPlayer;
             var isXFixed = source.X == destination.X;
             var fixedValue = (source.X == destination.X) ? source.X : source.Y;
 
@@ -346,24 +378,22 @@ namespace Quixo
         {
             var lines = new WinningLines(this);
 
-            if ((this.currentPlayer == Player.X && lines.OCount > 0) ||
-                 (this.currentPlayer == Player.O && lines.OCount > 0 && lines.XCount == 0))
+            if ((this.CurrentPlayer == Player.X && lines.OCount > 0) ||
+                 (this.CurrentPlayer == Player.O && lines.OCount > 0 && lines.XCount == 0))
             {
-                this.winningPlayer = Player.O;
+                this.WinningPlayer = Player.O;
             }
-            else if ((this.currentPlayer == Player.O && lines.XCount > 0) ||
-                 (this.currentPlayer == Player.X && lines.XCount > 0 && lines.OCount == 0))
+            else if ((this.CurrentPlayer == Player.O && lines.XCount > 0) ||
+                 (this.CurrentPlayer == Player.X && lines.XCount > 0 && lines.OCount == 0))
             {
-                this.winningPlayer = Player.X;
+                this.WinningPlayer = Player.X;
             }
             else
             {
-                this.winningPlayer = Player.None;
+                this.WinningPlayer = Player.None;
             }
         }
-        public Player CurrentPlayer => this.currentPlayer;
         public MoveCollection Moves => this.moveHistory;
-        public Player WinningPlayer => this.winningPlayer;
         public List<Point> EfficiantBoardDrawCrossPoints()
         {
             return EfficiantBoardDrawPoints(7);
@@ -402,8 +432,8 @@ namespace Quixo
         {
             return new Board
             {
-                currentPlayer = this.currentPlayer,
-                winningPlayer = this.winningPlayer,
+                CurrentPlayer = this.CurrentPlayer,
+                WinningPlayer = this.WinningPlayer,
                 moveHistory = moveHistory.Clone() as MoveCollection,
                 pieces = this.pieces
             };

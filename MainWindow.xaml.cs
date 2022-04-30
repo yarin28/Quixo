@@ -1,17 +1,12 @@
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Shapes;
-using System.Diagnostics;
 namespace Quixo
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : System.Windows.Window
-    {
+    public partial class MainWindow : System.Windows.Window    {
         enum BoardState { WaitingForSourcePieceSelection, WaitingForDestinationPiece };
         BoardState boardState;
 
@@ -19,7 +14,6 @@ namespace Quixo
         public string DebugTextBox { get; set; }
         public MainWindow()
         {
-            SelectPieceAndTypeOfGameWithPopUpWindow();
             InitializeComponent();
             this.DataContext = this;
         }
@@ -59,10 +53,8 @@ namespace Quixo
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-
-            DrawBoard();
-            StartAiFirstPlayer();
-            HightlightpossibleSourcePieces();
+            SelectPieceAndTypeOfGameWithPopUpWindow();
+            boardUi.StartPlay();
 
         }
         #region UI members

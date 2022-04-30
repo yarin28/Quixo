@@ -18,12 +18,12 @@ namespace Quixo
         private const int LosingLine = int.MinValue;
         private const int WinningLine = int.MaxValue;
 		private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-		public Move GenerateMove(Board board)
+		public Move? GenerateMove(Board board)
         {
 			watch.Reset();
 			watch.Start();
 			int bestValue = int.MinValue;
-            Move generatedMove = null ;
+            Move? generatedMove = null ;
             foreach (var source in board.GetValidSourcePieces())
             {
                 foreach (var destination in board.GetValidDestinationPieces(source))

@@ -8,3 +8,6 @@ namespace Quixo
 {
     internal abstract class LinesEvaluator
     {
+        protected int UpdateContinuation(int currentContinuationValue) =>
+           
+			(currentContinuationValue ^ 2) * 4;

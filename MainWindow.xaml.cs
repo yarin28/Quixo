@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows;
 namespace Quixo
@@ -36,19 +36,19 @@ namespace Quixo
             {
                 if (startWindow.Cross)
                 {
-                    CrossPlayerType = TypesOfPlayer.Human;
-                    CirclePlayerType = TypesOfPlayer.Ai;
+                    boardUi.CrossPlayerType = TypesOfPlayer.Human;
+                    boardUi.CirclePlayerType = TypesOfPlayer.Ai;
                 }
                 else
                 {
-                    CrossPlayerType = TypesOfPlayer.Ai;
-                    CirclePlayerType = TypesOfPlayer.Human;
+                    boardUi.CrossPlayerType = TypesOfPlayer.Ai;
+                    boardUi.CirclePlayerType = TypesOfPlayer.Human;
                 }
             }
             else
             {
-                CrossPlayerType = TypesOfPlayer.Human;
-                CirclePlayerType = TypesOfPlayer.Human;
+                boardUi.CrossPlayerType = TypesOfPlayer.Human;
+                boardUi.CirclePlayerType = TypesOfPlayer.Human;
             }
         }
         private void Window_ContentRendered(object sender, EventArgs e)
@@ -58,7 +58,7 @@ namespace Quixo
 
         }
         #region UI members
-        public void HightlightpossibleSourcePieces()
+        private void MoveMade(Move robotMove)
         {
             //FIXME:use events to update all the labels
             MoveTable.Items.Add(new PrintableMove(robotMove));
@@ -85,6 +85,12 @@ namespace Quixo
         {
             GameRules win2 = new GameRules();
             win2.Show();
+        }
+       private void PlayerWon(Player winnter)
+        {
+            GameWon window = new GameWon(winnter.ToString());
+            window.ShowDialog();
+            //FIXME: add a reset and reset the movetable.
         }
         public class PrintableMove
         {

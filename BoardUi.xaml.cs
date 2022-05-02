@@ -34,8 +34,8 @@ namespace Quixo
 
         SmartEngine robot = new SmartEngine();
 
-        public TypesOfPlayer CrossPlayerType { get; set; }
-        public TypesOfPlayer CirclePlayerType { get; set; }
+        public TypeOfPlayer CrossPlayerType { get; set; }
+        public TypeOfPlayer CirclePlayerType { get; set; }
 
         public string CurrentPlayer
         {
@@ -315,7 +315,7 @@ namespace Quixo
         public void StartPlay()
         {
 
-            if (CrossPlayerType == TypesOfPlayer.Ai)
+            if (CrossPlayerType == TypeOfPlayer.Ai)
             {
                 AiPlay();
             }
@@ -339,11 +339,11 @@ namespace Quixo
         }
         private bool IsCircleAi()
         {
-            return board.CurrentPlayer == Player.O && this.CirclePlayerType == TypesOfPlayer.Ai;
+            return board.CurrentPlayer == Player.O && this.CirclePlayerType == TypeOfPlayer.Ai;
         }
         private bool IsCrossAi()
         {
-            return board.CurrentPlayer == Player.X && this.CrossPlayerType == TypesOfPlayer.Ai;
+            return board.CurrentPlayer == Player.X && this.CrossPlayerType == TypeOfPlayer.Ai;
         }
         private Move RobotMove()
         {

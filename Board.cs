@@ -303,7 +303,7 @@ namespace Quixo
                 this.UpdateBoard(source, destination);
                 this.CheckWinningLines();
 
-                this.moveHistory.Add(new Move(this.CurrentPlayer, source, destination));
+                moveHistory?.Add(new Move(this.CurrentPlayer, source, destination));
 
                 this.CurrentPlayer = this.WinningPlayer != Player.None ? Player.None :
                     this.CurrentPlayer == Player.X ? Player.O : Player.X;
@@ -444,7 +444,7 @@ namespace Quixo
             private const string ErrorInvalidLineCount = "The line count should be {0} but it was {1}.";
             private static readonly int WinningLineCount = (Board.Dimension * 2) + 2;
 
-            private readonly Board board = null;
+            private readonly Board board ;
             private int blankCount = 0;
             private int xCount = 0;
             private int oCount = 0;

@@ -15,9 +15,13 @@ namespace Quixo
 {
     public class SmartEngine
     {
-        private const int DepthLimit = 4;//the const is faster!, but maybe its worth it to make it a real variable
+        private  int depthLimit = 4;//the const is faster!, but maybe its worth it to make it a real variable
         private const int LosingLine = int.MinValue;
         private const int WinningLine = int.MaxValue;
+        public void SetDepthLimit(int depthLimit)
+        {
+            this.depthLimit = depthLimit;
+        }
         static readonly LinesEvaluator[] linesEvaluators = new LinesEvaluator[] {
             new HorizontalLinesEvaluator(),
             new VerticalLinesEvaluator(),
@@ -34,7 +38,7 @@ namespace Quixo
         {
             int evaluation;
             Move? nextMove = null;
-            if (depth >= DepthLimit || board.WinningPlayer != Player.None)
+            if (depth >= depthLimit || board.WinningPlayer != Player.None)
             {
 
                 evaluation = this.Evaluate(board, currentPlayer);

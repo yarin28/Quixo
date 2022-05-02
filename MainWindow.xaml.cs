@@ -42,6 +42,7 @@ namespace Quixo
                 boardUi.CrossPlayerType = startWindow.CrossPlayerType;
                 boardUi.CirclePlayerType = startWindow.CirclePlayerType;
             }
+            boardUi.ChangeDifficulty(startWindow.DifficultyLevel);
         }
         #endregion
         #region event handlers

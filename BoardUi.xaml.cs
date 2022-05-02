@@ -31,8 +31,7 @@ namespace Quixo
         List<System.Drawing.Point> validDestination;
         System.Drawing.Point srcP;
         private int boardPiecePixelDimension = 80;
-
-        SmartEngine robot = new SmartEngine();
+       SmartEngine robot = new SmartEngine();
 
         public TypeOfPlayer CrossPlayerType { get; set; }
         public TypeOfPlayer CirclePlayerType { get; set; }
@@ -61,6 +60,13 @@ namespace Quixo
         public event Action<int> RobotMoveMadeReporter;
         public event PropertyChangedEventHandler? PropertyChanged;
 
+
+        public void ChangeDifficulty(DifficultyLevel difficulty)
+        {
+            robot.SetDepthLimit((int)difficulty+2);//the +2 is for the minimax,
+                                                   //maybe should not be here
+                                                   //(its not that function job to deal with it. 
+        }
         public BoardUi()
         {
             InitializeComponent();
@@ -115,7 +121,6 @@ namespace Quixo
                 {
                     boardState = BoardState.WaitingForSourcePieceSelection;
                     HightlightpossibleSourcePieces();
-                    //BUG: the destation pieces highlight is not removed
                 }
             }
             if (IsCircleAi() || IsCrossAi())//its AI turn
@@ -126,7 +131,6 @@ namespace Quixo
             {
                 PlayerWon?.Invoke(board.WinningPlayer);
                 Reset();
-                //FIXME:call a reset function.
             }
         }
         #region UI

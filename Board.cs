@@ -48,7 +48,6 @@ namespace Quixo
         private ulong pieces;
         private MoveCollection? moveHistory = new MoveCollection();
 
-
         public event PropertyChangedEventHandler? PropertyChanged;
         public event Action Updated;
         public event Action<Move> MoveMade;
@@ -434,7 +433,7 @@ namespace Quixo
             {
                 CurrentPlayer = this.CurrentPlayer,
                 WinningPlayer = this.WinningPlayer,
-                moveHistory = moveHistory.Clone() as MoveCollection,
+                moveHistory = moveHistory?.Clone() as MoveCollection,//if this function is reached
                 pieces = this.pieces
             };
         }

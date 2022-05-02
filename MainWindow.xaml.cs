@@ -32,8 +32,16 @@ namespace Quixo
             ChooseColorAndOpponent startWindow = new ChooseColorAndOpponent();
             //set the players type according the startWindow options
             startWindow.ShowDialog();
-        boardUi.CrossPlayerType = startWindow.CrossPlayerType;
-        boardUi.CirclePlayerType = startWindow.CirclePlayerType;
+            if (startWindow.typeOfGame == TypeOfGame.HumanVsHuman)
+            {
+                boardUi.CrossPlayerType = TypeOfPlayer.Human;
+                boardUi.CirclePlayerType = TypeOfPlayer.Human;
+            }
+            else
+            {
+                boardUi.CrossPlayerType = startWindow.CrossPlayerType;
+                boardUi.CirclePlayerType = startWindow.CirclePlayerType;
+            }
         }
         #endregion
         #region event handlers

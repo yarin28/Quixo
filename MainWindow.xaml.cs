@@ -12,18 +12,19 @@ namespace Quixo
 
 
         public string DebugTextBox { get; set; }
+        #region Window starters
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = this;
         }
                             
-                            
-        /// <summary>
-        /// main method of the game, it is called when the user clicks on the board
-        /// the method checks the board state and calls the appropriate methods
-        /// </summary>
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            SelectPieceAndTypeOfGameWithPopUpWindow();
+            boardUi.StartPlay();
 
+        }
         private void SelectPieceAndTypeOfGameWithPopUpWindow()
         {
             //Note: the Window object does not have all the methods that i used,
@@ -51,28 +52,34 @@ namespace Quixo
                 boardUi.CirclePlayerType = TypesOfPlayer.Human;
             }
         }
-        private void Window_ContentRendered(object sender, EventArgs e)
-        {
-            SelectPieceAndTypeOfGameWithPopUpWindow();
-            boardUi.StartPlay();
-
-        }
-        #region UI members
+        #endregion
+        #region event handlers
+        /*
+            all the event are subscribed to the boardUi,
+            so i can use the boardUi methods to update the UI.
+            they are subscribed using the XAML code.
+        */
         private void MoveMade(Move robotMove)
         {
-            //FIXME:use events to update all the labels
             MoveTable.Items.Add(new PrintableMove(robotMove));
         }
-        /// <summary>
-        ///NOTE:this method relies on prev function
-        /// </summary>
+       private void PlayerWon(Player winner)
+        {
+            GameWon window = new GameWon(winner.ToString());
+            window.ShowDialog();
+            ResetUi();
+        }
+        private void RobotMoveMade(int ms)
+        {
+            debugTextBox.AppendText($"robot took - {ms}\n");
+        }
+        #endregion
+        #region UI members
         private void ResetUi()
         {
-            //this.DrawBoard();
-            //HightlightpossibleSourcePieces();
-            //MoveTable.Items.Clear();
-            //currentPlayerLable.Content = board.CurrentPlayer.ToString();
-            //winningPlayerLable.Content = board.WinningPlayer.ToString();
+            MoveTable.Items.Clear();
+            debugTextBox.Document.Blocks.Clear();
+            SelectPieceAndTypeOfGameWithPopUpWindow();
         }
         #endregion 
         #region utility members
@@ -86,35 +93,6 @@ namespace Quixo
             GameRules win2 = new GameRules();
             win2.Show();
         }
-       private void PlayerWon(Player winnter)
-        {
-            GameWon window = new GameWon(winnter.ToString());
-            window.ShowDialog();
-            //FIXME: add a reset and reset the movetable.
-        }
-        public class PrintableMove
-        {
-            public string player
-            { get; set; }
-            public string source
-            { get; set; }
-            public string destination
-            { get; set; }
-            public PrintableMove(Move mov)
-            {
-                this.player = mov.Player.ToString();
-                this.source = mov.Source.ToString();
-                this.destination = mov.Destination.ToString();
-            }
-
-            public PrintableMove(Player player, System.Drawing.Point source, System.Drawing.Point dest)
-            {
-                this.player = player.ToString();
-                this.source = source.ToString();
-                this.destination = dest.ToString();
-            }
-        }
         #endregion
     }
 }
-

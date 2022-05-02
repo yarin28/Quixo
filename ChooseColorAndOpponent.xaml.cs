@@ -20,8 +20,8 @@ namespace Quixo
     public partial class ChooseColorAndOpponent : Window
     {
 
-        public TypeOfPlayer crossPlayerType = TypeOfPlayer.Human;
-        public TypeOfPlayer circlePlayerType = TypeOfPlayer.Human;
+        public TypeOfPlayer crossPlayerType = TypeOfPlayer.Ai;
+        public TypeOfPlayer circlePlayerType = TypeOfPlayer.Ai;
         public TypeOfGame typeOfGame = TypeOfGame.HumanVsHuman;
         public DifficultyLevel difficultyLevel = DifficultyLevel.Normal;
         #region getters and setters
@@ -46,6 +46,7 @@ namespace Quixo
             set { difficultyLevel = value; }
         }
         #endregion
+
         public ChooseColorAndOpponent()
         {
             InitializeComponent();

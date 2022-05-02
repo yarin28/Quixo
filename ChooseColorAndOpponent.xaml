@@ -20,7 +20,7 @@
         <RadioButton   Foreground="#614124" FontSize="14" Content="Easy" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,267,0,0" VerticalAlignment="Top" Checked="EasyClicked"/>
         <RadioButton   Foreground="#614124" FontSize="14" Content="Normal" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,285,0,0" VerticalAlignment="Top" Checked="NormalClicked"/>
         <RadioButton   Foreground="#614124" FontSize="14" Content="Medium" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,303,0,0" VerticalAlignment="Top" Checked="MediumClicked"/>
-        <RadioButton   Foreground="#614124" FontSize="14" Content="Hard" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="38,321,0,0" VerticalAlignment="Top" Checked="HardClicked"/>
+        <RadioButton   Foreground="#614124" FontSize="14" Content="Hard" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,321,0,0" VerticalAlignment="Top" Checked="HardClicked"/>
 
     </Grid>
 </Window>

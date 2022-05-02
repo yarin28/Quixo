@@ -89,11 +89,49 @@ namespace Quixo
             DifficultyLevel = DifficultyLevel.Hard;
         }
 
+#region radio button unchecks
+        private void CirclePieceUnchecked(object sender, RoutedEventArgs e)
+        {
+            CirclePlayerType = TypeOfPlayer.Ai;
+        }
+        private void CrossPieceUnchecked(object sender, RoutedEventArgs e)
+        {
+            CrossPlayerType = TypeOfPlayer.Ai;
+        }
+                    
+        private void HumanVsHumanUnchecked(object sender, RoutedEventArgs e)
+        {
+            TypeOfGame = TypeOfGame.HumanVsAi;
+        }
+        private void HumanVsAiUnchecked(object sender, RoutedEventArgs e)
+        {
+            TypeOfGame = TypeOfGame.HumanVsHuman;
+        }
+        private void EasyUnchecked(object sender, RoutedEventArgs e)
+        {
+            DifficultyLevel = DifficultyLevel.Easy;
+        }
+        private void MediumUnchecked(object sender, RoutedEventArgs e)
+        {
+            DifficultyLevel = DifficultyLevel.Medium;
+        }
+        private void HardUnchecked(object sender, RoutedEventArgs e)
+        {
+            DifficultyLevel = DifficultyLevel.Hard;
+        }
+        private void NormalUnchecked(object sender, RoutedEventArgs e)
+        {
+            DifficultyLevel = DifficultyLevel.Normal;
+        }
+
+#endregion
+
         private void WindowSubmit(object sender, RoutedEventArgs e)
         {
 
             this.Close();
         }
+
         #endregion
 
     }

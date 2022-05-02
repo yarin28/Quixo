@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Quixo
 {
-        public enum TypesOfPlayer { Ai, Human };
+    public enum TypeOfPlayer { Ai, Human };
 
 }

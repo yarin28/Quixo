@@ -10,17 +10,17 @@
         >
     <Grid>
         <Label Foreground="#614124" Content="Type of player - " HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="167" FontWeight="Bold" FontSize="18"/>
-        <RadioButton Foreground="#614124" FontSize="14"  Content="Circle" GroupName="typeOfPiece" HorizontalAlignment="Left" Margin="34,117,0,0" VerticalAlignment="Top" Checked="CirclePieceClicked"/>
-        <RadioButton Foreground="#614124" FontSize="14" Content="Cross" GroupName="typeOfPiece" HorizontalAlignment="Left" Margin="34,94,0,0" VerticalAlignment="Top" Checked="CrossPieceClicked"/>
+        <RadioButton Foreground="#614124" FontSize="14"  Content="Circle" GroupName="typeOfPiece" HorizontalAlignment="Left" Margin="34,117,0,0" VerticalAlignment="Top" Checked="CirclePieceClicked" Unchecked="CirclePieceUnchecked" />
+        <RadioButton Foreground="#614124" FontSize="14" Content="Cross" GroupName="typeOfPiece" HorizontalAlignment="Left" Margin="34,94,0,0" VerticalAlignment="Top" Checked="CrossPieceClicked" Unchecked="CrossPieceUnchecked"/>
         <Label Foreground="#614124" Content="Type of game to be played - " HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
-        <RadioButton  Foreground="#614124" FontSize="14" Content="Human vs Human" GroupName="typeOfGame" HorizontalAlignment="Left" Margin="34,181,0,0" VerticalAlignment="Top" Checked="HumanVsHumanButtonClicked"/>
-        <RadioButton   Foreground="#614124" FontSize="14" Content="Human vs AI" GroupName="typeOfGame" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Center" Checked="HumanVsAiButtonClicked"/>
-        <Button Content="StartTheGame!" FontSize="20" Background="#CC704b" HorizontalAlignment="Left" Margin="370,321,0,0" VerticalAlignment="Top" Click="WindowSubmit" FontWeight="Bold"/>
-        <Label Foreground="#614124" Content="Ai Level" HorizontalAlignment="Left" Margin="13,231,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
-        <RadioButton   Foreground="#614124" FontSize="14" Content="Easy" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,267,0,0" VerticalAlignment="Top" Checked="EasyClicked"/>
-        <RadioButton   Foreground="#614124" FontSize="14" Content="Normal" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,285,0,0" VerticalAlignment="Top" Checked="NormalClicked"/>
-        <RadioButton   Foreground="#614124" FontSize="14" Content="Medium" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,303,0,0" VerticalAlignment="Top" Checked="MediumClicked"/>
-        <RadioButton   Foreground="#614124" FontSize="14" Content="Hard" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,321,0,0" VerticalAlignment="Top" Checked="HardClicked"/>
+        <RadioButton  Foreground="#614124" FontSize="14" Content="Human vs Human" GroupName="typeOfGame" HorizontalAlignment="Left" Margin="34,181,0,0" VerticalAlignment="Top" Checked="HumanVsHumanButtonClicked" Unchecked="HumanVsHumanUnchecked" />
+        <RadioButton   Foreground="#614124" FontSize="14" Content="Human vs AI" GroupName="typeOfGame" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Center" Checked="HumanVsAiButtonClicked" Unchecked="HumanVsAiUnchecked" />
+        <Button Content="StartTheGame!" FontSize="20" Background="#CC704b" HorizontalAlignment="Left" Margin="370,321,0,0" VerticalAlignment="Top" Click="WindowSubmit" FontWeight="Bold" />
+        <Label Foreground="#614124" Content="Ai Level" HorizontalAlignment="Left" Margin="13,231,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" />
+        <RadioButton   Foreground="#614124" FontSize="14" Content="Easy" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,267,0,0" VerticalAlignment="Top" Checked="EasyClicked" Unchecked="EasyUnchecked" />
+        <RadioButton   Foreground="#614124" FontSize="14" Content="Normal" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,285,0,0" VerticalAlignment="Top" Checked="NormalClicked"  Unchecked="NormalUnchecked"/>
+        <RadioButton   Foreground="#614124" FontSize="14" Content="Medium" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,303,0,0" VerticalAlignment="Top" Checked="MediumClicked" Unchecked="MediumUnchecked"/>
+        <RadioButton   Foreground="#614124" FontSize="14" Content="Hard" GroupName="LevelOfAi" HorizontalAlignment="Left" Margin="36,321,0,0" VerticalAlignment="Top" Checked="HardClicked" Unchecked="HardUnchecked"/>
 
     </Grid>
 </Window>

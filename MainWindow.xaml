@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Quxio" Height="450" Width="800" ContentRendered="Window_ContentRendered"  >
     <Canvas Name="mainWinow" ClipToBounds="True"  Background="#9FC088" >
-        <local:BoardUi x:Name="boardUi" MoveMade="MoveMade" PlayerWon="PlayerWon" Canvas.Left="197" Canvas.Top="24" Width="400" Height="400" ></local:BoardUi>
+        <local:BoardUi x:Name="boardUi" MoveMade="MoveMade" PlayerWon="PlayerWon" RobotMoveMadeReporter="RobotMoveMade" Canvas.Left="197" Canvas.Top="24" Width="400" Height="400" ></local:BoardUi>
         <Label Content="Quixo" Height="72" Canvas.Left="12" Canvas.Top="11" Width="116" Foreground="#614124" FontSize="36" FontWeight="Bold" FontStyle="Normal"/>
         <Label Content="winning player - " Canvas.Left="7" Canvas.Top="118" FontWeight="Bold" Foreground="#CC704B" FontSize="16" />
         <Label Content="current player - " Canvas.Left="5" Canvas.Top="78" FontWeight="Bold" Foreground="#CC704B" FontSize="16"/>

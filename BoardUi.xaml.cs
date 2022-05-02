@@ -20,7 +20,7 @@ namespace Quixo
     /// <summary>
     /// Interaction logic for BoardUi.xaml
     /// </summary>
-    public partial class BoardUi : UserControl,INotifyPropertyChanged
+    public partial class BoardUi : UserControl, INotifyPropertyChanged
     {
 
         enum BoardState { WaitingForSourcePieceSelection, WaitingForDestinationPiece };
@@ -37,7 +37,7 @@ namespace Quixo
         public TypesOfPlayer CrossPlayerType { get; set; }
         public TypesOfPlayer CirclePlayerType { get; set; }
 
-      public string CurrentPlayer
+        public string CurrentPlayer
         {
             get
             {
@@ -53,8 +53,12 @@ namespace Quixo
         }
 
         public event Action<Player> PlayerWon;
-        public event Action<Move> MoveMade { add { board.MoveMade += value; } 
-            remove { board.MoveMade -= value; } }
+        public event Action<Move> MoveMade
+        {
+            add { board.MoveMade += value; }
+            remove { board.MoveMade -= value; }
+        }
+        public event Action<int> RobotMoveMadeReporter;
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public BoardUi()
@@ -63,13 +67,17 @@ namespace Quixo
             board.PropertyChanged += Board_PropertyChanged;
             board.Updated += UpdateUI;
         }
-
+        #region event handlers
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            DrawBoard();
+        }
         private void Board_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case nameof(board.WinningPlayer):
-                    PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(nameof(WinningPlayer)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WinningPlayer)));
                     break;
                 case nameof(board.CurrentPlayer):
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPlayer)));
@@ -77,7 +85,7 @@ namespace Quixo
             }
 
         }
-
+        # endregion
         private void Click(object sender, MouseButtonEventArgs e)
         {
 
@@ -114,12 +122,14 @@ namespace Quixo
             {
                 Move robotMove = RobotMove();
             }
-            if(board.WinningPlayer!=Player.None)
+            if (board.WinningPlayer != Player.None)
             {
                 PlayerWon?.Invoke(board.WinningPlayer);
+                Reset();
                 //FIXME:call a reset function.
             }
-                   }
+        }
+        #region UI
         public void HightlightpossibleSourcePieces()
         {
             validSources = this.board.GetValidSourcePieces();
@@ -255,17 +265,6 @@ namespace Quixo
                 GameArea.Children.Add(myLine);
             }
         }
-        private static Point acquireBoardPointsFromSystemWindowsPoint(Point p)
-        {
-            //converting the points from the original canvas
-            //x,y to more general points that can be used in
-            //all the functions.
-            p.X = (int)p.X;
-            p.Y = (int)p.Y;
-            (p.X, p.Y) = FromCanvasCordsToBoardCords(p.X, p.Y);
-            p.Y = 4 - p.Y;
-            return p;
-        }
         private void HightlightSelectedPiece(System.Drawing.Point src)
         {
 
@@ -299,13 +298,20 @@ namespace Quixo
             int BoardY = (int)y / Consts.PieceSize;
             return (BoardX, BoardY);
         }
+        #endregion
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        #region Utils
+        private static Point acquireBoardPointsFromSystemWindowsPoint(Point p)
         {
-            DrawBoard();
-
+            //converting the points from the original canvas
+            //x,y to more general points that can be used in
+            //all the functions.
+            p.X = (int)p.X;
+            p.Y = (int)p.Y;
+            (p.X, p.Y) = FromCanvasCordsToBoardCords(p.X, p.Y);
+            p.Y = 4 - p.Y;
+            return p;
         }
-
         public void StartPlay()
         {
 
@@ -317,9 +323,14 @@ namespace Quixo
         }
         private void AiPlay()
         {
-                Move robotMove = RobotMove();
+            Move robotMove = RobotMove();
         }
-
+        private void Reset()
+        {
+            this.board.Reset();
+            this.DrawBoard();
+            HightlightpossibleSourcePieces();
+        }
         private void UpdateUI()
         {
             this.DrawBoard();
@@ -334,17 +345,18 @@ namespace Quixo
         {
             return board.CurrentPlayer == Player.X && this.CrossPlayerType == TypesOfPlayer.Ai;
         }
-        //FIXME:the stopwatch should send an event to the debug text box
         private Move RobotMove()
         {
             var stopWatch = Stopwatch.StartNew();
             Move robotMove = robot.GenerateMove(board);
             this.board.MovePiece(robotMove.Source, robotMove.Destination);
             stopWatch.Stop();
-            //debugTextBox.AppendText($"robot time - {stopWatch.ElapsedMilliseconds}\n");
+            RobotMoveMadeReporter?.Invoke((int)stopWatch.ElapsedMilliseconds);
+            // NOTE: maybe not the best name↑
             return robotMove;
         }
-
+        #endregion
     }
 
 }
+

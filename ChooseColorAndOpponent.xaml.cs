@@ -19,39 +19,73 @@ namespace Quixo
     /// </summary>
     public partial class ChooseColorAndOpponent : Window
     {
-        private bool humanVsAi = false;
-        private bool humanVsHuman = false;
-        private bool cross = false;
-        private bool circle = false;
 
-        public bool HumanVsAi { get => humanVsAi; set => humanVsAi = value; }
-        public bool HumanVsHuman { get => humanVsHuman; set => humanVsHuman = value; }
-        public bool Cross { get => cross; set => cross = value; }
-        public bool Circle { get => circle; set => circle = value; }
-
+        public TypeOfPlayer crossPlayerType = TypeOfPlayer.Human;
+        public TypeOfPlayer circlePlayerType = TypeOfPlayer.Human;
+        public TypeOfGame typeOfGame = TypeOfGame.HumanVsHuman;
+        public DifficultyLevel difficultyLevel = DifficultyLevel.Normal;
+        #region getters and setters
+        public TypeOfPlayer CrossPlayerType
+        {
+            get { return crossPlayerType; }
+            set { crossPlayerType = value; }
+        }
+        public TypeOfPlayer CirclePlayerType
+        {
+            get { return circlePlayerType; }
+            set { circlePlayerType = value; }
+        }
+        public TypeOfGame TypeOfGame
+        {
+            get { return typeOfGame; }
+            set { typeOfGame = value; }
+        }
+        public DifficultyLevel DifficultyLevel
+        {
+            get { return difficultyLevel; }
+            set { difficultyLevel = value; }
+        }
+        #endregion
         public ChooseColorAndOpponent()
         {
             InitializeComponent();
         }
 
+        #region event handlers
         private void HumanVsAiButtonClicked(object sender, RoutedEventArgs e)
         {
-            HumanVsAi = !this.humanVsAi;
+            TypeOfGame = TypeOfGame.HumanVsAi;
         }
 
         private void HumanVsHumanButtonClicked(object sender, RoutedEventArgs e)
         {
-            HumanVsHuman = !this.humanVsHuman;
+            TypeOfGame= TypeOfGame.HumanVsHuman;
         }
 
         private void CrossPieceClicked(object sender, RoutedEventArgs e)
         {
-            Cross = !this.cross;
+            CrossPlayerType = TypeOfPlayer.Human;
         }
 
         private void CirclePieceClicked(object sender, RoutedEventArgs e)
         {
-            Circle = !this.circle;
+            CirclePlayerType = TypeOfPlayer.Human;
+        }
+        private void EasyClicked(object sender, RoutedEventArgs e)
+        {
+            DifficultyLevel = DifficultyLevel.Easy;
+        }
+        private void NormalClicked(object sender, RoutedEventArgs e)
+        {
+            DifficultyLevel = DifficultyLevel.Normal;
+        }
+        private void MediumClicked(object sender, RoutedEventArgs e)
+        {
+            DifficultyLevel = DifficultyLevel.Medium;
+        }
+        private void HardClicked(object sender, RoutedEventArgs e)
+        {
+            DifficultyLevel = DifficultyLevel.Hard;
         }
 
         private void WindowSubmit(object sender, RoutedEventArgs e)
@@ -59,5 +93,7 @@ namespace Quixo
 
             this.Close();
         }
+        #endregion
+
     }
 }

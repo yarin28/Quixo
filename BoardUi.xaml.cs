@@ -339,7 +339,6 @@ namespace Quixo
         {
             this.DrawBoard();
             HightlightpossibleSourcePieces();
-            //FIXME:move the event sender to the actual place that the move was made
         }
         private bool IsCircleAi()
         {

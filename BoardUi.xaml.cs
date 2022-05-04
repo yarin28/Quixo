@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -125,7 +125,7 @@ namespace Quixo
             }
             if (IsCircleAi() || IsCrossAi())//its AI turn
             {
-                Move robotMove = RobotMove();
+                _ = RobotMove();
             }
             if (board.WinningPlayer != Player.None)
             {

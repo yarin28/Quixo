@@ -125,7 +125,7 @@ namespace Quixo
             {
                 foreach (var evaluatingFunction in linesEvaluators)
                 {
-                    evaluation = +evaluatingFunction.EvaluateLines(board, evaluation);
+                    evaluation =+evaluatingFunction.EvaluateLines(board, evaluation);
                     if (evaluation == LosingLine || evaluation == WinningLine)
                         break;
                 }

@@ -31,7 +31,7 @@ def get_list_of_files2(dirName):
 def save_all_files_to_one_file_with_file_names(file_list:List):
     big_file_string:String=""
     for file in file_list:
-        with open (DIRECTORY+'\\' +file,"r") as f:
+        with open (f"{DIRECTORY}\\{file}","r") as f:
             big_file_string +=file+"\n"+f.read()
     print (big_file_string)
 
@@ -44,16 +44,14 @@ def save_file_content_to_big_string_including_file_names(file_list:List):
     big_file_string:String=""
     for file in file_list:
         with open (file,"r") as f:
-            big_file_string +=file+"\n"+f.read()
+            big_file_string +=f"file\n{f.read()}"
     return big_file_string
 
 def main():
     print(os.getcwd())
     files = get_list_of_files(".cs")
     files = files +get_list_of_files(".xaml")
-    # save_all_files_to_one_file_with_file_names(files)
     files_with_subdirectory:List=get_list_of_files2(f"{os.getcwd()}\{DIRECTORY}")
-    # print(files_with_subdirectory)
     with open("all_files_and_names.txt","w") as f:
         f.write(save_file_content_to_big_string_including_file_names(files_with_subdirectory))
 if __name__=="__main__":

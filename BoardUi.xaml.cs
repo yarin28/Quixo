@@ -125,7 +125,7 @@ namespace Quixo
             }
             if (IsCircleAi() || IsCrossAi())//its AI turn
             {
-                _ = RobotMove();
+                AiPlay();
             }
             if (board.WinningPlayer != Player.None)
             {
@@ -325,9 +325,9 @@ namespace Quixo
             }
             HightlightpossibleSourcePieces();
         }
-        private void AiPlay()
+        private async void AiPlay()
         {
-            Move robotMove = RobotMove();
+            Move robotMove = await RobotMove();
         }
         private void Reset()
         {
@@ -348,10 +348,11 @@ namespace Quixo
         {
             return board.CurrentPlayer == Player.X && this.CrossPlayerType == TypeOfPlayer.Ai;
         }
-        private Move RobotMove()
+        private async Task<Move> RobotMove()
         {
             var stopWatch = Stopwatch.StartNew();
-            Move robotMove = robot.GenerateMove(board);
+            Move robotMove = await Task.Run(() => { return robot.GenerateMove(board); });
+            //Move robotMove = robot.GenerateMove(board);
             this.board.MovePiece(robotMove.Source, robotMove.Destination);
             stopWatch.Stop();
             RobotMoveMadeReporter?.Invoke((int)stopWatch.ElapsedMilliseconds);

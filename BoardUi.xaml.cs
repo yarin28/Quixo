@@ -2,18 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Quixo
@@ -323,7 +315,7 @@ namespace Quixo
 
             if (CrossPlayerType == TypeOfPlayer.Ai)
             {
-                AiPlay();
+                _ = AiPlay();
             }
             HightlightpossibleSourcePieces();
         }
@@ -356,7 +348,6 @@ namespace Quixo
         {
             var stopWatch = Stopwatch.StartNew();
             Move robotMove = await Task.Run(() => { return robot.GenerateMove(board); });
-            //Move robotMove = robot.GenerateMove(board);
             this.board.MovePiece(robotMove.Source, robotMove.Destination);
             stopWatch.Stop();
             RobotMoveMadeReporter?.Invoke((int)stopWatch.ElapsedMilliseconds);

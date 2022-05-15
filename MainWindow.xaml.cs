@@ -63,7 +63,7 @@ namespace Quixo
         }
         private void RobotMoveMade(int ms)
         {
-            debugTextBox.AppendText($"robot took - {ms}\n");
+            debugTextBox.AppendText($"robot took - {ms} ms\n");
         }
         #endregion
         #region UI members

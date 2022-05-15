@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,7 +33,7 @@ namespace Quixo
         System.Drawing.Point srcP;
         private int boardPiecePixelDimension = 80;
        SmartEngine robot = new SmartEngine();
-
+        Boolean isRobotPlaying = false;
         public TypeOfPlayer CrossPlayerType { get; set; }
         public TypeOfPlayer CirclePlayerType { get; set; }
 
@@ -92,9 +93,10 @@ namespace Quixo
 
         }
         # endregion
-        private void Click(object sender, MouseButtonEventArgs e)
+        private async void Click(object sender, MouseButtonEventArgs e)
         {
 
+            if (isRobotPlaying) return; //ignore the click if in the middle of computation.
             System.Windows.Point p = e.GetPosition(GameArea);
             p = acquireBoardPointsFromSystemWindowsPoint(p);
             //i have to types of Points, so a conversion is needed
@@ -125,7 +127,7 @@ namespace Quixo
             }
             if (IsCircleAi() || IsCrossAi())//its AI turn
             {
-                AiPlay();
+                await AiPlay();
             }
             if (board.WinningPlayer != Player.None)
             {
@@ -325,9 +327,11 @@ namespace Quixo
             }
             HightlightpossibleSourcePieces();
         }
-        private async void AiPlay()
+        private async  Task AiPlay()
         {
+            isRobotPlaying = true;
             Move robotMove = await RobotMove();
+            isRobotPlaying = false;
         }
         private void Reset()
         {

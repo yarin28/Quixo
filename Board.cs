@@ -488,7 +488,7 @@ namespace Quixo
 
                 if ((this.pieces & 1UL << i) == (1UL << i))
                 {
-                    pieces.Add(new Piece(GetReverseShiftOut(i- BitBoardOstart+7), Player.O));
+                    pieces.Add(new Piece(GetReverseShiftOut(i- BitBoardOstart+BitBoardXStart), Player.O));
                 }
             }
             return pieces;

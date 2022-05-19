@@ -6,19 +6,29 @@ using System.Runtime.CompilerServices;
 
 namespace Quixo
 {
-    //public sealed  class Board
+    /// <summary>
+    /// handles everything about the game itself(logic)
+    /// </summary>
+    ///will inovke an event on every impotent change
+    ///<see cref="event"/>
     public class Board:INotifyPropertyChanged
     {
+        #region error strings
         private const string ErrorIdenticalPiece = "The source and destination locations are the same.";
         private const string ErrorInternalPiece = "Only the outer pieces can be moved.";
         private const string ErrorInvalidSourcePiece = "The player {0} cannot move the piece at position {1}.";
         private const string ErrorInvalidDestinationPosition = "The player {0} cannot move a piece to position {1}.";
         private const string ErrorWinner = "The game has been won by {0} - no more moves can be made.";
-
+        #endregion
+        #region delegates
+        /// <summary>
+        /// those are <see cerf ref="delegate"/> that will be use in the moving of the pieces.
+        /// </summary>
         private delegate void AdjustLoopOperator(ref int sweep);
         private delegate bool CheckLoopOperator(int sweep, int checkPoint);
         private delegate int NextPieceOperator(int position);
-
+        #endregion
+        #region variables
         public const int Dimension = 5;
         private Player winningPlayer = Player.None;
         public Player WinningPlayer
@@ -44,14 +54,25 @@ namespace Quixo
         }
         private ulong pieces;
         private MoveCollection? moveHistory = new MoveCollection();
-
+        #endregion
+        #region events declaration
         public event PropertyChangedEventHandler? PropertyChanged;
         public event Action Updated;
         public event Action<Move> MoveMade;
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        #endregion
+        /// <summary>
+        /// used to notify UI binding targets that the value of a property has changed.
+        /// </summary>
+        /// <param name="propertyName"></param>
+        private void NotifyPropertyChanged([CallerMemberName/*this is a runtime compiler parameter*/] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        /// <summary>
+        /// constructor of the board,
+        /// after the board is created, there is no need to call the <see cref="Reset"/> method. 
+        /// </summary>
+        /// <returns></returns>
         public Board() : base()
         {
             this.Reset();
@@ -65,10 +86,20 @@ namespace Quixo
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
             this.pieces = 0;
         }
+        /// <summary>
+        /// returns the piece at the given position  
+        /// returns a <see cerf="byte"/>, not a <see cerf="int"/>
+        /// </summary>
         public byte GetDimension()
         {
             return (byte)Dimension;
         }
+        /// <summary>
+        /// verifies if the given position is valid
+        /// and returns the valid destination position 
+        /// </summary>
+        /// <param name="source">the source <see cerf="Point"\> that was chosen</param>
+        /// <returns>only the valid destinations of the source piece</returns>
         public List<Point> GetValidDestinationPieces(Point source)
         {
             var points = new List<Point>();
@@ -106,6 +137,10 @@ namespace Quixo
 
             return points;
         }
+        /// <summary>
+        /// checks for valid source pieces and returns a lisf of them.
+        /// </summary>
+        /// <returns>a list of <see cerf="Point"/> that are valid source pieces</returns>
         public List<Point> GetValidSourcePieces()
         {
             var points = new List<Point>();
@@ -148,6 +183,10 @@ namespace Quixo
 
             return points;
         }
+        /// <summary>
+        ///gets the piece type <see cerf="Player"/> at the given position 
+        /// </summary>
+        /// <param name="position"> <see cerf="Point"\></param>
         public Player GetPiece( Point position)
         {
             if (position.X < 0 || position.X > (Board.Dimension) ||
@@ -171,11 +210,22 @@ namespace Quixo
             }
             return (Player)Player.None;
         }
+        /// <summary>
+        ///there is a need to shift the mask bit to the right position,
+        /// because of that, the shiftOut is calculated.
+        /// every y coordinate is jumps of 5,
+        /// and every x coordinate is an addition of 5.    
         private int GetShiftOut(int x, int y)
         {
             return 7 + y * 5 + x;
             //the seven has no real use, but it is there to make the code more readable.
         }
+        /// <summary>
+        /// to get the x,y position of the given shiftOut position
+        /// there is a need to reverse the shiftOut calculation.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         private Point GetReverseShiftOut(int position)
         {
             position -= 7;
@@ -186,7 +236,7 @@ namespace Quixo
         /// <summary>
         ///this function is used by the test engine to skip the player turn. 
         /// </summary>
-        // / <param name="newOne"> replacement board</param>
+        //  <param name="newOne"> replacement board</param>
         public void SetPiecesForTesting(ulong newOne)
         {
             this.pieces = newOne;
@@ -233,7 +283,7 @@ namespace Quixo
                  (this.CurrentPlayer == Player.O && (pieceState == Player.O || pieceState == Player.None)));
         }
         /// <summary>
-        ///check if the move is leagal.
+        ///check if the move is legal.
         ///  
         /// if it`s not throw appropriate exception
         /// </summary>
@@ -271,9 +321,21 @@ namespace Quixo
                      string.Format(ErrorInvalidDestinationPosition, this.CurrentPlayer.ToString(), destination.ToString()));
             }
         }
+        /// <summary>
+        /// checks if <param name="position"> is an outer piece.
+        /// </summary>
+        /// <returns>a boolean value</returns>
         private static bool IsOuterPiece(Point position) =>
             position.X != 0 || position.X != (Dimension - 1) ||
                  position.Y != 0 || position.Y != (Dimension - 1);
+
+        /// <summary>
+        ///wrapper function for convenience.
+        /// will convert regular xy cords to point 
+        /// object and send it to the right place.
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public Player GetPiece(int x, int y)
         {
             return GetPiece(new Point(x,y));
@@ -284,13 +346,20 @@ namespace Quixo
         private void Decrement(ref int sweep) => sweep--;
         private int NextPieceBack(int position) => --position;
         private int NextPieceForward(int position) => ++position;
+        
+        /// <summary>
+        /// function to wrap every thing that is needed to make a move with two points.
+        /// will handle everything from checking if the move is legal 
+        /// to actually making the move. 
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
         public void MovePiece(Point source, Point destination)
         {
             var currentBoard = (Board)this.Clone();
 
             try
             {
-                if (this.WinningPlayer != Player.None)
+                if (this.WinningPlayer != Player.None)//there is a winner already
                 {
                     throw new InvalidMoveException(string.Format(ErrorWinner, this.WinningPlayer.ToString()));
                 }
@@ -322,11 +391,15 @@ namespace Quixo
             Updated?.Invoke();
             MoveMade?.Invoke(new Move(this.CurrentPlayer, source, destination));
         }
+        /// <summary>
+        ///update the literal board with the new move.
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
         private void UpdateBoard(Point source, Point destination)
         {
         /*
-         * 1.the function updates only the bitboard! still there is a need to
-         *   update the grafics in a diffrent place.
+         * 1.the function updates only the bit-board! still there is a need to
+         *   update the graphics in a different place.
 
          * 2.there is still a need to understand this to the full.
         */
@@ -370,6 +443,9 @@ namespace Quixo
 
             this.SetPiece(destination.X, destination.Y, newValue);
         }
+        /// <summary>
+        ///check if there is a winner. 
+        /// </summary>
         private void CheckWinningLines()
         {
             var lines = new WinningLines(this);

@@ -145,7 +145,7 @@ namespace Quixo
         {
 
             GameArea.Children.Clear();
-            List<Piece> points = board.EfficiantBoradDrawAllPoints();
+            List<Piece> points = board.ExtractPointFromBitBoard();
             foreach (Piece p in points)
             {
                 if (p.Player == Player.X) DrawCross(p.Position.X, p.Position.Y);

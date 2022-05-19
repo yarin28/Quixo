@@ -30,6 +30,10 @@ namespace Quixo
         #endregion
         #region variables
         public const int Dimension = 5;
+        private const int BitBoardOstart = Board.Dimension * Board.Dimension + 14;
+        private const int BitBoardXStart = 7;
+        private const int BitBoardOend = (Board.Dimension * Board.Dimension) * 2 + 14;
+        private const int BitBoardXend = Board.Dimension * Board.Dimension + 7;
         private Player winningPlayer = Player.None;
         public Player WinningPlayer
         {
@@ -217,7 +221,7 @@ namespace Quixo
         /// and every x coordinate is an addition of 5.    
         private int GetShiftOut(int x, int y)
         {
-            return 7 + y * 5 + x;
+            return BitBoardXStart + y * 5 + x;
             //the seven has no real use, but it is there to make the code more readable.
         }
         /// <summary>
@@ -228,7 +232,7 @@ namespace Quixo
         /// <returns></returns>
         private Point GetReverseShiftOut(int position)
         {
-            position -= 7;
+            position -= BitBoardXStart;
             var x = position % 5;
             return new Point(x, (position-x)/5);
 
@@ -466,39 +470,28 @@ namespace Quixo
             }
         }
         public MoveCollection Moves => this.moveHistory;
-        public List<Point> EfficiantBoardDrawCrossPoints()
+
+        public List<Piece> ExtractPointFromBitBoard()
         {
-            return EfficiantBoardDrawPoints(7);
-        }
-        public List<Point> EfficiantBoardDrawCirclePoints()
-        {
-            return EfficiantBoardDrawPoints(Board.Dimension * Board.Dimension + 14);
-        }
-        public List<Point> EfficiantBoardDrawPoints(int iStart)
-        {
-            List<Point> points = new List<Point>();
-            for(int i=iStart;i<Board.Dimension*Board.Dimension+iStart;i++)
+            List<Piece> pieces = new List<Piece>();
+            for (int i = BitBoardXStart; i < BitBoardXend; i++)//for X
             {
-                if ((this.pieces & 1UL<<i) == (1UL<< i))
+
+                if ((this.pieces & 1UL << i) == (1UL << i))
                 {
-                    points.Add(GetReverseShiftOut((int)i-iStart+7));//this is the worst,will have to fix.
+                    pieces.Add(new Piece(GetReverseShiftOut(i), Player.X));
                 }
             }
-            return points;
-        }
-        public List<Piece> EfficiantBoradDrawAllPoints()
-        {//this isn`t good enough for this job
-            List<Piece> pieces = new List<Piece>();
-               foreach(Point p in this.EfficiantBoardDrawCirclePoints())
+
+            for (int i = BitBoardOstart; i < BitBoardOend; i++)//for y
             {
-                pieces.Add(new Piece(p, Player.O));
+
+                if ((this.pieces & 1UL << i) == (1UL << i))
+                {
+                    pieces.Add(new Piece(GetReverseShiftOut(i), Player.O));
+                }
             }
-               foreach(Point p in this.EfficiantBoardDrawCrossPoints())
-            {
-                pieces.Add(new Piece(p, Player.X));
-            }
-               return pieces;
-            
+            return pieces;
         }
         public Board Clone()
         {

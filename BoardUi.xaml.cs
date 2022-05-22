@@ -45,6 +45,10 @@ namespace Quixo
         }
 
         public event Action<Player> PlayerWon;
+        /// <summary>
+        /// this is an observer of the real MoveMade event that is triggered by the <see cref="Board"/> class
+        /// it only passes it along to the main window.
+        /// </summary>
         public event Action<Move> MoveMade
         {
             add { board.MoveMade += value; }
@@ -54,12 +58,22 @@ namespace Quixo
         public event PropertyChangedEventHandler? PropertyChanged;
 
 
+        /// <summary>
+        /// the board has to receive parameters from the main window
+        /// this is the way it is done.
+        /// the function will report the difficulty to the robot.
+        /// </summary>
+        /// <param name="difficulty"></param>
         public void ChangeDifficulty(DifficultyLevel difficulty)
         {
             robot.SetDepthLimit((int)difficulty+2);//the +2 is for the minimax,
                                                    //maybe should not be here
                                                    //(its not that function job to deal with it. 
         }
+        /// <summary>
+        /// constructor of the boardUI
+        /// will subscribe to the used events
+        /// </summary>
         public BoardUi()
         {
             InitializeComponent();
@@ -85,6 +99,9 @@ namespace Quixo
 
         }
         # endregion
+        /// <summary>
+        /// the main function, is called every click.
+        /// </summary>
         private async void Click(object sender, MouseButtonEventArgs e)
         {
 
@@ -128,11 +145,18 @@ namespace Quixo
             }
         }
         #region UI
+        /// <summary>
+        /// highlight possible source pieces
+        /// </summary>
         public void HightlightpossibleSourcePieces()
         {
             validSources = this.board.GetValidSourcePieces();
             foreach (System.Drawing.Point p in validSources) Highlight(p);
         }
+        /// <summary>
+        /// highlight possible destination pieces given a source pieces
+        /// </summary>
+        /// <param name="source">the source piece</param>
         public void HightlightpossibleDestPieces(System.Drawing.Point source)
         {
 
@@ -141,11 +165,15 @@ namespace Quixo
             validDestination = this.board.GetValidDestinationPieces(source);
             foreach (System.Drawing.Point p in validDestination) Highlight(p);
         }
+        /// <summary>
+        /// clear the board,
+        /// draw the lines again
+        /// </summary>
         public void DrawBoard()
         {
 
             GameArea.Children.Clear();
-            List<Piece> points = board.ExtractPointFromBitBoard();
+            List<Piece> points = board.ExtractPiecesFromBitBoard();
             foreach (Piece p in points)
             {
                 if (p.Player == Player.X) DrawCross(p.Position.X, p.Position.Y);

@@ -18,12 +18,21 @@ namespace Quixo
             this.DataContext = this;
         }
                             
+        /// <summary>
+        /// event that is trigged when the window is rendered
+        /// </summary>
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             SelectPieceAndTypeOfGameWithPopUpWindow();
             boardUi.StartPlay();
 
         }
+        /// <summary>
+        /// opens a window that prompts the player to select-
+        ///     1. piece type
+        ///     2. game type(AI vs Human/Human vs Human)
+        ///     3. AI difficulty
+        /// </summary>
         private void SelectPieceAndTypeOfGameWithPopUpWindow()
         {
             //Note: the Window object does not have all the methods that i used,
@@ -66,6 +75,9 @@ namespace Quixo
         }
         #endregion
         #region UI members
+        /// <summary>
+        /// reset all the <b>non </b> board members
+        /// </summary>
         private void ResetUi()
         {
             MoveTable.Items.Clear();
@@ -74,11 +86,17 @@ namespace Quixo
         }
         #endregion 
         #region utility members
+        /// <summary>
+        /// event to open the <b>about</b> button
+        /// </summary>
         private void AboutButton(object sender, RoutedEventArgs e)
         {
             About w = new About();
             w.Show();
         }
+        /// <summary>
+        /// event to open the <b>game rules</b> button
+        /// </summary>
         private void GameRulesButton(object sender, RoutedEventArgs e)
         {
             GameRules win2 = new GameRules();
